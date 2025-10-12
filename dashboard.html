@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - BankStatement AI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-card {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.09);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #4a90e2, #17a2b8);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(74,144,226,0.3);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-700 to-teal-400 min-h-screen">
+    <nav class="glass-card py-4 px-6 flex items-center justify-between max-w-4xl mx-auto mt-8 rounded-lg">
+        <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-teal-500 rounded-lg flex items-center justify-center">
+                <i class="fas fa-file-invoice-dollar text-white text-base"></i>
+            </div>
+            <span class="text-lg font-bold text-gray-800">BankStatement AI</span>
+        </div>
+        <div class="space-x-6">
+            <a href="dashboard.html" class="text-blue-700 font-semibold">Dashboard</a>
+            <a href="index.html" class="hover:text-blue-500">Home</a>
+            <a href="#" onclick="logout()" class="hover:text-red-500">Log Out</a>
+        </div>
+    </nav>
+    <main class="max-w-3xl mx-auto py-16 px-4">
+        <div class="glass-card rounded-2xl p-10 text-center">
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Welcome to your Dashboard</h1>
+            <p class="text-gray-700 mb-8">
+                Here you can upload new bank statements, view smart analytics, and manage your account.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4 mb-6">
+                <a href="index.html#upload-section" class="btn-primary text-white px-7 py-3 rounded-lg font-semibold">
+                    <i class="fas fa-upload mr-2"></i>Upload Statements
+                </a>
+                <a href="#" onclick="alert('Analytics coming soon!')" class="btn-primary text-white px-7 py-3 rounded-lg font-semibold">
+                    <i class="fas fa-chart-bar mr-2"></i>View Analytics
+                </a>
+            </div>
+            <div class="text-gray-400 text-sm mt-8">
+                &copy; 2025 BankStatement AI
+            </div>
+        </div>
+    </main>
+    <script>
+        function logout() {
+            window.location.href = "login.html";
+        }
+    </script>
+</body>
+</html>
