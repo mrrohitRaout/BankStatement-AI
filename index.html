@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- TailwindCSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/custom.css">
     <!-- FontAwesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Fonts -->
@@ -36,6 +37,8 @@
             box-shadow: 0 8px 25px rgba(74,144,226,0.4);
         }
     </style>
+    <!-- Chart.js for analytics visuals -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="min-h-screen bg-gradient-to-tr from-blue-900 to-blue-400">
 
@@ -125,9 +128,21 @@
                         <p class="text-gray-600">or click to browse your computer</p>
                     </div>
                     <input type="file" id="file-input" multiple accept=".pdf,.jpg,.jpeg,.png" class="hidden">
-                    <button onclick="document.getElementById('file-input').click()" class="btn-primary text-white px-8 py-3 rounded-lg font-semibold">
-                        Choose Files
-                    </button>
+                    <div class="flex items-center justify-center gap-4">
+                        <button onclick="document.getElementById('file-input').click()" class="btn-primary text-white px-8 py-3 rounded-lg font-semibold">
+                            Choose Files
+                        </button>
+                        <div class="text-left">
+                            <label for="ocr-lang" class="small text-gray-600">OCR Language</label>
+                            <select id="ocr-lang" class="input ml-2 rounded">
+                                <option value="eng">English</option>
+                                <option value="spa">Spanish</option>
+                                <option value="fra">French</option>
+                                <option value="hin">Hindi</option>
+                                <option value="swa">Swahili</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <!-- File Preview -->
                 <div id="file-preview" class="mt-8 hidden">
@@ -145,6 +160,36 @@
                     </div>
                     <div id="processing-log" class="text-sm text-gray-600 max-h-32 overflow-y-auto"></div>
                 </div>
+
+                <!-- Analytics Panel (hidden until results) -->
+                <div id="analytics-panel" class="mt-6 hidden glass-card p-6">
+                    <h4 class="text-lg font-semibold text-gray-800 mb-4">Analytics & Insights</h4>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div>
+                            <h5 class="font-semibold mb-2">Category Breakdown</h5>
+                            <canvas id="chart-category"></canvas>
+                        </div>
+                        <div class="md:col-span-2">
+                            <h5 class="font-semibold mb-2">Cash Flow (by date)</h5>
+                            <canvas id="chart-cashflow"></canvas>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4 mt-6">
+                        <div>
+                            <h5 class="font-semibold mb-2">Top Payees</h5>
+                            <canvas id="chart-payee"></canvas>
+                        </div>
+                        <div>
+                            <h5 class="font-semibold">Subscriptions</h5>
+                            <div id="subscriptions-list" class="mt-2 text-sm text-gray-700"></div>
+                            <h5 class="font-semibold mt-4">Duplicates</h5>
+                            <div id="duplicates-list" class="mt-2 text-sm text-gray-700"></div>
+                            <h5 class="font-semibold mt-4 text-red-600">Alerts</h5>
+                            <div id="alerts-list" class="mt-2 text-sm text-red-600"></div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <!-- Action Buttons -->
             <div class="flex justify-center space-x-4">
@@ -155,6 +200,43 @@
                 <button onclick="clearFiles()" class="border-2 border-gray-300 text-gray-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-all duration-300">
                     Clear All
                 </button>
+                <!-- Export Dropdown -->
+                <div class="ml-4">
+                    <label class="small text-gray-600">Export</label>
+                    <div class="flex items-center space-x-2">
+                        <select id="export-format" class="input rounded">
+                            <option value="csv">CSV</option>
+                            <option value="json">JSON</option>
+                            <option value="xlsx">Excel (.xlsx)</option>
+                            <option value="pdf">PDF</option>
+                        </select>
+                        <button id="export-btn" class="border-2 border-gray-300 text-gray-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-50">Export</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Integrations Quick Connect -->
+    <section class="py-6 bg-white">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="glass-card rounded-xl p-6">
+                <h4 class="text-lg font-semibold mb-4">Connect to Accounting Tools (Demo)</h4>
+                <div class="flex gap-4">
+                    <button class="btn-primary text-white px-4 py-2 rounded" onclick="startConnect('quickbooks')">Connect QuickBooks</button>
+                    <button class="btn-primary text-white px-4 py-2 rounded" onclick="startConnect('zoho')">Connect Zoho Books</button>
+                    <button class="btn-primary text-white px-4 py-2 rounded" onclick="startConnect('wave')">Connect Wave</button>
+                </div>
+                <div id="integration-status" class="mt-3 text-sm text-gray-600"></div>
+                <div class="mt-4">
+                    <h5 class="font-semibold">Cloud Storage</h5>
+                    <div class="flex gap-3 mt-2">
+                        <button class="border rounded px-3 py-2" onclick="startCloudConnect('dropbox')">Connect Dropbox</button>
+                        <button class="border rounded px-3 py-2" onclick="startCloudConnect('gdrive')">Connect Google Drive</button>
+                        <button class="border rounded px-3 py-2" onclick="importFromCloud()">Import from Cloud</button>
+                    </div>
+                    <div id="cloud-files" class="mt-3 text-sm text-gray-600"></div>
+                </div>
             </div>
         </div>
     </section>
@@ -219,52 +301,654 @@
         </div>
     </section>
 
+    <!-- Plans & Pricing -->
+    <section id="pricing" class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Plans & Pricing</h2>
+                <p class="text-xl text-gray-600">Flexible plans for individuals, teams, and enterprises.</p>
+            </div>
+            <div class="grid md:grid-cols-5 gap-6">
+                <!-- Instant Convert -->
+                <div class="glass-card p-6 text-center">
+                    <h3 class="font-bold text-lg">Instant Convert</h3>
+                    <div class="text-3xl font-extrabold my-4">Free</div>
+                    <p class="small text-gray-600">Try the engine, no signup required</p>
+                    <ul class="text-left mt-4 small text-gray-700">
+                        <li>1 statement every 24 hours</li>
+                        <li>Try with real bank files</li>
+                    </ul>
+                    <button class="btn btn-primary mt-4" onclick="openPricingCTA('instant')">▶ Try Instant Convert</button>
+                </div>
+                <!-- Free Plan -->
+                <div class="glass-card p-6 text-center">
+                    <h3 class="font-bold text-lg">Free Plan</h3>
+                    <div class="text-2xl font-extrabold my-3">Signup Required</div>
+                    <p class="small text-gray-600">Unlock more power, no card required</p>
+                    <ul class="text-left mt-4 small text-gray-700">
+                        <li>5 statements/day</li>
+                        <li>Partial AI Preview</li>
+                        <li>Export (CSV, Excel, JSON)</li>
+                    </ul>
+                    <button class="btn btn-outline mt-4" onclick="openPricingCTA('free')">Start Free Trial</button>
+                </div>
+                <!-- Starter -->
+                <div class="glass-card p-6 text-center">
+                    <h3 class="font-bold text-lg">Starter</h3>
+                    <div class="text-3xl font-extrabold my-3">$9/mo<br/><span class="small text-gray-500">or $84/yr</span></div>
+                    <p class="small text-gray-600">Perfect for individuals & freelancers</p>
+                    <ul class="text-left mt-4 small text-gray-700">
+                        <li>600 pages/month</li>
+                        <li>PDF, images, password support</li>
+                        <li>Auto-categorization & duplicate detection</li>
+                        <li>Multilingual OCR</li>
+                        <li>Google Drive/Dropbox sync</li>
+                        <li>1 Team member • 7-day file retention</li>
+                    </ul>
+                    <button class="btn btn-primary mt-4" onclick="openPricingCTA('starter')">Subscribe to Starter</button>
+                    <div class="muted small mt-2">Tired of 5 files? Get 600 with Starter →</div>
+                </div>
+                <!-- Pro -->
+                <div class="glass-card p-6 text-center">
+                    <h3 class="font-bold text-lg">Pro</h3>
+                    <div class="text-3xl font-extrabold my-3">$29/mo<br/><span class="small text-gray-500">or $290/yr</span></div>
+                    <p class="small text-gray-600">For teams and power users</p>
+                    <ul class="text-left mt-4 small text-gray-700">
+                        <li>4000 statements/month</li>
+                        <li>Bulk uploads & batch processing</li>
+                        <li>Expense Analyzer & Subscription Tracker</li>
+                        <li>EMI Detector & Savings Insights</li>
+                        <li>Statement Comparison</li>
+                    </ul>
+                    <button class="btn btn-primary mt-4" onclick="openPricingCTA('pro')">Subscribe to Pro</button>
+                    <div class="muted small mt-2">Need batch uploads & team access? Check out Pro →</div>
+                </div>
+                <!-- Enterprise -->
+                <div class="glass-card p-6 text-center">
+                    <h3 class="font-bold text-lg">Enterprise</h3>
+                    <div class="text-2xl font-extrabold my-3">Custom</div>
+                    <p class="small text-gray-600">For large companies or SaaS integrations</p>
+                    <ul class="text-left mt-4 small text-gray-700">
+                        <li>Unlimited statements</li>
+                        <li>Full API access</li>
+                        <li>Custom AI workflows & parsing rules</li>
+                        <li>White-label branding</li>
+                    </ul>
+                    <button class="btn btn-outline mt-4" onclick="openPricingCTA('enterprise')">Contact Sales</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Modal -->
+    <div id="pricing-modal" class="fixed inset-0 hidden items-center justify-center bg-black/50">
+        <div class="glass-card p-6 max-w-md w-full">
+            <h3 id="pricing-modal-title" class="text-xl font-bold">Subscribe</h3>
+            <p id="pricing-modal-desc" class="small text-gray-700 mt-2">Subscription details...</p>
+            <div class="flex justify-end gap-3 mt-6">
+                <button class="btn btn-outline" onclick="closePricingModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="confirmPricingAction()">Continue</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="bg-gray-800 text-white py-12">
         <div class="max-w-6xl mx-auto px-6 text-center">
-            <div class="flex items-center justify-center space-x-3 mb-6">
-                <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-teal-500 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-file-invoice-dollar text-white text-lg"></i>
+                <div class="flex items-center justify-center space-x-3 mb-6">
+                    <img src="resources/logo.svg" alt="Logo" style="width:44px;height:44px;border-radius:8px;"/>
+                    <h3 class="text-xl font-bold">BankStatement AI</h3>
                 </div>
-                <h3 class="text-xl font-bold">BankStatement AI</h3>
-            </div>
-            <p class="text-gray-400 mb-6">Transforming financial document processing with AI-powered technology.</p>
-            <div class="border-t border-gray-700 pt-6">
-                <p class="text-gray-500">&copy; 2025 BankStatement AI. All rights reserved. Built with privacy-first principles.</p>
-            </div>
+                <p class="text-gray-400 mb-6">Transforming financial document processing with AI-powered technology.</p>
+                <div class="flex items-center justify-center gap-6 small muted mb-4">
+                    <a href="privacy.html" class="text-gray-400 hover:text-white">Privacy Policy</a>
+                    <a href="terms.html" class="text-gray-400 hover:text-white">Terms of Use</a>
+                    <a href="cookies.html" class="text-gray-400 hover:text-white">Cookie Policy</a>
+                </div>
+                <div class="border-t border-gray-700 pt-6">
+                    <p class="text-gray-500">&copy; 2025 BankStatement AI. All rights reserved. Built with privacy-first principles.</p>
+                </div>
         </div>
     </footer>
 
-    <!-- JS for File Upload Demo -->
+    <!-- JS for File Upload and Processing -->
     <script>
-        const fileInput = document.getElementById('file-input');
-        const filePreview = document.getElementById('file-preview');
-        const fileList = document.getElementById('file-list');
-        const processBtn = document.getElementById('process-btn');
+        (function(){
+            const fileInput = document.getElementById('file-input');
+            const uploadZone = document.getElementById('upload-zone');
+            const filePreview = document.getElementById('file-preview');
+            const fileList = document.getElementById('file-list');
+            const processBtn = document.getElementById('process-btn');
+            const processingStatus = document.getElementById('processing-status');
+            const progressBar = document.getElementById('progress-bar');
+            const progressText = document.getElementById('progress-text');
+            const processingLog = document.getElementById('processing-log');
 
-        fileInput.addEventListener('change', () => {
-            filePreview.classList.remove('hidden');
-            fileList.innerHTML = '';
-            Array.from(fileInput.files).forEach(file => {
-                const li = document.createElement('div');
-                li.textContent = `${file.name} (${file.size} bytes)`;
-                li.className = 'p-2 rounded bg-gray-100';
-                fileList.appendChild(li);
+            let files = [];
+
+            /* --- Helpers --- */
+            function humanFileSize(size){
+                if(size === 0) return '0 B';
+                const i = Math.floor(Math.log(size) / Math.log(1024));
+                return (size / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + ['B','KB','MB','GB','TB'][i];
+            }
+
+            function updatePreview(){
+                if(!files.length){
+                    filePreview.classList.add('hidden');
+                    processBtn.disabled = true;
+                    return;
+                }
+                filePreview.classList.remove('hidden');
+                fileList.innerHTML = '';
+                files.forEach((file, idx) => {
+                    const el = document.createElement('div');
+                    el.className = 'p-3 rounded bg-white/80 text-gray-800 flex items-center justify-between';
+                    el.innerHTML = `<div><strong>${escapeHtml(file.name)}</strong><div class='small text-gray-600'>${humanFileSize(file.size)}</div></div>`;
+                    const removeBtn = document.createElement('button');
+                    removeBtn.className = 'ml-4 text-sm text-red-600 hover:underline';
+                    removeBtn.textContent = 'Remove';
+                    removeBtn.onclick = () => { files.splice(idx,1); updatePreview(); };
+                    el.appendChild(removeBtn);
+                    fileList.appendChild(el);
+                });
+                processBtn.disabled = false;
+            }
+
+            function escapeHtml(text){
+                return text.replace(/[&<>"']/g, (m) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"})[m]);
+            }
+
+            /* --- Drag & Drop --- */
+            uploadZone.addEventListener('dragover', (e) => { e.preventDefault(); uploadZone.classList.add('drag-over'); });
+            uploadZone.addEventListener('dragleave', (e) => { uploadZone.classList.remove('drag-over'); });
+            uploadZone.addEventListener('drop', (e) => {
+                e.preventDefault(); uploadZone.classList.remove('drag-over');
+                const dropped = Array.from(e.dataTransfer.files || []);
+                if(dropped.length) {
+                    files = files.concat(dropped);
+                    updatePreview();
+                }
             });
-            processBtn.disabled = false;
+
+            fileInput.addEventListener('change', () => {
+                files = files.concat(Array.from(fileInput.files));
+                // reset the native input so selecting same file twice still triggers change
+                fileInput.value = '';
+                updatePreview();
+            });
+
+            window.clearFiles = function(){
+                files = [];
+                fileInput.value = '';
+                updatePreview();
+                processingStatus.classList.add('hidden');
+                progressBar.style.width = '0%';
+                processingLog.innerHTML = '';
+            };
+
+            /* --- Processing --- */
+            async function processFilesSequentially(){
+                if(!files.length) { alert('Please add at least one file to process.'); return; }
+                processingStatus.classList.remove('hidden');
+                processingLog.innerHTML = '';
+                progressBar.style.width = '0%';
+
+                const total = files.length;
+                let completed = 0;
+
+                // process files one by one
+                for(let i=0;i<files.length;i++){
+                    const file = files[i];
+                    appendLog(`Starting: ${file.name}`);
+                    try{
+                        // Attempt real upload to backend
+                        const result = await uploadFileWithProgress(file, (fileProgressFraction) => {
+                            const overall = ((i + fileProgressFraction) / total) * 100;
+                            updateProgress(overall, `${i + fileProgressFraction >= total ? total : Math.floor((i + fileProgressFraction) + 1)}/${total} files`);
+                        });
+
+                        appendLog(`Success: ${file.name}`);
+                        appendLogResult(result, file.name);
+                    }catch(err){
+                        // handle password-protected PDF response from server
+                        if(err && err.code === 422 && err.body && err.body.require_password){
+                            appendLog(`Server requests password for ${file.name}`);
+                            const pwd = prompt(`The PDF "${file.name}" appears to be password-protected. Please enter the password:`);
+                            if(pwd){
+                                appendLog('Retrying with provided password...');
+                                try{
+                                    const result2 = await uploadFileWithProgressWithPassword(file, pwd, (p)=>{
+                                        const overall = ((i + p) / total) * 100;
+                                        updateProgress(overall, `${Math.round((i + p) + 0.01)}/${total} files`);
+                                    });
+                                    appendLog(`Success after password: ${file.name}`);
+                                    appendLogResult(result2, file.name);
+                                }catch(err2){
+                                    appendLog(`Error after password for ${file.name}: ${err2 && err2.message ? err2.message : err2}`);
+                                    appendLog('Falling back to local simulation for this file...');
+                                    const simulated2 = await simulateProcessing(file, (p)=>{
+                                        const overall = ((i + p) / total) * 100;
+                                        updateProgress(overall, `${Math.round((i + p) + 0.01)}/${total} files`);
+                                    });
+                                    appendLog(`Simulated result for ${file.name}`);
+                                    appendLogResult(simulated2, file.name);
+                                }
+                            } else {
+                                appendLog('No password provided — skipping file and falling back to simulation');
+                                const simulated = await simulateProcessing(file, (p)=>{
+                                    const overall = ((i + p) / total) * 100;
+                                    updateProgress(overall, `${Math.round((i + p) + 0.01)}/${total} files`);
+                                });
+                                appendLog(`Simulated result for ${file.name}`);
+                                appendLogResult(simulated, file.name);
+                            }
+                        }else{
+                            appendLog(`Error processing ${file.name}: ${err.message || err}`);
+                            appendLog('Falling back to local simulation for this file...');
+                            const simulated = await simulateProcessing(file, (p)=>{
+                                const overall = ((i + p) / total) * 100;
+                                updateProgress(overall, `${Math.round((i + p) + 0.01)}/${total} files`);
+                            });
+                            appendLog(`Simulated result for ${file.name}`);
+                            appendLogResult(simulated, file.name);
+                        }
+                    }
+                    completed++;
+                    updateProgress((completed / total) * 100, `${completed}/${total} files processed`);
+                }
+
+                appendLog('Processing complete.');
+            }
+
+            function processFiles(){ processFilesSequentially().catch(e=>appendLog('Fatal: '+e)); }
+            window.processFiles = processFiles;
+
+            function updateProgress(percent, text){
+                progressBar.style.width = Math.min(100, Math.max(0, percent)) + '%';
+                progressText.textContent = text || '';
+            }
+
+            function appendLog(msg){
+                const el = document.createElement('div');
+                el.className = 'py-1';
+                el.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+                processingLog.appendChild(el);
+                processingLog.scrollTop = processingLog.scrollHeight;
+            }
+
+            function appendLogResult(resultObj, filename){
+                // Show a compact summary and provide a download link for JSON
+                const wrapper = document.createElement('div');
+                wrapper.className = 'mt-2 p-2 rounded bg-green-50/30 text-sm text-gray-100';
+                const summary = document.createElement('div');
+                summary.innerHTML = `<strong>${escapeHtml(filename)}</strong> — ${escapeHtml(resultObj.message || resultObj.summary || 'Processed')}`;
+                wrapper.appendChild(summary);
+
+                if(resultObj.data){
+                    // render transactions as color-coded table with inline edit
+                    const txs = resultObj.data.transactions || [];
+                    const table = document.createElement('table');
+                    table.className = 'mt-3';
+                    const thead = document.createElement('thead');
+                    thead.innerHTML = '<tr><th>Date</th><th>Description</th><th>Amount</th><th>Category</th><th></th></tr>';
+                    table.appendChild(thead);
+                    const tbody = document.createElement('tbody');
+                    txs.forEach((t, idx) => {
+                        const tr = document.createElement('tr');
+                        // determine row class
+                        const kind = (t.amount_value === null) ? 'tx-uncategorized' : (t.amount_value < 0 ? 'tx-debit' : 'tx-credit');
+                        tr.className = `tx-row ${kind}`;
+
+                        const tdDate = document.createElement('td'); tdDate.textContent = t.date || '';
+                        const tdDesc = document.createElement('td'); tdDesc.innerHTML = `<div class='font-semibold'>${escapeHtml(t.merchant || t.description || (t.raw||'').slice(0,80))}</div><div class='small text-gray-300'>${escapeHtml((t.line||'').slice(0,120))}</div>`;
+                        const tdAmt = document.createElement('td'); tdAmt.textContent = t.amount || t.amount_value || '';
+                        const tdCat = document.createElement('td');
+                        const catName = t.suggested_category || 'Uncategorized';
+                        const chip = document.createElement('span');
+                        chip.className = `cat-chip cat-${catName.replace(/\s+/g,'') || 'Uncategorized'}`;
+                        chip.textContent = catName;
+                        tdCat.appendChild(chip);
+
+                        const tdActions = document.createElement('td');
+                        const editWrap = document.createElement('div'); editWrap.className='inline-edit';
+                        const editBtn = document.createElement('button'); editBtn.textContent='Edit';
+                        editBtn.onclick = ()=>{
+                            // swap chip for an input
+                            const input = document.createElement('input'); input.value = catName;
+                            const save = document.createElement('button'); save.textContent='Save';
+                            const cancel = document.createElement('button'); cancel.textContent='Cancel';
+                            editWrap.innerHTML = '';
+                            editWrap.appendChild(input); editWrap.appendChild(save); editWrap.appendChild(cancel);
+                            save.onclick = async ()=>{
+                                const newCat = input.value.trim() || 'Uncategorized';
+                                try{
+                                    await fetch('/api/feedback', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ key: t.merchant || t.line || t.raw, category: newCat }) });
+                                    chip.textContent = newCat;
+                                    chip.className = `cat-chip cat-${newCat.replace(/\s+/g,'')}`;
+                                    editWrap.innerHTML = '';
+                                    editWrap.appendChild(editBtn);
+                                }catch(e){ alert('Could not save: '+e.message); }
+                            };
+                            cancel.onclick = ()=>{ editWrap.innerHTML = ''; editWrap.appendChild(editBtn); };
+                        };
+                        editWrap.appendChild(editBtn);
+                        tdActions.appendChild(editWrap);
+
+                        tr.appendChild(tdDate);
+                        tr.appendChild(tdDesc);
+                        tr.appendChild(tdAmt);
+                        tr.appendChild(tdCat);
+                        tr.appendChild(tdActions);
+                        tbody.appendChild(tr);
+                    });
+                    table.appendChild(tbody);
+                    wrapper.appendChild(table);
+
+                    const blob = new Blob([JSON.stringify(resultObj.data, null, 2)], {type:'application/json'});
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url; a.download = filename.replace(/\.[^/.]+$/, '') + '.json';
+                    a.textContent = 'Download JSON';
+                    a.className = 'ml-3 text-blue-200 hover:underline text-sm';
+                    wrapper.appendChild(a);
+                }
+
+                processingLog.appendChild(wrapper);
+                processingLog.scrollTop = processingLog.scrollHeight;
+
+                // If the server returned analytics/insights, show the panel and render charts
+                try{
+                    if(resultObj.data && resultObj.data.insights){
+                        const panel = document.getElementById('analytics-panel');
+                        if(panel) panel.classList.remove('hidden');
+                        renderAnalytics(resultObj.data.insights);
+                    }
+                }catch(e){ console.warn('Analytics render failed', e); }
+            }
+
+            /* --- Upload using XHR so we can track upload progress --- */
+            function uploadFileWithProgress(file, onProgress){
+                return new Promise((resolve, reject) => {
+                    const url = '/api/process'; // expected backend endpoint
+                    const xhr = new XMLHttpRequest();
+                    const form = new FormData();
+                    form.append('file', file, file.name);
+                    const lang = document.getElementById('ocr-lang') ? document.getElementById('ocr-lang').value : 'eng';
+                    form.append('ocr_lang', lang);
+
+
+                    xhr.open('POST', url, true);
+                    xhr.responseType = 'json';
+
+                    xhr.upload.onprogress = function(e){
+                        if(e.lengthComputable){
+                            const frac = e.loaded / e.total;
+                            onProgress(frac);
+                        }
+                    };
+
+                    xhr.onload = function(){
+                        if(xhr.status >=200 && xhr.status < 300){
+                            const resp = xhr.response || {};
+                            resolve(resp);
+                        } else if(xhr.status === 404){
+                            reject(new Error('Processing endpoint not found (404)'));
+                        } else if(xhr.status === 422){
+                            // probable client-side issue like password protected PDF
+                            let body = null;
+                            try{ body = JSON.parse(xhr.responseText || '{}'); }catch(e){}
+                            reject({ code: 422, body });
+                        } else {
+                            reject(new Error('Server error: ' + xhr.status));
+                        }
+                    };
+                    xhr.onerror = function(){ reject(new Error('Network error')); };
+                    xhr.ontimeout = function(){ reject(new Error('Request timed out')); };
+
+                    // small timeout to fail fast when backend absent
+                    xhr.timeout = 45000; // 45s
+                    try{ xhr.send(form); } catch(e){ reject(e); }
+                });
+            }
+
+            // helper to upload with a provided PDF password (for encrypted PDFs)
+            function uploadFileWithProgressWithPassword(file, password, onProgress){
+                return new Promise((resolve, reject) => {
+                    const url = '/api/process';
+                    const xhr = new XMLHttpRequest();
+                    const form = new FormData();
+                    form.append('file', file, file.name);
+                    form.append('pdf_password', password);
+                    const lang2 = document.getElementById('ocr-lang') ? document.getElementById('ocr-lang').value : 'eng';
+                    form.append('ocr_lang', lang2);
+
+                    xhr.open('POST', url, true);
+                    xhr.responseType = 'json';
+
+                    xhr.upload.onprogress = function(e){ if(e.lengthComputable){ onProgress(e.loaded / e.total); } };
+
+                    xhr.onload = function(){
+                        if(xhr.status >=200 && xhr.status < 300){ resolve(xhr.response || {}); }
+                        else if(xhr.status === 422){ let body = null; try{ body = JSON.parse(xhr.responseText||'{}'); }catch(e){}; reject({ code: 422, body }); }
+                        else { reject(new Error('Server error: ' + xhr.status)); }
+                    };
+                    xhr.onerror = function(){ reject(new Error('Network error')); };
+                    xhr.ontimeout = function(){ reject(new Error('Request timed out')); };
+                    xhr.timeout = 45000;
+                    try{ xhr.send(form); } catch(e){ reject(e); }
+                });
+            }
+
+            /* --- Local simulation fallback (for offline/demo) --- */
+            function simulateProcessing(file, onProgress){
+                return new Promise((resolve) => {
+                    const totalSteps = 30 + Math.round(Math.min(100, file.size / 10000));
+                    let step = 0;
+                    const interval = setInterval(()=>{
+                        step++;
+                        const p = Math.min(1, step / totalSteps);
+                        onProgress(p);
+                        if(step >= totalSteps){
+                            clearInterval(interval);
+                            // create fake structured data
+                            const fake = {
+                                message: 'Simulated processing complete',
+                                data: {
+                                    filename: file.name,
+                                    pages: Math.max(1, Math.round(file.size / 200000)),
+                                    transactions: Math.max(1, Math.round(file.size / 50000)),
+                                    detected_bank: 'Demo Bank',
+                                }
+                            };
+                            resolve(fake);
+                        }
+                    }, 60);
+                });
+            }
+
+            // expose a safe clear on window as well
+            window.clearFiles = window.clearFiles || window.clearFiles;
+
+            // small accessibility: allow clicking the entire upload zone to open file dialog
+            uploadZone.addEventListener('click', (e)=>{ if(e.target === uploadZone) document.getElementById('file-input').click(); });
+
+            // wire process button
+            processBtn.addEventListener('click', (e)=>{ e.preventDefault(); processFiles(); });
+
+            // expose for debugging
+            window._bsai_files = files;
+        })();
+
+        // Analytics rendering helpers (uses Chart.js)
+        let _chartCategory = null, _chartCashflow = null, _chartPayee = null;
+        function safeDestroy(ch){ if(ch && typeof ch.destroy === 'function') try{ ch.destroy(); }catch(e){} }
+
+        function renderAnalytics(insights){
+            try{
+                // category_totals: { category: amount }
+                const catTotals = insights.category_totals || {};
+                const categories = Object.keys(catTotals);
+                const catValues = categories.map(k=>Math.abs(catTotals[k]));
+
+                // cash_by_date: [{date: '2025-01-01', amount: -23.4}, ...]
+                const cashByDate = insights.cash_by_date || [];
+                const cashLabels = cashByDate.map(r=>r.date);
+                const cashValues = cashByDate.map(r=>r.amount);
+
+                // payee aggregates: { payee: amount }
+                const payees = insights.payee_aggregates || {};
+                const payeeKeys = Object.keys(payees).slice(0,10);
+                const payeeVals = payeeKeys.map(k=>Math.abs(payees[k]));
+
+                // Category Pie
+                const catCtx = document.getElementById('chart-category').getContext('2d');
+                safeDestroy(_chartCategory);
+                _chartCategory = new Chart(catCtx, {
+                    type: 'pie',
+                    data: { labels: categories, datasets: [{ data: catValues, backgroundColor: categories.map((_,i)=>`hsl(${(i*47)%360} 70% 50%)`) }] },
+                    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+                });
+
+                // Cashflow Line
+                const cashCtx = document.getElementById('chart-cashflow').getContext('2d');
+                safeDestroy(_chartCashflow);
+                _chartCashflow = new Chart(cashCtx, {
+                    type: 'line',
+                    data: { labels: cashLabels, datasets: [{ label: 'Net Amount', data: cashValues, borderColor: '#1f77b4', backgroundColor: 'rgba(31,119,180,0.15)', fill: true }] },
+                    options: { responsive: true, scales: { x: { display: true }, y: { display: true } } }
+                });
+
+                // Payee Bar
+                const payCtx = document.getElementById('chart-payee').getContext('2d');
+                safeDestroy(_chartPayee);
+                _chartPayee = new Chart(payCtx, {
+                    type: 'bar',
+                    data: { labels: payeeKeys, datasets: [{ label: 'Amount', data: payeeVals, backgroundColor: 'rgba(54,162,235,0.7)' }] },
+                    options: { responsive: true, indexAxis: 'y', scales: { x: { display: true } } }
+                });
+
+                // Subscriptions list
+                const subsEl = document.getElementById('subscriptions-list');
+                if(subsEl){
+                    subsEl.innerHTML = '';
+                    (insights.subscriptions || []).forEach(s => {
+                        const div = document.createElement('div');
+                        div.className = 'py-1';
+                        div.innerHTML = `<strong>${escapeHtml(s.payee||s.merchant||'Subscription')}</strong> — ${escapeHtml(s.amount||'')}/mo <div class='small text-gray-400'>${escapeHtml(s.period||'recurring')}</div>`;
+                        subsEl.appendChild(div);
+                    });
+                }
+
+                // Duplicates
+                const dupEl = document.getElementById('duplicates-list');
+                if(dupEl){ dupEl.innerHTML = ''; (insights.duplicates || []).forEach(d => { const di = document.createElement('div'); di.className='py-1'; di.textContent = `${d.date || ''} • ${d.amount || ''} • ${d.merchant || d.line || ''}`; dupEl.appendChild(di); }); }
+
+                // Alerts
+                const alertsEl = document.getElementById('alerts-list');
+                if(alertsEl){ alertsEl.innerHTML = ''; (insights.alerts || []).forEach(a=>{ const ai = document.createElement('div'); ai.className='py-1'; ai.textContent = a; alertsEl.appendChild(ai); }); }
+
+            }catch(e){ console.error('renderAnalytics error', e); }
+        }
+
+        // --- Export & Integrations client helpers ---
+        document.getElementById('export-btn').addEventListener('click', async ()=>{
+            // Collect last processed data from the UI (naive approach: ask server? For demo we'll ask user to upload and process then export last result via a simple prompt)
+            const fmt = document.getElementById('export-format').value;
+            // For demo, prompt user for a JSON payload or try to fetch last result from a global store (not implemented). We'll ask for a file to export.
+            const sample = prompt('For demo: paste JSON data to export (transactions array) or leave empty to export a small sample');
+            let body;
+            if(sample){ try{ body = JSON.parse(sample); }catch(e){ alert('Invalid JSON'); return; } }
+            const payload = { format: fmt, filename: 'bankstatement_export', data: body || { transactions: [ { date: new Date().toISOString().slice(0,10), line: 'Demo transaction', amount: -12.34 } ] } };
+            try{
+                const resp = await fetch('/api/export', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+                if(!resp.ok) { const t = await resp.text(); alert('Export failed: '+t); return; }
+
+                const disposition = resp.headers.get('content-disposition') || '';
+                const filenameMatch = disposition.match(/filename=([^;]+)/i);
+                const fname = filenameMatch ? filenameMatch[1].replace(/"/g,'') : (payload.filename + '.' + fmt);
+                const blob = await resp.blob();
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a'); a.href = url; a.download = fname; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+            }catch(e){ alert('Export error: '+e.message); }
         });
 
-        window.clearFiles = function() {
-            fileInput.value = '';
-            filePreview.classList.add('hidden');
-            fileList.innerHTML = '';
-            processBtn.disabled = true;
-        };
+        async function startConnect(provider){
+            try{
+                const r = await fetch(`/api/integrations/${provider}/connect`);
+                if(!r.ok) throw new Error('connect fetch failed');
+                const j = await r.json();
+                if(j.connect_url){ window.open(j.connect_url, '_blank', 'noopener'); document.getElementById('integration-status').textContent = `Opened ${provider} consent (demo). After connecting, click status to refresh.`; }
+                else alert('No connect URL returned');
+            }catch(e){ alert('Could not start connect: '+e.message); }
+        }
 
-        window.processFiles = function() {
-            alert('Processing logic would run here.');
-            // Add your real processing code here
-        };
+        // status check helper
+        async function checkIntegrationStatus(provider){
+            try{ const r = await fetch(`/api/integrations/${provider}/status`); if(!r.ok) return null; return await r.json(); }catch(e){ return null; }
+        }
+
+        // Cloud storage helpers
+        async function startCloudConnect(provider){
+            try{
+                const r = await fetch(`/api/cloud/${provider}/connect`);
+                if(!r.ok) throw new Error('connect fetch failed');
+                const j = await r.json();
+                if(j.connect_url){ window.open(j.connect_url, '_blank', 'noopener'); document.getElementById('integration-status').textContent = `Opened ${provider} consent (demo). After connecting, click Import from Cloud.`; }
+            }catch(e){ alert('Could not start cloud connect: '+e.message); }
+        }
+
+        async function importFromCloud(){
+            // ask provider
+            const prov = prompt('Enter cloud provider to import from (dropbox or gdrive)');
+            if(!prov) return;
+            try{
+                const r = await fetch(`/api/cloud/${prov}/import`, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({}) });
+                if(!r.ok){ const t = await r.text(); alert('Import failed: '+t); return; }
+                const j = await r.json();
+                const el = document.getElementById('cloud-files');
+                el.innerHTML = '<strong>Files:</strong><br/>' + (j.files || []).map(f=>`${f.name} (${f.size} bytes)`).join('<br/>');
+            }catch(e){ alert('Import error: '+e.message); }
+        }
+
+        // Small helper: make tx rows expandable on mobile
+        function enableTxRowInteractions(){
+            document.querySelectorAll('.tx-row').forEach(r => {
+                r.addEventListener('click', (e) => {
+                    if(window.innerWidth <= 720){
+                        r.classList.toggle('expanded');
+                        // simple toggle of details styling
+                        if(r.classList.contains('expanded')) r.style.boxShadow = '0 18px 40px rgba(2,6,23,0.6)';
+                        else r.style.boxShadow = '';
+                    }
+                });
+            });
+        }
+
+        // call after rendering analytics or results
+        const origRenderAnalytics = window.renderAnalytics || function(){};
+        window.renderAnalytics = function(){ origRenderAnalytics.apply(this, arguments); setTimeout(enableTxRowInteractions, 50); };
+
+        // Pricing modal functions
+        function openPricingCTA(plan){
+            const title = document.getElementById('pricing-modal-title');
+            const desc = document.getElementById('pricing-modal-desc');
+            if(plan === 'instant'){ title.textContent = 'Try Instant Convert'; desc.textContent = 'You can run one statement every 24 hours for free, no signup required.'; }
+            else if(plan === 'free'){ title.textContent = 'Start Free Trial'; desc.textContent = 'Sign up to unlock 5 statements/day and export features.'; }
+            else if(plan === 'starter'){ title.textContent = 'Subscribe to Starter'; desc.textContent = 'Starter plan: $9/month or $84/year — 600 pages/month, Google Drive/Dropbox sync, and more.'; }
+            else if(plan === 'pro'){ title.textContent = 'Subscribe to Pro'; desc.textContent = 'Pro plan: $29/month or $290/year — bulk uploads, team features, and analytics.'; }
+            else { title.textContent = 'Contact Sales'; desc.textContent = 'Enterprise: custom pricing. Contact our sales team.'; }
+            document.getElementById('pricing-modal').classList.remove('hidden');
+        }
+
+        function closePricingModal(){ document.getElementById('pricing-modal').classList.add('hidden'); }
+
+        function confirmPricingAction(){
+            alert('Demo: subscription flow not implemented. This would redirect to payment or signup.');
+            closePricingModal();
+        }
+
+
     </script>
 
 </body>
