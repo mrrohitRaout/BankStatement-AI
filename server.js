@@ -4,7 +4,14 @@ const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
 const pdf = require('pdf-parse');
-const pdfjs = require('pdfjs-dist/legacy/build/pdf.js');
+let pdfjs = null;
+try{
+  // pdfjs-dist can optionally depend on canvas; load if available
+  pdfjs = require('pdfjs-dist/legacy/build/pdf.js');
+}catch(e){
+  console.warn('pdfjs-dist not available or failed to load (optional). Password-protected PDF support will be limited.\n', e && e.message);
+  pdfjs = null;
+}
 const Tesseract = require('tesseract.js');
 const sharp = require('sharp');
 
@@ -242,9 +249,10 @@ app.post('/api/process', upload.single('file'), async (req, res) => {
       return txs;
     }
 
-  const tx = parseComplexLayout(text || '');
-  // split into lines for downstream heuristics
-  const lines = (text || '').split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
+  // ensure text is defined and split into lines for downstream heuristics
+  text = text || '';
+  const lines = text.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
+  const tx = parseComplexLayout(text);
 
     // Smart Bank Detection (pattern-based signatures + confidence)
     function smartBankDetect(text, lines){

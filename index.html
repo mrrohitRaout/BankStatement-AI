@@ -44,76 +44,97 @@
 
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-card">
-        <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-teal-500 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-file-invoice-dollar text-white text-lg"></i>
-                </div>
-                <h1 class="text-xl font-bold text-gray-800">BankStatement AI</h1>
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="brand"><div class="logo"></div> <span style="margin-left:.5rem;font-weight:700;color:#0f1724">StatementAI</span></div>
             </div>
-            <div class="hidden md:flex items-center space-x-8">
-                <a href="index.html" class="nav-link text-gray-700 hover:text-blue-600 font-medium">Home</a>
-                <a href="#upload-section" class="nav-link text-gray-700 hover:text-blue-600 font-medium">Convert</a>
-                <a href="#features" class="nav-link text-gray-700 hover:text-blue-600 font-medium">Features</a>
-                <a href="login.html" class="nav-link text-gray-700 hover:text-blue-600 font-medium">Login</a>
-                <a href="register.html" class="nav-link text-gray-700 hover:text-blue-600 font-medium">Register</a>
-                <button onclick="window.location='#upload-section'" class="btn-primary text-white px-6 py-2 rounded-lg font-medium ml-2">
-                    Get Started
-                </button>
+            <div class="hidden md:flex items-center gap-8 text-gray-600 font-medium">
+                <a href="#features" class="hover:text-blue-600">Features</a>
+                <a href="#pricing" class="hover:text-blue-600">Pricing</a>
+                <a href="#analytics" class="hover:text-blue-600">Analytics</a>
+                <a href="#support" class="hover:text-blue-600">Support</a>
             </div>
-            <button class="md:hidden text-gray-700">
-                <i class="fas fa-bars text-xl"></i>
-            </button>
+            <div class="hidden md:flex items-center gap-4">
+                <a href="login.html" class="text-gray-700">Sign In</a>
+                <button onclick="openUploadSection()" class="btn-primary px-4 py-2 rounded-lg">Try Free</button>
+            </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="min-h-screen flex items-center pt-20 bg-cover bg-center" style="background-image: url('resources/hero-bg.jpg');">
-        <div class="max-w-6xl mx-auto px-6 py-20 grid lg:grid-cols-2 gap-12 items-center">
-            <div class="text-white">
-                <h1 class="text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                    Transform Bank Statements with 
-                    <span class="text-blue-300">Smart Data</span>
+    <section class="min-h-screen flex items-center pt-20" style="background: linear-gradient(180deg,#f0f6ff 0%, #eaf2ff 100%);">
+        <div class="max-w-7xl mx-auto px-6 py-24 grid lg:grid-cols-2 gap-12 items-center">
+            <div class="text-left">
+                <h1 class="text-6xl font-extrabold mb-6 leading-tight text-gray-900">
+                    Transform Bank <br/> Statements into <span style="color:#1565d8">Smart Data</span>
                 </h1>
-                <p class="text-xl text-gray-200 mb-8 leading-relaxed">
-                    AI-powered OCR technology that converts any bank statement into structured, actionable data. Process PDFs, images, and scanned documents with 99.9% accuracy.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4">
-                    <button onclick="window.location='#upload-section'" class="btn-primary text-white px-8 py-4 rounded-lg font-semibold text-lg">
-                        <i class="fas fa-upload mr-2"></i>
-                        Start Processing
-                    </button>
-                    <button onclick="alert('Demo coming soon!')" class="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-gray-800 transition-all duration-300">
-                        <i class="fas fa-play mr-2"></i>
-                        Watch Demo
-                    </button>
+                <p class="text-lg text-gray-700 mb-8 max-w-xl">AI-powered converter that turns PDFs, images, and scans into structured, categorized financial data. View, edit, and export with intelligent insights.</p>
+                <div class="flex gap-4">
+                    <button onclick="openUploadSection()" class="btn-primary text-white px-6 py-3 rounded-lg font-semibold">Try Instant Convert</button>
+                    <button onclick="alert('Demo coming soon!')" class="btn btn-outline px-6 py-3 rounded-lg">Watch Demo</button>
+                    <!-- CTAs -->
+                </div>
+                <div class="flex gap-6 mt-8 text-sm text-gray-600 items-center">
+                    <div class="center"><i class="fas fa-shield-alt text-green-500 mr-2"></i>Bank-level Security</div>
+                    <div class="center"><i class="fas fa-stopwatch text-green-500 mr-2"></i>Process in Seconds</div>
                 </div>
             </div>
-            <div class="glass-card rounded-2xl p-8">
-                <h3 class="text-2xl font-bold text-gray-800 mb-6">Quick Stats</h3>
-                <div class="grid grid-cols-2 gap-6">
-                    <div class="text-center">
-                        <div class="text-3xl font-bold text-blue-600 mb-2">50,000</div>
-                        <div class="text-gray-600">Files Processed</div>
-                    </div>
-                    <div class="text-center">
-                        <div class="text-3xl font-bold text-green-600 mb-2">99.9%</div>
-                        <div class="text-gray-600">Accuracy Rate</div>
-                    </div>
-                    <div class="text-center">
-                        <div class="text-3xl font-bold text-purple-600 mb-2">150</div>
-                        <div class="text-gray-600">Banks Supported</div>
-                    </div>
-                    <div class="text-center">
-                        <div class="text-3xl font-bold text-orange-600 mb-2">25</div>
-                        <div class="text-gray-600">Languages</div>
-                    </div>
+            <div class="relative flex justify-center">
+                <div class="glass-card p-6 rounded-2xl shadow-xl" style="width:680px;height:420px;">
+                    <img id="hero-img" src="resources/hero-dashboard.jpg" alt="dashboard" style="width:100%;height:100%;object-fit:cover;border-radius:12px" />
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- File Upload Section -->
+    <!-- Contact Sales Modal -->
+    <div id="contact-sales-modal" class="fixed inset-0 hidden">
+        <div class="modal-overlay" onclick="closeContactSales()"></div>
+        <div class="glass-card p-6 max-w-2xl mx-auto relative" role="dialog" aria-modal="true">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-2xl font-bold">Contact Sales</h3>
+                <button class="btn btn-outline" onclick="closeContactSales()">Close</button>
+            </div>
+            <form id="contact-sales-form" class="grid grid-cols-1 gap-3">
+                <label>Name <input name="name" class="input" required></label>
+                <label>Company <input name="company" class="input"></label>
+                <label>Email <input name="email" type="email" class="input" required></label>
+                <label>Message <textarea name="message" rows="4" class="input"></textarea></label>
+                <div class="flex items-center justify-end gap-3 mt-2">
+                    <button type="button" class="btn btn-outline" onclick="closeContactSales()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Send Request</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Export Modal -->
+    <div id="export-modal" class="fixed inset-0 hidden">
+        <div class="modal-overlay" onclick="closeExportModal()"></div>
+        <div class="glass-card p-6 max-w-2xl mx-auto relative" role="dialog" aria-modal="true">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-2xl font-bold">Export Data</h3>
+                <button class="btn btn-outline" onclick="closeExportModal()">Close</button>
+            </div>
+            <div>
+                <label class="small">Format</label>
+                <select id="export-format-select" class="input">
+                    <option value="csv">CSV</option>
+                    <option value="json">JSON</option>
+                    <option value="xlsx">Excel (.xlsx)</option>
+                    <option value="pdf">PDF</option>
+                </select>
+                <label class="small mt-2">Filename</label>
+                <input id="export-filename" class="input" value="bankstatement_export">
+                <div class="flex items-center justify-end gap-3 mt-4">
+                    <button class="btn btn-outline" onclick="closeExportModal()">Cancel</button>
+                    <button class="btn btn-primary" onclick="performExport()">Export</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                <!-- File Upload Section -->
     <section id="upload-section" class="py-20 bg-white">
         <div class="max-w-4xl mx-auto px-6">
             <div class="text-center mb-12">
@@ -121,6 +142,10 @@
                 <p class="text-xl text-gray-600">Drag and drop your files or click to browse. Supported: PDF, JPG, PNG.</p>
             </div>
             <div class="glass-card rounded-2xl p-8 mb-8">
+                <!-- Feature mode banner (shown when a feature CTA is used) -->
+                <div id="feature-mode-banner" class="hidden center stack mb-4">
+                    <div class="glass-card p-3" style="background: rgba(18,24,38,0.02); border:1px solid rgba(255,255,255,0.03);">Mode: <strong id="feature-mode-name">General</strong></div>
+                </div>
                 <div id="upload-zone" class="upload-zone rounded-xl p-12 text-center">
                     <div class="mb-6">
                         <i class="fas fa-cloud-upload-alt text-6xl text-blue-500 mb-4"></i>
@@ -256,6 +281,9 @@
                     </div>
                     <h3 class="text-xl font-bold text-gray-800 mb-4">AI-Powered OCR</h3>
                     <p class="text-gray-600">Advanced optical character recognition that extracts data from any document format with 99.9% accuracy.</p>
+                    <div class="mt-4">
+                        <button class="btn btn-primary" onclick="enterAndProcess('ocr')">Enter</button>
+                    </div>
                 </div>
                 <!-- Security -->
                 <div class="feature-card glass-card rounded-xl p-8">
@@ -264,6 +292,10 @@
                     </div>
                     <h3 class="text-xl font-bold text-gray-800 mb-4">Bank-Level Security</h3>
                     <p class="text-gray-600">Client-side processing ensures your sensitive financial data never leaves your device. Complete privacy protection.</p>
+                    <div id="security-backend-status" class="mt-3 small text-gray-500">Backend: <span id="backend-dot" class="backend-offline">offline</span></div>
+                    <div class="mt-4">
+                        <button class="btn btn-primary" onclick="enterAndProcess('security')">Enter</button>
+                    </div>
                 </div>
                 <!-- Multi-Bank Support -->
                 <div class="feature-card glass-card rounded-xl p-8">
@@ -272,6 +304,9 @@
                     </div>
                     <h3 class="text-xl font-bold text-gray-800 mb-4">Multi-Bank Support</h3>
                     <p class="text-gray-600">Automatically detects and processes statements from over 150 banks worldwide with smart template recognition.</p>
+                    <div class="mt-4">
+                        <button class="btn btn-primary" onclick="enterAndProcess('multi')">Enter</button>
+                    </div>
                 </div>
                 <!-- Smart Analytics -->
                 <div class="feature-card glass-card rounded-xl p-8">
@@ -280,6 +315,9 @@
                     </div>
                     <h3 class="text-xl font-bold text-gray-800 mb-4">Smart Analytics</h3>
                     <p class="text-gray-600">Get instant insights into spending patterns, categorize transactions, and identify subscription payments automatically.</p>
+                    <div class="mt-4">
+                        <button class="btn btn-primary" onclick="enterAndProcess('analytics')">Enter</button>
+                    </div>
                 </div>
                 <!-- Export Formats -->
                 <div class="feature-card glass-card rounded-xl p-8">
@@ -288,6 +326,10 @@
                     </div>
                     <h3 class="text-xl font-bold text-gray-800 mb-4">Multiple Export Formats</h3>
                     <p class="text-gray-600">Export your data to Excel, CSV, JSON, or QuickBooks formats with customizable templates and field mapping.</p>
+                    <div class="mt-4 flex gap-2 justify-center">
+                        <button class="btn btn-primary" onclick="openExportModal()">Enter</button>
+                        <button class="btn btn-outline" onclick="triggerQuickExport()">Quick Export</button>
+                    </div>
                 </div>
                 <!-- Password Protection -->
                 <div class="feature-card glass-card rounded-xl p-8">
@@ -296,6 +338,9 @@
                     </div>
                     <h3 class="text-xl font-bold text-gray-800 mb-4">Password Protection</h3>
                     <p class="text-gray-600">Securely process password-protected PDFs with our encrypted handling system. Your credentials are never stored.</p>
+                    <div class="mt-4">
+                        <button class="btn btn-primary" onclick="enterAndProcess('password')">Enter</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -308,86 +353,149 @@
                 <h2 class="text-4xl font-bold text-gray-800 mb-4">Plans & Pricing</h2>
                 <p class="text-xl text-gray-600">Flexible plans for individuals, teams, and enterprises.</p>
             </div>
-            <div class="grid md:grid-cols-5 gap-6">
-                <!-- Instant Convert -->
-                <div class="glass-card p-6 text-center">
-                    <h3 class="font-bold text-lg">Instant Convert</h3>
-                    <div class="text-3xl font-extrabold my-4">Free</div>
-                    <p class="small text-gray-600">Try the engine, no signup required</p>
-                    <ul class="text-left mt-4 small text-gray-700">
-                        <li>1 statement every 24 hours</li>
-                        <li>Try with real bank files</li>
-                    </ul>
-                    <button class="btn btn-primary mt-4" onclick="openPricingCTA('instant')">▶ Try Instant Convert</button>
+            <div class="grid md:grid-cols-4 gap-6">
+                <!-- Max (Best Value) -->
+                <div class="glass-card p-6 plan-wrapper flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-bold text-lg plan-title">Max</h3>
+                            <span class="badge bg-blue-600 text-white text-xs px-3 py-1 rounded">BEST VALUE</span>
+                        </div>
+                        <div class="plan-price-big text-4xl font-extrabold my-4">$167 <span class="small text-gray-500 text-base">per month</span></div>
+                        <p class="small text-gray-600">For power users</p>
+                        <ul class="text-left mt-4 small text-gray-700">
+                            <li>800 credits / month</li>
+                            <li>Early access to beta features</li>
+                            <li>Credit rollovers</li>
+                            <li>Premium support</li>
+                            <li>Advanced AI models</li>
+                        </ul>
+                    </div>
+                    <div class="plan-cta mt-4">
+                        <button class="btn btn-primary w-full py-3" onclick="openPricingCTA('max')">Upgrade</button>
+                    </div>
                 </div>
-                <!-- Free Plan -->
-                <div class="glass-card p-6 text-center">
-                    <h3 class="font-bold text-lg">Free Plan</h3>
-                    <div class="text-2xl font-extrabold my-3">Signup Required</div>
-                    <p class="small text-gray-600">Unlock more power, no card required</p>
-                    <ul class="text-left mt-4 small text-gray-700">
-                        <li>5 statements/day</li>
-                        <li>Partial AI Preview</li>
-                        <li>Export (CSV, Excel, JSON)</li>
-                    </ul>
-                    <button class="btn btn-outline mt-4" onclick="openPricingCTA('free')">Start Free Trial</button>
-                </div>
-                <!-- Starter -->
-                <div class="glass-card p-6 text-center">
-                    <h3 class="font-bold text-lg">Starter</h3>
-                    <div class="text-3xl font-extrabold my-3">$9/mo<br/><span class="small text-gray-500">or $84/yr</span></div>
-                    <p class="small text-gray-600">Perfect for individuals & freelancers</p>
-                    <ul class="text-left mt-4 small text-gray-700">
-                        <li>600 pages/month</li>
-                        <li>PDF, images, password support</li>
-                        <li>Auto-categorization & duplicate detection</li>
-                        <li>Multilingual OCR</li>
-                        <li>Google Drive/Dropbox sync</li>
-                        <li>1 Team member • 7-day file retention</li>
-                    </ul>
-                    <button class="btn btn-primary mt-4" onclick="openPricingCTA('starter')">Subscribe to Starter</button>
-                    <div class="muted small mt-2">Tired of 5 files? Get 600 with Starter →</div>
-                </div>
+
                 <!-- Pro -->
-                <div class="glass-card p-6 text-center">
-                    <h3 class="font-bold text-lg">Pro</h3>
-                    <div class="text-3xl font-extrabold my-3">$29/mo<br/><span class="small text-gray-500">or $290/yr</span></div>
-                    <p class="small text-gray-600">For teams and power users</p>
-                    <ul class="text-left mt-4 small text-gray-700">
-                        <li>4000 statements/month</li>
-                        <li>Bulk uploads & batch processing</li>
-                        <li>Expense Analyzer & Subscription Tracker</li>
-                        <li>EMI Detector & Savings Insights</li>
-                        <li>Statement Comparison</li>
-                    </ul>
-                    <button class="btn btn-primary mt-4" onclick="openPricingCTA('pro')">Subscribe to Pro</button>
-                    <div class="muted small mt-2">Need batch uploads & team access? Check out Pro →</div>
+                <div class="glass-card p-6 plan-wrapper flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-bold text-lg plan-title">Pro</h3>
+                        <div class="plan-price-big text-3xl font-extrabold my-4">$42 <span class="small text-gray-500 text-base">per month</span></div>
+                        <p class="small text-gray-600">For active development</p>
+                        <ul class="text-left mt-4 small text-gray-700">
+                            <li>200 credits / month</li>
+                            <li>In-app code editing</li>
+                            <li>Advanced AI models</li>
+                            <li>Priority support</li>
+                            <li>Project collaborators</li>
+                        </ul>
+                    </div>
+                    <div class="plan-cta mt-4">
+                        <button class="btn btn-primary w-full py-3" onclick="openPricingCTA('pro')">Upgrade</button>
+                    </div>
                 </div>
-                <!-- Enterprise -->
-                <div class="glass-card p-6 text-center">
-                    <h3 class="font-bold text-lg">Enterprise</h3>
-                    <div class="text-2xl font-extrabold my-3">Custom</div>
-                    <p class="small text-gray-600">For large companies or SaaS integrations</p>
-                    <ul class="text-left mt-4 small text-gray-700">
-                        <li>Unlimited statements</li>
-                        <li>Full API access</li>
-                        <li>Custom AI workflows & parsing rules</li>
-                        <li>White-label branding</li>
-                    </ul>
-                    <button class="btn btn-outline mt-4" onclick="openPricingCTA('enterprise')">Contact Sales</button>
+
+                <!-- Starter -->
+                <div class="glass-card p-6 plan-wrapper flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-bold text-lg plan-title">Starter</h3>
+                        <div class="plan-price-big text-3xl font-extrabold my-4">$21 <span class="small text-gray-500 text-base">per month</span></div>
+                        <p class="small text-gray-600">For hobby projects</p>
+                        <ul class="text-left mt-4 small text-gray-700">
+                            <li>100 credits / month</li>
+                            <li>Private projects</li>
+                            <li>Custom domains</li>
+                            <li>Download code</li>
+                            <li>Remove branding</li>
+                        </ul>
+                    </div>
+                    <div class="plan-cta mt-4">
+                        <button class="btn btn-primary w-full py-3" onclick="openPricingCTA('starter')">Upgrade</button>
+                    </div>
+                </div>
+
+                <!-- Free (Current Plan) -->
+                <div class="glass-card p-6 plan-wrapper flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-bold text-lg plan-title">Free</h3>
+                            <span class="badge bg-gray-300 text-gray-700 text-xs px-3 py-1 rounded">CURRENT PLAN</span>
+                        </div>
+                        <div class="plan-price-big text-3xl font-extrabold my-4">$0 <span class="small text-gray-500 text-base">/month</span></div>
+                        <p class="small text-gray-600">For getting started</p>
+                        <ul class="text-left mt-4 small text-gray-700">
+                            <li>10 credits / month</li>
+                            <li>Public projects</li>
+                            <li>Community support</li>
+                            <li>Basic export (CSV)</li>
+                            <li>Limited AI preview</li>
+                        </ul>
+                    </div>
+                    <div class="plan-cta mt-4">
+                        <button class="btn btn-outline w-full py-3" disabled>Current Plan</button>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Pricing Modal -->
-    <div id="pricing-modal" class="fixed inset-0 hidden items-center justify-center bg-black/50">
-        <div class="glass-card p-6 max-w-md w-full">
-            <h3 id="pricing-modal-title" class="text-xl font-bold">Subscribe</h3>
-            <p id="pricing-modal-desc" class="small text-gray-700 mt-2">Subscription details...</p>
-            <div class="flex justify-end gap-3 mt-6">
-                <button class="btn btn-outline" onclick="closePricingModal()">Cancel</button>
-                <button class="btn btn-primary" onclick="confirmPricingAction()">Continue</button>
+    <!-- Pricing Modal (enhanced) -->
+    <div id="pricing-modal" class="fixed inset-0 hidden">
+        <div class="modal-overlay" onclick="closePricingModal()"></div>
+        <div class="glass-card p-6 max-w-4xl mx-auto relative" role="dialog" aria-modal="true">
+            <div class="flex items-center justify-between mb-4">
+                <h3 id="pricing-modal-title" class="text-2xl font-bold">Choose a plan</h3>
+                <button class="btn btn-outline" onclick="closePricingModal()">Close</button>
+            </div>
+            <div class="modal-body">
+                <div class="plan-card" data-plan="free">
+                    <div class="ribbon-reco" style="display:none">Popular</div>
+                    <div class="plan-name font-semibold">Free</div>
+                    <div class="plan-price">Free</div>
+                    <div class="plan-features">
+                        <ul>
+                            <li>5 statements/day</li>
+                            <li>Partial AI Preview</li>
+                            <li>Export (CSV, Excel, JSON)</li>
+                        </ul>
+                    </div>
+                    <div class="plan-cta"><button class="btn btn-outline" onclick="selectPlan('free')">Select</button></div>
+                </div>
+
+                <div class="plan-card recommended" data-plan="starter">
+                    <div class="ribbon-reco">Recommended</div>
+                    <div class="plan-name font-semibold">Starter</div>
+                    <div class="plan-price">$9 / month</div>
+                    <div class="plan-features">
+                        <ul>
+                            <li>600 pages/month</li>
+                            <li>PDF, images, password support</li>
+                            <li>Auto-categorization & duplicate detection</li>
+                            <li>Google Drive / Dropbox sync</li>
+                        </ul>
+                    </div>
+                    <div class="plan-cta"><button class="btn btn-primary" onclick="selectPlan('starter')">Subscribe</button></div>
+                </div>
+
+                <div class="plan-card" data-plan="pro">
+                    <div class="plan-name font-semibold">Pro</div>
+                    <div class="plan-price">$29 / month</div>
+                    <div class="plan-features">
+                        <ul>
+                            <li>4000 statements/month</li>
+                            <li>Bulk uploads & team features</li>
+                            <li>Expense Analyzer & Subscription Tracker</li>
+                        </ul>
+                    </div>
+                    <div class="plan-cta"><button class="btn btn-primary" onclick="selectPlan('pro')">Subscribe</button></div>
+                </div>
+            </div>
+            <div class="mt-6 flex items-center justify-between">
+                <div id="pricing-modal-desc" class="small text-gray-600">Select a plan to continue.</div>
+                <div>
+                    <button class="btn btn-outline" onclick="closePricingModal()">Cancel</button>
+                    <button id="pricing-confirm" class="btn btn-primary ml-2" onclick="confirmPricingAction()">Confirm</button>
+                </div>
             </div>
         </div>
     </div>
@@ -579,6 +687,8 @@
 
             function appendLogResult(resultObj, filename){
                 // Show a compact summary and provide a download link for JSON
+                // store last result for quick export
+                try{ window._lastResult = resultObj.data || null; }catch(e){}
                 const wrapper = document.createElement('div');
                 wrapper.className = 'mt-2 p-2 rounded bg-green-50/30 text-sm text-gray-100';
                 const summary = document.createElement('div');
@@ -931,6 +1041,7 @@
 
         // Pricing modal functions
         function openPricingCTA(plan){
+            const modal = document.getElementById('pricing-modal');
             const title = document.getElementById('pricing-modal-title');
             const desc = document.getElementById('pricing-modal-desc');
             if(plan === 'instant'){ title.textContent = 'Try Instant Convert'; desc.textContent = 'You can run one statement every 24 hours for free, no signup required.'; }
@@ -938,14 +1049,209 @@
             else if(plan === 'starter'){ title.textContent = 'Subscribe to Starter'; desc.textContent = 'Starter plan: $9/month or $84/year — 600 pages/month, Google Drive/Dropbox sync, and more.'; }
             else if(plan === 'pro'){ title.textContent = 'Subscribe to Pro'; desc.textContent = 'Pro plan: $29/month or $290/year — bulk uploads, team features, and analytics.'; }
             else { title.textContent = 'Contact Sales'; desc.textContent = 'Enterprise: custom pricing. Contact our sales team.'; }
-            document.getElementById('pricing-modal').classList.remove('hidden');
+            if(modal){ modal.classList.remove('hidden'); modal.style.display = 'flex'; }
+            // pre-select the plan visually if provided
+            try{ if(plan) setTimeout(()=>{ if(typeof selectPlan === 'function') selectPlan(plan); }, 60); }catch(e){}
         }
 
-        function closePricingModal(){ document.getElementById('pricing-modal').classList.add('hidden'); }
+        function closePricingModal(){ const modal = document.getElementById('pricing-modal'); if(modal){ modal.classList.add('hidden'); modal.style.display = 'none'; }
+            // clear temporary selection when closing
+            try{ window._selectedPlan = null; document.querySelectorAll('.plan-card').forEach(pc=>{ pc.classList.remove('selected'); pc.style.borderColor=''; pc.style.boxShadow=''; const r = pc.querySelector('.ribbon-reco'); if(r) r.style.display = (pc.classList.contains('recommended')? 'block':'none'); }); }catch(e){}
+        }
 
         function confirmPricingAction(){
-            alert('Demo: subscription flow not implemented. This would redirect to payment or signup.');
-            closePricingModal();
+            const plan = window._selectedPlan || null;
+            if(!plan){ alert('Please select a plan first.'); return; }
+            // Demo behavior: show a toast and close modal. In a real app this would redirect to checkout or signup.
+            showToast(`Demo: Subscribed to ${plan}`);
+            const btn = document.getElementById('pricing-confirm');
+            if(btn){ btn.disabled = true; btn.classList.add('opacity-60'); }
+            setTimeout(()=>{
+                if(btn){ btn.disabled = false; btn.classList.remove('opacity-60'); }
+                // mark user in localStorage as subscribed so pricing modal doesn't auto-show again
+                try{
+                    const raw = localStorage.getItem('bsai_user');
+                    if(raw){
+                        const u = JSON.parse(raw);
+                        u.subscribed = true;
+                        u.seenPricingModal = true;
+                        u.plan = plan;
+                        localStorage.setItem('bsai_user', JSON.stringify(u));
+                    }
+                }catch(e){ console.warn('Could not persist subscription locally', e); }
+                closePricingModal();
+            }, 1200);
+        }
+
+        // selectPlan marks the chosen plan visually and stores it for confirmation
+        function selectPlan(plan){
+            try{
+                window._selectedPlan = plan;
+                document.querySelectorAll('.plan-card').forEach(pc => {
+                    const is = (pc.getAttribute('data-plan') === plan);
+                    pc.classList.toggle('selected', is);
+                    if(is){ pc.style.borderColor = 'rgba(124,92,255,0.9)'; pc.style.boxShadow='0 20px 50px rgba(124,92,255,0.12)'; }
+                    else { pc.style.borderColor=''; pc.style.boxShadow=''; }
+                });
+                const desc = document.getElementById('pricing-modal-desc');
+                if(desc){
+                    if(plan === 'free') desc.textContent = 'Free plan selected — no billing.';
+                    else if(plan === 'starter') desc.textContent = 'Starter selected — $9/month (demo).';
+                    else if(plan === 'pro') desc.textContent = 'Pro selected — $29/month (demo).';
+                    else desc.textContent = 'Plan selected.';
+                }
+                // show the ribbon on the selected plan if present
+                document.querySelectorAll('.plan-card .ribbon-reco').forEach(r=> r.style.display = 'none');
+                const selRibbon = document.querySelector(`.plan-card[data-plan="${plan}"] .ribbon-reco`);
+                if(selRibbon) selRibbon.style.display = 'block';
+            }catch(e){ console.warn('selectPlan error', e); }
+        }
+
+        function showToast(msg, timeout = 2600){
+            try{
+                const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg; document.body.appendChild(t);
+                setTimeout(()=>{ t.style.opacity='0'; t.style.transition='opacity .3s'; setTimeout(()=>{ try{ t.remove(); }catch(e){} }, 300); }, timeout);
+            }catch(e){ console.warn('toast failed', e); }
+        }
+
+        // Contact Sales modal handlers
+        function openContactSales(){ const m = document.getElementById('contact-sales-modal'); if(m){ m.classList.remove('hidden'); m.style.display='flex'; } }
+        function closeContactSales(){ const m = document.getElementById('contact-sales-modal'); if(m){ m.classList.add('hidden'); m.style.display='none'; } }
+        document.getElementById('contact-sales-form').addEventListener('submit', function(e){
+            e.preventDefault();
+            const form = e.currentTarget;
+            const data = { name: form.name.value, company: form.company.value, email: form.email.value, message: form.message.value };
+            // Demo: show toast and close
+            showToast('Sales request sent — our team will reach out shortly');
+            closeContactSales();
+            // In a real app we'd POST to /api/sales or similar here
+        });
+
+        // Enter button helper: open file picker, then start processing automatically
+        async function enterAndProcess(feature){
+            // feature is a small key indicating which feature the user entered from (ocr, security, multi, analytics, password)
+            try{ window._selectedFeature = feature || null; }catch(e){}
+            // show feature banner
+            try{
+                const b = document.getElementById('feature-mode-banner');
+                const bn = document.getElementById('feature-mode-name');
+                if(b && bn){ bn.textContent = (feature || 'General').toUpperCase(); b.classList.remove('hidden'); }
+            }catch(e){}
+            try{ openUploadSection(); }catch(e){}
+            try{
+                const input = document.getElementById('file-input');
+                if(!input) return alert('File input not found');
+
+                // prepare a one-time change listener to detect selection
+                const promise = new Promise((resolve) => {
+                    const handler = () => { input.removeEventListener('change', handler); resolve(Array.from(input.files || [])); };
+                    input.addEventListener('change', handler);
+                });
+
+                // open file picker
+                input.click();
+                const chosen = await promise;
+                if(!chosen || !chosen.length) return;
+
+                // push chosen files into app files list and update preview
+                // files variable is in closure earlier; ensure we use that reference
+                window._bsai_files = window._bsai_files || [];
+                chosen.forEach(f => window._bsai_files.push(f));
+                // Update preview UI by calling updatePreview if available
+                try{ if(typeof updatePreview === 'function') updatePreview(); }catch(e){}
+
+                // check backend health quickly
+                let backendOk = false;
+                try{ const r = await fetch('/api/status'); backendOk = r.ok; }catch(e){ backendOk = false; }
+
+                // If backend present, use the existing Process button flow; otherwise auto-simulate
+                if(backendOk){ showToast('Processing with backend...'); try{ if(typeof processFiles === 'function') processFiles(); }catch(e){ showToast('Processing failed, using simulation'); chosen.forEach(async (f)=>{ await simulateProcessing(f, ()=>{}); }); } }
+                else { showToast('No backend detected — running local simulation'); chosen.forEach(async (f)=>{ const res = await simulateProcessing(f, ()=>{}); appendLogResult(res, f.name); }); }
+            }catch(e){ console.warn('enterAndProcess error', e); alert('Could not start processing: '+e.message); }
+        }
+
+        // Poll backend health and update security card indicator
+        async function updateBackendStatus(){
+            const el = document.getElementById('backend-dot');
+            if(!el) return;
+            try{
+                const r = await fetch('/api/status');
+                if(r.ok){ el.textContent = 'online'; el.className = 'backend-online'; }
+                else { el.textContent = 'offline'; el.className = 'backend-offline'; }
+            }catch(e){ el.textContent = 'offline'; el.className = 'backend-offline'; }
+        }
+        // start polling every 8 seconds
+        try{ updateBackendStatus(); setInterval(updateBackendStatus, 8000); }catch(e){}
+
+        // Export modal handlers
+        function openExportModal(){ const m = document.getElementById('export-modal'); if(m){ m.classList.remove('hidden'); m.style.display='flex'; } }
+        function closeExportModal(){ const m = document.getElementById('export-modal'); if(m){ m.classList.add('hidden'); m.style.display='none'; } }
+
+        async function performExport(){
+            const fmt = document.getElementById('export-format-select').value || 'json';
+            const filename = (document.getElementById('export-filename').value || 'bankstatement_export').replace(/[^a-z0-9\-_\.]/gi,'_');
+            const data = window._lastResult || null;
+            if(!data){ alert('No processed data available to export. Please process a file first.'); return; }
+            try{
+                const resp = await fetch('/api/export', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ format: fmt, filename, data }) });
+                if(!resp.ok){ const t = await resp.text(); alert('Export failed: '+t); return; }
+                const blob = await resp.blob();
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a'); a.href = url; a.download = filename + '.' + (fmt==='xlsx'?'xlsx':fmt); document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+                closeExportModal();
+            }catch(e){ alert('Export error: '+e.message); }
+        }
+
+        async function triggerQuickExport(){
+            const fmt = prompt('Quick export format (csv,json,xlsx,pdf)', 'csv');
+            if(!fmt) return;
+            const data = window._lastResult || null;
+            if(!data){ alert('No processed data available to export.'); return; }
+            try{
+                const resp = await fetch('/api/export', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ format: fmt, filename: 'quick_export', data }) });
+                if(!resp.ok){ const t = await resp.text(); alert('Export failed: '+t); return; }
+                const blob = await resp.blob();
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a'); a.href = url; a.download = 'quick_export.' + (fmt==='xlsx'?'xlsx':fmt); document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+            }catch(e){ alert('Quick export error: '+e.message); }
+        }
+
+        // On first load after registration: show pricing modal once for new users who haven't subscribed
+        function checkAndShowPricingOnFirstVisit(){
+            try{
+                const raw = localStorage.getItem('bsai_user');
+                if(!raw) return; // no local demo user
+                const u = JSON.parse(raw);
+                // if user is not subscribed and hasn't seen the pricing modal yet, show it once
+                if(u && u.subscribed !== true && u.seenPricingModal !== true){
+                    // mark that we've shown it so it doesn't pop up again
+                    u.seenPricingModal = true;
+                    localStorage.setItem('bsai_user', JSON.stringify(u));
+                    // small delay so the page settles
+                    setTimeout(()=>{
+                        try{ openPricingCTA(u.preferredPlan || 'starter'); }catch(e){ console.warn('Could not open pricing modal', e); }
+                    }, 900);
+                }
+            }catch(e){ console.warn('checkAndShowPricingOnFirstVisit failed', e); }
+        }
+
+        try{ window.addEventListener('load', checkAndShowPricingOnFirstVisit); }catch(e){}
+
+        // Ensure upload section is visible and scrolled into view
+        function openUploadSection(){
+            try{
+                const sec = document.getElementById('upload-section');
+                if(!sec) return;
+                // remove hidden class on the file preview if present so upload area becomes visible
+                sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                // small highlight animation
+                sec.style.transition = 'box-shadow 0.5s ease';
+                sec.style.boxShadow = '0 20px 50px rgba(2,6,23,0.45)';
+                setTimeout(()=>{ sec.style.boxShadow = ''; }, 900);
+                // focus the file input's choose button (if present)
+                const choose = sec.querySelector('button[onclick*="file-input"]') || sec.querySelector('input[type=file]');
+                if(choose){ try{ choose.focus(); }catch(e){} }
+            }catch(e){ console.warn('openUploadSection failed', e); }
         }
 
 

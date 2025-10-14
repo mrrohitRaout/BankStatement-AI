@@ -164,6 +164,21 @@ tbody td{padding:.65rem;border-bottom:1px solid rgba(255,255,255,0.03)}
 /* Footer */
 .site-footer{margin-top:2.5rem;padding:1rem;text-align:center;color:var(--muted);font-size:.88rem}
 
+/* Hero adjustments matching the new layout */
+body{background: linear-gradient(180deg,#f0f6ff 0%, #eaf2ff 100%);} /* page-level lighter hero bg */
+.brand{color:#0f1724}
+.logo{width:38px;height:38px;border-radius:8px;background:linear-gradient(90deg,#1e88e5,#42a5f5);display:inline-block}
+
+.glass-card.p-6{padding:1.5rem}
+
+/* Hero typography */
+h1{letter-spacing:-0.02em}
+
+/* Screenshot card sizing handled inline in HTML but ensure responsive cap */
+@media (max-width:1024px){
+    .glass-card p img{width:100%;height:auto}
+}
+
 /* Responsive */
 @media (max-width: 900px){
     .grid{grid-template-columns: repeat(6,1fr)}
@@ -183,6 +198,24 @@ tbody td{padding:.65rem;border-bottom:1px solid rgba(255,255,255,0.03)}
 .pricing-card .price{font-size:1.5rem;font-weight:800}
 .pricing-card .muted{color:var(--muted)}
 
+/* Target the actual pricing cards used in the page (they use .glass-card inside #pricing) */
+#pricing .glass-card{
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    min-height:340px; /* tweak as needed for visual balance */
+}
+
+#pricing .glass-card .btn, #pricing .glass-card .btn-primary, #pricing .glass-card .btn-outline{
+    margin-top:auto; /* push CTAs to bottom */
+    align-self:center;
+}
+
+/* Prefix each pricing feature point with '>' and show each point on its own line */
+#pricing .glass-card ul{ list-style:none; padding:0; margin:0; }
+#pricing .glass-card ul li{ display:block; padding:6px 0; color:var(--muted); }
+#pricing .glass-card ul li::before{ content: ">"; color:var(--accent-1); display:inline-block; width:18px; margin-right:8px; font-weight:700; }
+
 @media (max-width:900px){
     .pricing-grid{grid-template-columns:repeat(2,1fr)}
 }
@@ -190,15 +223,79 @@ tbody td{padding:.65rem;border-bottom:1px solid rgba(255,255,255,0.03)}
     .pricing-grid{grid-template-columns:repeat(1,1fr)}
 }
 
-/* Modal */
-#pricing-modal .glass-card{max-width:640px}
+/* Pricing modal polish */
+#pricing-modal{display:flex;align-items:center;justify-content:center}
+#pricing-modal .glass-card{max-width:900px;padding:1.5rem;border-radius:14px}
+.modal-overlay{position:fixed;inset:0;background:rgba(2,6,23,0.6);z-index:40}
+.modal-body{display:flex;gap:1rem;flex-wrap:wrap}
+.plan-card{flex:1 1 220px;border-radius:12px;padding:1rem;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04);box-shadow:0 12px 30px rgba(2,6,23,0.5);position:relative}
+.plan-card{display:flex;flex-direction:column;justify-content:space-between}
+.plan-card.recommended{border-color:rgba(124,92,255,0.9);box-shadow:0 20px 50px rgba(124,92,255,0.12);transform:translateY(-6px)}
+.plan-price{font-size:1.6rem;font-weight:800}
+.plan-features{margin-top:.6rem;font-size:.95rem;color:var(--muted)}
+.plan-cta{margin-top:1rem;display:flex;justify-content:center}
+.ribbon-reco{position:absolute;right:14px;top:10px;background:linear-gradient(90deg,#7c5cff,#19d3da);color:white;padding:.35rem .6rem;border-radius:999px;font-weight:700;font-size:.8rem}
+
+/* Align Plans & Pricing CTA buttons to bottom across cards */
+#pricing .pricing-grid > div,
+#pricing .pricing-grid > .glass-card{
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    min-height:320px;
+}
+
+#pricing .pricing-grid .btn, #pricing .pricing-grid .btn-primary, #pricing .pricing-grid .btn-outline{
+    margin-top:auto;
+    align-self:center;
+}
+
+/* Ensure modal plan cards also pin CTA to bottom */
+.modal-body .plan-card{min-height:260px;display:flex;flex-direction:column}
+.modal-body .plan-card .plan-features{flex:1 1 auto}
+.modal-body .plan-card .plan-cta{margin-top:12px}
+
+/* Emphasize plan titles and prices */
+.plan-title{font-size:1.1rem;color:rgba(15,23,42,0.95);text-transform:none}
+.plan-price{font-size:2rem;background:linear-gradient(90deg,#7c5cff,#19d3da);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:900}
+
+/* Highlight selected plan in modal */
+.plan-card.selected{outline:3px solid rgba(124,92,255,0.12);transform:translateY(-8px)}
+
+/* Toast */
+.toast{position:fixed;right:20px;bottom:20px;background:#111827;padding:.8rem 1rem;border-radius:10px;color:#fff;box-shadow:0 8px 30px rgba(2,6,23,0.6);z-index:60}
+
+@media (max-width:720px){
+    .modal-body{flex-direction:column}
+}
 
 /* Tiny utility helpers */
 .center{display:flex;align-items:center;justify-content:center}
 .stack{display:flex;flex-direction:column;gap:.6rem}
 
+/* Backend status dot for security card */
+.backend-online{color:#10b981;font-weight:700}
+.backend-offline{color:#ef4444;font-weight:700}
+.backend-dot-indicator{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px;vertical-align:middle}
+.backend-online .backend-dot-indicator{background:#10b981}
+.backend-offline .backend-dot-indicator{background:#ef4444}
+
 /* Accessibility: reduced motion */
 @media (prefers-reduced-motion: reduce){
     *{animation:none!important;transition:none!important}
+}
+
+/* Larger price block for pricing section */
+.plan-price-big{font-weight:900;color:rgba(2,6,23,0.95)}
+.plan-price-big .small{color:var(--muted);font-weight:600}
+.plan-wrapper .badge{font-weight:700}
+.badge{display:inline-block;padding:.4rem .65rem;border-radius:999px}
+.btn-outline[disabled]{opacity:0.6;cursor:not-allowed}
+
+/* Ensure full-height card CTAs stay bottom-aligned */
+#pricing .plan-wrapper{min-height:360px;display:flex;flex-direction:column;justify-content:space-between}
+
+@media (max-width:900px){
+    #pricing .plan-wrapper{min-height:320px}
 }
 

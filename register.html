@@ -75,7 +75,17 @@
                 errorMessage.classList.remove('hidden');
             } else {
                 // Simulate registration (replace with AJAX/back-end call)
-                window.location.href = 'dashboard.html';
+                // Mark that this is a newly registered user who has not yet activated a subscription
+                try{
+                    // store a simple user record in localStorage for demo purposes
+                    const demoUser = { name: name, email: email, createdAt: new Date().toISOString(), subscribed: false, seenPricingModal: false };
+                    localStorage.setItem('bsai_user', JSON.stringify(demoUser));
+                    // redirect to homepage (index.html) after registration
+                    window.location.href = 'index.html';
+                }catch(e){
+                    // fallback redirect
+                    window.location.href = 'index.html';
+                }
             }
         });
     </script>
