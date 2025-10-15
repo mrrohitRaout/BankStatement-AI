@@ -1,9 +1,15 @@
+// Load environment variables
+require('dotenv').config();
+
 const express = require('express');
 const multer = require('multer');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
 const pdf = require('pdf-parse');
+
+// Database connection
+const connectDatabase = require('./config/database');
 let pdfjs = null;
 try{
   // pdfjs-dist can optionally depend on canvas; load if available
@@ -30,6 +36,9 @@ const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 60 
 
 app.use(cors());
 app.use(express.json());
+
+// Connect to MongoDB
+connectDatabase();
 
 // developer/demo auth (JWT) - in a real app store keys securely
 const jwt = require('jsonwebtoken');
@@ -60,11 +69,22 @@ function saveFeedback(){
   try{ fs.writeFileSync(FEEDBACK_PATH, JSON.stringify(feedbackMap, null, 2)); }catch(e){ console.warn('could not save feedback', e.message); }
 }
 
+// Import authentication routes
+const authRoutes = require('./routes/auth');
+const profileRoutes = require('./routes/profile');
+const { protect } = require('./middleware/auth');
+
 // Serve static frontend
 app.use(express.static(path.join(__dirname)));
 
 // Health
-app.get('/api/status', (req, res) => res.json({ status: 'ok', version: '0.1.0-demo' }));
+app.get('/api/status', (req, res) => res.json({ status: 'ok', version: '0.1.0-demo', database: 'connected' }));
+
+// Authentication routes
+app.use('/api/auth', authRoutes);
+
+// Profile routes
+app.use('/api/profile', profileRoutes);
 
 // Simple processing endpoint
 app.post('/api/process', upload.single('file'), async (req, res) => {

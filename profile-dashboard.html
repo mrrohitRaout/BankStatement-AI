@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Dashboard - BankStatement AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="css/profile-dashboard.css">
+</head>
+<body class="min-h-screen" style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%);">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50" style="background: rgba(30, 41, 59, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(94, 234, 212, 0.2);">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="brand"><div class="logo"></div> <span style="margin-left:.5rem;font-weight:700;color:#ffffff;">StatementAI</span></div>
+            </div>
+            <div class="flex items-center gap-6">
+                <a href="index.html" class="nav-link font-medium"><i class="fas fa-home mr-2"></i>Home</a>
+                <a href="dashboard.html" class="nav-link font-medium"><i class="fas fa-chart-line mr-2"></i>Dashboard</a>
+                <a href="profile-dashboard.html" class="nav-link font-bold" style="color: #5eead4;"><i class="fas fa-user mr-2"></i>Profile</a>
+                <button onclick="logout()" class="nav-link font-medium" style="color: #fca5a5;">
+                    <i class="fas fa-sign-out-alt mr-1"></i>Logout
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="pt-24 pb-12 px-6">
+        <div class="max-w-7xl mx-auto">
+            
+            <!-- Profile Header -->
+            <div class="dashboard-card p-8 mb-8">
+                <div class="flex flex-col md:flex-row items-center gap-8">
+                    <div class="avatar" id="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h1 class="text-4xl font-bold text-gray-900 mb-2" id="user-name">John Doe</h1>
+                        <p class="text-gray-600 text-lg mb-3" id="user-email">john.doe@example.com</p>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="badge badge-success">
+                                <i class="fas fa-crown"></i>
+                                <span id="user-plan">Starter Plan</span>
+                            </span>
+                            <span class="badge badge-info">
+                                <i class="fas fa-calendar-check"></i>
+                                Member since <span id="member-since">Jan 2025</span>
+                            </span>
+                            <span class="badge badge-warning">
+                                <i class="fas fa-star"></i>
+                                <span id="user-points">250 Points</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-3">
+                        <button onclick="editProfile()" class="action-btn action-btn-primary">
+                            <i class="fas fa-edit"></i>
+                            Edit Profile
+                        </button>
+                        <button onclick="openSettings()" class="action-btn action-btn-secondary">
+                            <i class="fas fa-cog"></i>
+                            Settings
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Usage Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="stat-card">
+                    <div class="flex items-center justify-between mb-3">
+                        <i class="fas fa-file-pdf text-3xl opacity-80"></i>
+                        <span class="text-sm opacity-80">This Month</span>
+                    </div>
+                    <div class="text-3xl font-bold mb-1" id="statements-processed">47</div>
+                    <div class="text-sm opacity-90">Statements Processed</div>
+                </div>
+                
+                <div class="stat-card" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);">
+                    <div class="flex items-center justify-between mb-3">
+                        <i class="fas fa-coins text-3xl opacity-80"></i>
+                        <span class="text-sm opacity-80">Total</span>
+                    </div>
+                    <div class="text-3xl font-bold mb-1" id="transactions-extracted">1,247</div>
+                    <div class="text-sm opacity-90">Transactions Extracted</div>
+                </div>
+                
+                <div class="stat-card" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);">
+                    <div class="flex items-center justify-between mb-3">
+                        <i class="fas fa-download text-3xl opacity-80"></i>
+                        <span class="text-sm opacity-80">Lifetime</span>
+                    </div>
+                    <div class="text-3xl font-bold mb-1" id="exports-generated">89</div>
+                    <div class="text-sm opacity-90">Exports Generated</div>
+                </div>
+                
+                <div class="stat-card" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+                    <div class="flex items-center justify-between mb-3">
+                        <i class="fas fa-clock text-3xl opacity-80"></i>
+                        <span class="text-sm opacity-80">Average</span>
+                    </div>
+                    <div class="text-3xl font-bold mb-1" id="avg-processing-time">12s</div>
+                    <div class="text-sm opacity-90">Processing Time</div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8" id="dashboard-sections">
+                <!-- Sections loaded via JavaScript -->
+            </div>
+
+        </div>
+    </div>
+
+    <script src="js/profile-dashboard.js"></script>
+</body>
+</html>

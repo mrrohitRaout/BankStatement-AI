@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Settings - BankStatement AI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-card {
+            background: rgba(52, 73, 94, 0.9);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(94, 234, 212, 0.3);
+            box-shadow: 0 0 30px rgba(94, 234, 212, 0.2);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #14b8a6, #0d9488);
+            box-shadow: 0 0 15px rgba(94, 234, 212, 0.4);
+            border: 1px solid rgba(94, 234, 212, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(94, 234, 212, 0.6);
+        }
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+        }
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(239, 68, 68, 0.6);
+        }
+        input:focus {
+            border-color: rgba(94, 234, 212, 0.6);
+            box-shadow: 0 0 0 3px rgba(94, 234, 212, 0.1);
+        }
+        .setting-section {
+            border-bottom: 1px solid rgba(94, 234, 212, 0.2);
+        }
+    </style>
+</head>
+<body class="min-h-screen" style="background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);">
+    <!-- Navigation -->
+    <nav class="glass-card py-4 px-6 flex items-center justify-between max-w-6xl mx-auto mt-8 rounded-xl">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%); box-shadow: 0 0 15px rgba(94, 234, 212, 0.5);">
+                <i class="fas fa-file-invoice-dollar text-white text-lg"></i>
+            </div>
+            <span class="text-xl font-bold text-white">StatementAI</span>
+        </div>
+        <div class="space-x-6 flex items-center">
+            <a href="index.html" class="font-medium transition-colors duration-300" style="color: #cbd5e1;" onmouseover="this.style.color='#5eead4'" onmouseout="this.style.color='#cbd5e1'">Home</a>
+            <a href="dashboard.html" class="font-medium transition-colors duration-300" style="color: #cbd5e1;" onmouseover="this.style.color='#5eead4'" onmouseout="this.style.color='#cbd5e1'">Dashboard</a>
+            <a href="profile.html" class="font-medium transition-colors duration-300" style="color: #cbd5e1;" onmouseover="this.style.color='#5eead4'" onmouseout="this.style.color='#cbd5e1'">Profile</a>
+            <a href="settings.html" class="font-bold transition-colors duration-300" style="color: #5eead4;">Settings</a>
+            <button onclick="logout()" class="font-medium transition-colors duration-300" style="color: #fca5a5;" onmouseover="this.style.color='#ef4444'" onmouseout="this.style.color='#fca5a5'">
+                <i class="fas fa-sign-out-alt mr-1"></i>Logout
+            </button>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto py-12 px-4">
+        <div class="glass-card rounded-2xl p-8">
+            <!-- Header -->
+            <div class="mb-8">
+                <h1 class="text-3xl font-black text-white mb-2">Account Settings</h1>
+                <p class="text-lg" style="color: #cbd5e1;">Manage your account preferences and security</p>
+            </div>
+
+            <!-- Security Section -->
+            <div class="setting-section pb-8 mb-8">
+                <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                    <i class="fas fa-shield-alt" style="color: #5eead4;"></i>
+                    Security
+                </h2>
+                
+                <form id="password-form" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold mb-2" style="color: #cbd5e1;">Current Password</label>
+                        <input type="password" id="current-password" required class="w-full px-4 py-3 rounded-lg transition-all duration-300" style="background: rgba(72, 85, 99, 0.6); border: 2px solid rgba(94, 234, 212, 0.3); color: #ffffff;" placeholder="Enter current password">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold mb-2" style="color: #cbd5e1;">New Password</label>
+                        <input type="password" id="new-password" required minlength="6" class="w-full px-4 py-3 rounded-lg transition-all duration-300" style="background: rgba(72, 85, 99, 0.6); border: 2px solid rgba(94, 234, 212, 0.3); color: #ffffff;" placeholder="Enter new password">
+                        <p class="text-xs mt-1" style="color: #94a3b8;">Minimum 6 characters</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold mb-2" style="color: #cbd5e1;">Confirm New Password</label>
+                        <input type="password" id="confirm-password" required minlength="6" class="w-full px-4 py-3 rounded-lg transition-all duration-300" style="background: rgba(72, 85, 99, 0.6); border: 2px solid rgba(94, 234, 212, 0.3); color: #ffffff;" placeholder="Confirm new password">
+                    </div>
+                    
+                    <div id="password-message" class="text-sm hidden mb-2"></div>
+                    
+                    <button type="submit" class="btn-primary text-white px-6 py-3 rounded-xl font-bold transition-all duration-300 hover:scale-105 flex items-center gap-2">
+                        <i class="fas fa-key"></i>
+                        <span>Change Password</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Subscription Section -->
+            <div class="setting-section pb-8 mb-8">
+                <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                    <i class="fas fa-credit-card" style="color: #5eead4;"></i>
+                    Subscription
+                </h2>
+                
+                <div class="p-6 rounded-xl mb-4" style="background: rgba(72, 85, 99, 0.6); border: 2px solid rgba(94, 234, 212, 0.2);">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-lg font-bold text-white mb-1">Current Plan: <span id="current-plan">Free</span></h3>
+                            <p style="color: #cbd5e1;">Status: <span id="plan-status">Active</span></p>
+                        </div>
+                        <a href="index.html#pricing" class="btn-primary text-white px-6 py-3 rounded-xl font-bold transition-all duration-300 hover:scale-105">
+                            <i class="fas fa-arrow-up mr-2"></i>Upgrade Plan
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preferences Section -->
+            <div class="setting-section pb-8 mb-8">
+                <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                    <i class="fas fa-cog" style="color: #5eead4;"></i>
+                    Preferences
+                </h2>
+                
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between p-4 rounded-lg" style="background: rgba(72, 85, 99, 0.4);">
+                        <div>
+                            <h3 class="text-white font-semibold">Email Notifications</h3>
+                            <p class="text-sm" style="color: #cbd5e1;">Receive updates about your account</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" checked class="sr-only peer">
+                            <div class="w-14 h-7 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-teal-500"></div>
+                        </label>
+                    </div>
+                    
+                    <div class="flex items-center justify-between p-4 rounded-lg" style="background: rgba(72, 85, 99, 0.4);">
+                        <div>
+                            <h3 class="text-white font-semibold">Marketing Emails</h3>
+                            <p class="text-sm" style="color: #cbd5e1;">Receive promotional emails and updates</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only peer">
+                            <div class="w-14 h-7 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-teal-500"></div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Danger Zone -->
+            <div class="pb-8">
+                <h2 class="text-xl font-bold mb-4 flex items-center gap-2" style="color: #ef4444;">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Danger Zone
+                </h2>
+                
+                <div class="p-6 rounded-xl" style="background: rgba(239, 68, 68, 0.1); border: 2px solid rgba(239, 68, 68, 0.3);">
+                    <h3 class="text-white font-bold mb-2">Delete Account</h3>
+                    <p class="mb-4" style="color: #cbd5e1;">Once you delete your account, there is no going back. All your data will be permanently deleted.</p>
+                    <button onclick="confirmDelete()" class="btn-danger text-white px-6 py-3 rounded-xl font-bold transition-all duration-300 hover:scale-105 flex items-center gap-2">
+                        <i class="fas fa-trash-alt"></i>
+                        <span>Delete Account</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-modal" class="fixed inset-0 hidden" style="background: rgba(0,0,0,0.8); z-index: 1000;">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="glass-card rounded-2xl p-8 max-w-md w-full">
+                <h2 class="text-2xl font-bold text-white mb-4">Confirm Account Deletion</h2>
+                <p class="mb-6" style="color: #cbd5e1;">This action cannot be undone. Please enter your password to confirm.</p>
+                
+                <form id="delete-form">
+                    <input type="password" id="delete-password" required class="w-full px-4 py-3 rounded-lg mb-4" style="background: rgba(72, 85, 99, 0.6); border: 2px solid rgba(94, 234, 212, 0.3); color: #ffffff;" placeholder="Enter password">
+                    
+                    <div id="delete-message" class="text-sm hidden mb-4"></div>
+                    
+                    <div class="flex gap-4">
+                        <button type="submit" class="btn-danger text-white px-6 py-3 rounded-xl font-bold flex-1">
+                            Confirm Delete
+                        </button>
+                        <button type="button" onclick="closeDeleteModal()" class="px-6 py-3 rounded-xl font-bold text-white" style="background: rgba(72, 85, 99, 0.8); border: 2px solid rgba(94, 234, 212, 0.3);">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const token = localStorage.getItem('authToken');
+        if (!token) {
+            window.location.href = 'login.html';
+        }
+
+        // Load user data
+        async function loadUserData() {
+            try {
+                const response = await fetch('http://localhost:3002/api/profile', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('current-plan').textContent = data.user.subscription.plan.charAt(0).toUpperCase() + data.user.subscription.plan.slice(1);
+                    document.getElementById('plan-status').textContent = data.user.subscription.status.charAt(0).toUpperCase() + data.user.subscription.status.slice(1);
+                }
+            } catch (error) {
+                console.error('Load user error:', error);
+            }
+        }
+
+        // Change password
+        document.getElementById('password-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const currentPassword = document.getElementById('current-password').value;
+            const newPassword = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            if (newPassword !== confirmPassword) {
+                showPasswordMessage('Passwords do not match', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch('http://localhost:3002/api/profile/password', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ currentPassword, newPassword })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showPasswordMessage('Password changed successfully!', 'success');
+                    this.reset();
+                } else {
+                    showPasswordMessage(data.message || 'Failed to change password', 'error');
+                }
+            } catch (error) {
+                console.error('Change password error:', error);
+                showPasswordMessage('Error changing password', 'error');
+            }
+        });
+
+        function showPasswordMessage(msg, type) {
+            const messageEl = document.getElementById('password-message');
+            messageEl.textContent = msg;
+            messageEl.className = 'text-sm mb-2 p-3 rounded-lg';
+            
+            if (type === 'success') {
+                messageEl.style.color = '#10b981';
+                messageEl.style.background = 'rgba(16, 185, 129, 0.1)';
+            } else {
+                messageEl.style.color = '#fca5a5';
+                messageEl.style.background = 'rgba(239, 68, 68, 0.1)';
+            }
+            
+            messageEl.classList.remove('hidden');
+            setTimeout(() => messageEl.classList.add('hidden'), 5000);
+        }
+
+        function confirmDelete() {
+            document.getElementById('delete-modal').classList.remove('hidden');
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('delete-modal').classList.add('hidden');
+            document.getElementById('delete-form').reset();
+        }
+
+        document.getElementById('delete-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const password = document.getElementById('delete-password').value;
+            
+            try {
+                const response = await fetch('http://localhost:3002/api/profile', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ password })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    localStorage.removeItem('authToken');
+                    localStorage.removeItem('user');
+                    alert('Account deleted successfully');
+                    window.location.href = 'index.html';
+                } else {
+                    showDeleteMessage(data.message || 'Failed to delete account', 'error');
+                }
+            } catch (error) {
+                console.error('Delete account error:', error);
+                showDeleteMessage('Error deleting account', 'error');
+            }
+        });
+
+        function showDeleteMessage(msg, type) {
+            const messageEl = document.getElementById('delete-message');
+            messageEl.textContent = msg;
+            messageEl.className = 'text-sm mb-4 p-3 rounded-lg';
+            messageEl.style.color = '#fca5a5';
+            messageEl.style.background = 'rgba(239, 68, 68, 0.1)';
+            messageEl.classList.remove('hidden');
+        }
+
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('user');
+            window.location.href = 'login.html';
+        }
+
+        loadUserData();
+    </script>
+</body>
+</html>

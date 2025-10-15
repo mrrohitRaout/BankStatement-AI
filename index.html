@@ -39,74 +39,117 @@
     </style>
     <!-- Chart.js for analytics visuals -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- html2canvas for screenshot functionality -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- Tesseract.js for OCR -->
+    <script src='https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js'></script>
+    <!-- PDF.js for PDF processing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        // Configure PDF.js worker
+        if(typeof pdfjsLib !== 'undefined'){
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        }
+    </script>
+    <!-- Custom Statement Processor -->
+    <script src="js/statement-processor.js"></script>
+    <!-- Bank Templates Database - 150+ Banks Worldwide -->
+    <script src="js/bank-templates.js"></script>
+    <!-- Client-Side Processor for Privacy -->
+    <script src="js/client-processor.js"></script>
 </head>
-<body class="min-h-screen bg-gradient-to-tr from-blue-900 to-blue-400">
+<body class="min-h-screen" style="background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);">
 
     <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 glass-card">
+    <nav class="fixed top-0 w-full z-50" style="background: rgba(44, 62, 80, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(94, 234, 212, 0.2);">
         <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <div class="flex items-center gap-4">
-                <div class="brand"><div class="logo"></div> <span style="margin-left:.5rem;font-weight:700;color:#0f1724">StatementAI</span></div>
+                <div class="brand"><div class="logo"></div> <span style="margin-left:.5rem;font-weight:700;color:#ffffff;">StatementAI</span></div>
             </div>
-            <div class="hidden md:flex items-center gap-8 text-gray-600 font-medium">
-                <a href="#features" class="hover:text-blue-600">Features</a>
-                <a href="#pricing" class="hover:text-blue-600">Pricing</a>
-                <a href="#analytics" class="hover:text-blue-600">Analytics</a>
-                <a href="#support" class="hover:text-blue-600">Support</a>
+            <div class="hidden md:flex items-center gap-8 font-medium" style="color: #cbd5e1;">
+                <a href="#features" class="transition-colors duration-300" style="color: #cbd5e1;" onmouseover="this.style.color='#5eead4'" onmouseout="this.style.color='#cbd5e1'">Features</a>
+                <a href="#pricing" class="transition-colors duration-300" style="color: #cbd5e1;" onmouseover="this.style.color='#5eead4'" onmouseout="this.style.color='#cbd5e1'">Pricing</a>
+                <a href="#analytics" class="transition-colors duration-300" style="color: #cbd5e1;" onmouseover="this.style.color='#5eead4'" onmouseout="this.style.color='#cbd5e1'">Analytics</a>
+                <a href="#support" class="transition-colors duration-300" style="color: #cbd5e1;" onmouseover="this.style.color='#5eead4'" onmouseout="this.style.color='#cbd5e1'">Support</a>
             </div>
             <div class="hidden md:flex items-center gap-4">
-                <a href="login.html" class="text-gray-700">Sign In</a>
-                <button onclick="openUploadSection()" class="btn-primary px-4 py-2 rounded-lg">Try Free</button>
+                <a href="login.html" class="font-medium transition-colors duration-300" style="color: #cbd5e1;" onmouseover="this.style.color='#5eead4'" onmouseout="this.style.color='#cbd5e1'">Sign In</a>
+                <button onclick="openUploadSection()" class="px-6 py-2 rounded-lg font-bold text-white transition-all duration-300 hover:scale-105" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%); box-shadow: 0 0 20px rgba(94, 234, 212, 0.4), 0 0 40px rgba(94, 234, 212, 0.2); border: 1px solid rgba(94, 234, 212, 0.3);">Try Free</button>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="min-h-screen flex items-center pt-20" style="background: linear-gradient(180deg,#f0f6ff 0%, #eaf2ff 100%);">
-        <div class="max-w-7xl mx-auto px-6 py-24 grid lg:grid-cols-2 gap-12 items-center">
+    <section class="flex items-center pt-20 relative overflow-hidden" style="min-height: 75vh; background: linear-gradient(135deg, #2c3e50 0%, #3d4854 50%, #4a5568 100%);">
+        <!-- Animated Background Elements -->
+        <div class="absolute inset-0 opacity-5">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-teal-400 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute bottom-20 right-10 w-96 h-96 bg-cyan-400 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-6 py-12 grid lg:grid-cols-2 gap-12 items-center relative z-10">
             <div class="text-left">
-                <h1 class="text-6xl font-extrabold mb-6 leading-tight text-gray-900">
-                    Transform Bank <br/> Statements into <span style="color:#1565d8">Smart Data</span>
-                </h1>
-                <p class="text-lg text-gray-700 mb-8 max-w-xl">AI-powered converter that turns PDFs, images, and scans into structured, categorized financial data. View, edit, and export with intelligent insights.</p>
-                <div class="flex gap-4">
-                    <button onclick="openUploadSection()" class="btn-primary text-white px-6 py-3 rounded-lg font-semibold">Try Instant Convert</button>
-                    <button onclick="alert('Demo coming soon!')" class="btn btn-outline px-6 py-3 rounded-lg">Watch Demo</button>
-                    <!-- CTAs -->
+                <!-- Badge -->
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 shadow-lg" style="background: rgba(72, 85, 99, 0.8); backdrop-filter: blur(10px);">
+                    <span class="w-2 h-2 rounded-full animate-pulse" style="background: #14b8a6;"></span>
+                    <span class="text-sm font-semibold" style="color: #5eead4;">🚀 AI-Powered Processing</span>
                 </div>
-                <div class="flex gap-6 mt-8 text-sm text-gray-600 items-center">
-                    <div class="center"><i class="fas fa-shield-alt text-green-500 mr-2"></i>Bank-level Security</div>
-                    <div class="center"><i class="fas fa-stopwatch text-green-500 mr-2"></i>Process in Seconds</div>
+                
+                <h1 class="text-6xl font-black mb-5 leading-tight text-white drop-shadow-2xl">
+                    Transform Bank<br/>Statements into<br/>
+                    <span class="relative inline-block" style="color: #5eead4;">
+                        Smart Data
+                    </span>
+                </h1>
+                
+                <p class="text-lg text-white/90 mb-6 max-w-xl font-medium leading-relaxed drop-shadow-lg">
+                    AI-powered converter that turns PDFs, images, and scans into structured, categorized financial data. View, edit, and export with intelligent insights.
+                </p>
+                
+                <div class="flex gap-4 mb-5">
+                    <button onclick="openUploadSection()" class="group px-8 py-3 rounded-xl font-bold shadow-2xl transition-all duration-300 hover:scale-105 flex items-center gap-3" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%); color: #ffffff;">
+                        <i class="fas fa-rocket text-xl group-hover:animate-bounce"></i>
+                        <span>Try Instant Convert</span>
+                    </button>
+                    <button onclick="alert('Demo coming soon!')" class="px-8 py-3 rounded-xl font-bold text-white backdrop-blur-md shadow-lg transition-all duration-300 hover:scale-105" style="background: rgba(72, 85, 99, 0.8); border: 2px solid #5eead4;">
+                        <i class="fas fa-play-circle mr-2"></i>Watch Demo
+                    </button>
+                </div>
+                
+                <!-- Stats -->
+                <div class="grid grid-cols-3 gap-5 mt-5 max-w-md">
+                    <div class="text-center">
+                        <div class="text-3xl font-black text-white mb-1">99.9%</div>
+                        <div class="text-xs text-white/80 font-semibold">Accuracy</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-black text-white mb-1">10k+</div>
+                        <div class="text-xs text-white/80 font-semibold">Users</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-black text-white mb-1">5★</div>
+                        <div class="text-xs text-white/80 font-semibold">Rating</div>
+                    </div>
                 </div>
             </div>
-            <div class="relative flex justify-center">
-                <div class="glass-card p-6 rounded-2xl shadow-xl" style="width:680px;height:420px;">
-                    <img id="hero-img" src="resources/hero-dashboard.jpg" alt="dashboard" style="width:100%;height:100%;object-fit:cover;border-radius:12px" />
+            
+            <!-- Hero Image -->
+            <div class="relative flex justify-center items-center">
+                <div class="relative">
+                    <div class="rounded-3xl p-3 shadow-2xl transform transition-all duration-500 hover:scale-105" style="background: rgba(72, 85, 99, 0.6); backdrop-filter: blur(10px); border: 3px solid rgba(94, 234, 212, 0.4); box-shadow: 0 0 40px rgba(94, 234, 212, 0.3);">
+                        <div class="rounded-2xl overflow-hidden">
+                            <img src="resources/hero_image.png" alt="BankStatement AI Dashboard" class="w-full h-auto shadow-inner" style="max-width: 600px;" />
+                        </div>
+                    </div>
+                    
+                    <!-- Floating badge -->
+                    <div class="absolute -top-4 -right-4 w-20 h-20 rounded-2xl flex items-center justify-center shadow-2xl animate-bounce" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%); box-shadow: 0 0 30px rgba(94, 234, 212, 0.6);">
+                        <i class="fas fa-check text-white text-3xl"></i>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
-
-    <!-- Contact Sales Modal -->
-    <div id="contact-sales-modal" class="fixed inset-0 hidden">
-        <div class="modal-overlay" onclick="closeContactSales()"></div>
-        <div class="glass-card p-6 max-w-2xl mx-auto relative" role="dialog" aria-modal="true">
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="text-2xl font-bold">Contact Sales</h3>
-                <button class="btn btn-outline" onclick="closeContactSales()">Close</button>
-            </div>
-            <form id="contact-sales-form" class="grid grid-cols-1 gap-3">
-                <label>Name <input name="name" class="input" required></label>
-                <label>Company <input name="company" class="input"></label>
-                <label>Email <input name="email" type="email" class="input" required></label>
-                <label>Message <textarea name="message" rows="4" class="input"></textarea></label>
-                <div class="flex items-center justify-end gap-3 mt-2">
-                    <button type="button" class="btn btn-outline" onclick="closeContactSales()">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Send Request</button>
-                </div>
-            </form>
-        </div>
-    </div>
 
     <!-- Export Modal -->
     <div id="export-modal" class="fixed inset-0 hidden">
@@ -135,107 +178,190 @@
     </div>
 
                 <!-- File Upload Section -->
-    <section id="upload-section" class="py-20 bg-white">
+    <section id="upload-section" class="py-20 hidden" style="background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);">
         <div class="max-w-4xl mx-auto px-6">
             <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-gray-800 mb-4">Upload Your Bank Statement</h2>
-                <p class="text-xl text-gray-600">Drag and drop your files or click to browse. Supported: PDF, JPG, PNG.</p>
-            </div>
-            <div class="glass-card rounded-2xl p-8 mb-8">
-                <!-- Feature mode banner (shown when a feature CTA is used) -->
-                <div id="feature-mode-banner" class="hidden center stack mb-4">
-                    <div class="glass-card p-3" style="background: rgba(18,24,38,0.02); border:1px solid rgba(255,255,255,0.03);">Mode: <strong id="feature-mode-name">General</strong></div>
+                <h2 class="text-4xl font-bold text-white mb-4">Upload Your Bank Statement</h2>
+                <p class="text-xl" style="color: #cbd5e1;">Drag and drop your files or click to browse. Supported: PDF, JPG, PNG.</p>
+                
+                <!-- Privacy Mode Toggle -->
+                <div class="flex items-center justify-center gap-4 mt-6">
+                    <div class="flex items-center gap-3 px-6 py-3 rounded-xl shadow-lg transition-all duration-300" style="background: rgba(72, 85, 99, 0.8); border: 2px solid rgba(94, 234, 212, 0.3);">
+                        <i class="fas fa-shield-alt text-2xl" style="color: #5eead4;"></i>
+                        <div class="text-left">
+                            <div class="flex items-center gap-2">
+                                <span class="text-sm font-bold text-white">Privacy Mode</span>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="privacy-mode-toggle" checked class="sr-only peer">
+                                    <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-teal-500"></div>
+                                </label>
+                            </div>
+                            <p class="text-xs mt-1" style="color: #94a3b8;"><span id="privacy-status-text">ON</span> - Process locally, no data uploaded</p>
+                        </div>
+                    </div>
                 </div>
-                <div id="upload-zone" class="upload-zone rounded-xl p-12 text-center">
-                    <div class="mb-6">
-                        <i class="fas fa-cloud-upload-alt text-6xl text-blue-500 mb-4"></i>
-                        <h3 class="text-2xl font-semibold text-gray-800 mb-2">Drop files here</h3>
-                        <p class="text-gray-600">or click to browse your computer</p>
+            </div>
+            <div class="rounded-2xl p-8 mb-8 shadow-2xl" style="background: rgba(52, 73, 94, 0.8); backdrop-filter: blur(10px); border: 3px solid rgba(94, 234, 212, 0.5); box-shadow: 0 0 40px rgba(94, 234, 212, 0.3), 0 0 80px rgba(94, 234, 212, 0.1);">
+                <!-- Feature mode banner (shown when a feature CTA is used) -->
+                <div id="feature-mode-banner" class="hidden center stack mb-6">
+                    <div class="px-6 py-3 rounded-full shadow-lg" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%); color: white; box-shadow: 0 0 20px rgba(94, 234, 212, 0.5);">
+                        <i class="fas fa-star mr-2"></i>Mode: <strong id="feature-mode-name">General</strong>
+                    </div>
+                </div>
+                <div id="upload-zone" class="upload-zone rounded-2xl p-12 text-center transition-all duration-300" style="background: rgba(72, 85, 99, 0.6); backdrop-filter: blur(10px); border: 3px dashed rgba(94, 234, 212, 0.6); box-shadow: 0 0 30px rgba(94, 234, 212, 0.2);">
+                    <div class="mb-8">
+                        <div class="w-24 h-24 mx-auto mb-6 rounded-full flex items-center justify-center" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%); box-shadow: 0 0 30px rgba(94, 234, 212, 0.6), 0 10px 40px rgba(20, 184, 166, 0.4);">
+                            <i class="fas fa-cloud-upload-alt text-5xl text-white"></i>
+                        </div>
+                        <h3 class="text-3xl font-bold text-white mb-3">Drop files here</h3>
+                        <p class="text-lg font-semibold" style="color: #cbd5e1;">or click to browse your computer</p>
+                        <p class="text-sm mt-2" style="color: #94a3b8;">Supported: PDF, JPG, PNG • Max 10MB per file</p>
                     </div>
                     <input type="file" id="file-input" multiple accept=".pdf,.jpg,.jpeg,.png" class="hidden">
-                    <div class="flex items-center justify-center gap-4">
-                        <button onclick="document.getElementById('file-input').click()" class="btn-primary text-white px-8 py-3 rounded-lg font-semibold">
-                            Choose Files
+                    <div class="flex items-center justify-center gap-6 flex-wrap">
+                        <button onclick="document.getElementById('file-input').click()" class="px-10 py-4 rounded-xl font-bold text-white shadow-lg transition-all duration-300 hover:scale-105 flex items-center gap-3" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%); box-shadow: 0 0 20px rgba(94, 234, 212, 0.4), 0 0 40px rgba(94, 234, 212, 0.2); border: 1px solid rgba(94, 234, 212, 0.3);">
+                            <i class="fas fa-file-upload text-xl"></i>
+                            <span>Choose Files</span>
                         </button>
-                        <div class="text-left">
-                            <label for="ocr-lang" class="small text-gray-600">OCR Language</label>
-                            <select id="ocr-lang" class="input ml-2 rounded">
-                                <option value="eng">English</option>
-                                <option value="spa">Spanish</option>
-                                <option value="fra">French</option>
-                                <option value="hin">Hindi</option>
-                                <option value="swa">Swahili</option>
-                            </select>
+                        <div class="flex items-center gap-3 rounded-xl px-6 py-3 shadow-md" style="background: rgba(72, 85, 99, 0.8); border: 2px solid rgba(94, 234, 212, 0.3);">
+                            <i class="fas fa-language text-xl" style="color: #5eead4;"></i>
+                            <div class="text-left">
+                                <label for="ocr-lang" class="text-xs font-semibold block mb-1" style="color: #94a3b8;">OCR Language</label>
+                                <select id="ocr-lang" class="border-0 bg-transparent font-semibold outline-none cursor-pointer" style="color: #cbd5e1;">
+                                    <option value="eng">English</option>
+                                    <option value="spa">Spanish</option>
+                                    <option value="fra">French</option>
+                                    <option value="hin">Hindi</option>
+                                    <option value="swa">Swahili</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <!-- File Preview -->
                 <div id="file-preview" class="mt-8 hidden">
-                    <h4 class="text-lg font-semibold text-gray-800 mb-4">Uploaded Files</h4>
-                    <div id="file-list" class="grid gap-4"></div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%); box-shadow: 0 0 15px rgba(94, 234, 212, 0.5);">
+                            <i class="fas fa-check text-white text-lg"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold text-white">Uploaded Files</h4>
+                    </div>
+                    <div id="file-list" class="grid gap-3"></div>
                 </div>
                 <!-- Processing Status -->
                 <div id="processing-status" class="mt-8 hidden">
                     <div class="flex items-center justify-between mb-4">
-                        <h4 class="text-lg font-semibold text-gray-800">Processing Files</h4>
-                        <span id="progress-text" class="text-sm text-gray-600">0/0 files processed</span>
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%); box-shadow: 0 0 15px rgba(94, 234, 212, 0.5);">
+                                <i class="fas fa-cog fa-spin text-white text-lg"></i>
+                            </div>
+                            <h4 class="text-2xl font-bold text-white">Processing Files</h4>
+                        </div>
+                        <span id="progress-text" class="text-lg font-bold px-4 py-2 rounded-lg" style="color: #5eead4; background: rgba(20, 184, 166, 0.2); border: 1px solid rgba(94, 234, 212, 0.3);">0/0 files processed</span>
                     </div>
-                    <div class="w-full bg-gray-200 rounded-full h-3 mb-4">
-                        <div id="progress-bar" class="progress-bar h-3 rounded-full" style="width: 0%"></div>
+                    <div class="w-full rounded-full h-4 mb-4 shadow-inner overflow-hidden" style="background: rgba(72, 85, 99, 0.6);">
+                        <div id="progress-bar" class="h-4 rounded-full transition-all duration-300" style="width: 0%; background: linear-gradient(90deg, #14b8a6 0%, #0d9488 50%, #0f766e 100%); box-shadow: 0 0 10px rgba(94, 234, 212, 0.5);"></div>
                     </div>
-                    <div id="processing-log" class="text-sm text-gray-600 max-h-32 overflow-y-auto"></div>
+                    <div id="processing-log" class="text-sm max-h-40 overflow-y-auto rounded-lg p-4 font-mono" style="color: #cbd5e1; background: rgba(72, 85, 99, 0.4); border: 2px solid rgba(94, 234, 212, 0.2);"></div>
                 </div>
 
                 <!-- Analytics Panel (hidden until results) -->
-                <div id="analytics-panel" class="mt-6 hidden glass-card p-6">
-                    <h4 class="text-lg font-semibold text-gray-800 mb-4">Analytics & Insights</h4>
-                    <div class="grid md:grid-cols-3 gap-4">
-                        <div>
-                            <h5 class="font-semibold mb-2">Category Breakdown</h5>
-                            <canvas id="chart-category"></canvas>
+                <div id="analytics-panel" class="mt-8 hidden rounded-2xl shadow-2xl overflow-hidden" style="background: rgba(52, 73, 94, 0.95); backdrop-filter: blur(10px); border: 3px solid rgba(94, 234, 212, 0.5); box-shadow: 0 0 40px rgba(94, 234, 212, 0.3), 0 0 80px rgba(94, 234, 212, 0.1);">
+                    <!-- Header with Actions -->
+                    <div class="p-6 flex items-center justify-between flex-wrap gap-4" style="background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%); border-bottom: 2px solid rgba(94, 234, 212, 0.3);">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%); box-shadow: 0 0 20px rgba(94, 234, 212, 0.5);">
+                                <i class="fas fa-chart-pie text-3xl text-white"></i>
+                            </div>
+                            <h4 class="text-3xl font-black text-white">Analytics & Insights</h4>
                         </div>
-                        <div class="md:col-span-2">
-                            <h5 class="font-semibold mb-2">Cash Flow (by date)</h5>
-                            <canvas id="chart-cashflow"></canvas>
+                        <div class="flex gap-3 flex-wrap">
+                            <button onclick="downloadAnalyticsAsExcel()" class="px-6 py-3 rounded-xl font-bold text-white shadow-lg transition-all duration-300 hover:scale-105 flex items-center gap-2" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%); box-shadow: 0 0 15px rgba(94, 234, 212, 0.4);">
+                                <i class="fas fa-file-excel text-lg"></i>
+                                <span>Excel</span>
+                            </button>
+                            <button onclick="downloadAnalyticsAsImage()" class="px-6 py-3 rounded-xl font-bold text-white shadow-lg transition-all duration-300 hover:scale-105 flex items-center gap-2" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);">
+                                <i class="fas fa-image text-lg"></i>
+                                <span>Image</span>
+                            </button>
+                            <button onclick="shareAnalyticsViaEmail()" class="px-6 py-3 rounded-xl font-bold text-white shadow-lg transition-all duration-300 hover:scale-105 flex items-center gap-2" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);">
+                                <i class="fas fa-share-alt text-lg"></i>
+                                <span>Share</span>
+                            </button>
                         </div>
                     </div>
-                    <div class="grid md:grid-cols-2 gap-4 mt-6">
-                        <div>
-                            <h5 class="font-semibold mb-2">Top Payees</h5>
-                            <canvas id="chart-payee"></canvas>
+                    
+                    <!-- Charts Section -->
+                    <div class="p-6" style="background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);">
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <div class="rounded-xl p-5 shadow-lg" style="background: rgba(72, 85, 99, 0.6); backdrop-filter: blur(10px); border: 2px solid rgba(94, 234, 212, 0.3); box-shadow: 0 0 20px rgba(94, 234, 212, 0.2);">
+                                <h5 class="font-bold text-xl text-white mb-4 flex items-center gap-2">
+                                    <i class="fas fa-chart-pie" style="color: #5eead4;"></i>
+                                    Category Breakdown
+                                </h5>
+                                <canvas id="chart-category"></canvas>
+                            </div>
+                            <div class="md:col-span-2 rounded-xl p-5 shadow-lg" style="background: rgba(72, 85, 99, 0.6); backdrop-filter: blur(10px); border: 2px solid rgba(94, 234, 212, 0.3); box-shadow: 0 0 20px rgba(94, 234, 212, 0.2);">
+                                <h5 class="font-bold text-xl text-white mb-4 flex items-center gap-2">
+                                    <i class="fas fa-chart-line" style="color: #5eead4;"></i>
+                                    Cash Flow (by date)
+                                </h5>
+                                <canvas id="chart-cashflow"></canvas>
+                            </div>
                         </div>
-                        <div>
-                            <h5 class="font-semibold">Subscriptions</h5>
-                            <div id="subscriptions-list" class="mt-2 text-sm text-gray-700"></div>
-                            <h5 class="font-semibold mt-4">Duplicates</h5>
-                            <div id="duplicates-list" class="mt-2 text-sm text-gray-700"></div>
-                            <h5 class="font-semibold mt-4 text-red-600">Alerts</h5>
-                            <div id="alerts-list" class="mt-2 text-sm text-red-600"></div>
+                        <div class="grid md:grid-cols-2 gap-6 mt-6">
+                            <div class="rounded-xl p-5 shadow-lg" style="background: rgba(72, 85, 99, 0.6); backdrop-filter: blur(10px); border: 2px solid rgba(94, 234, 212, 0.3); box-shadow: 0 0 20px rgba(94, 234, 212, 0.2);">
+                                <h5 class="font-bold text-xl text-white mb-4 flex items-center gap-2">
+                                    <i class="fas fa-chart-bar" style="color: #5eead4;"></i>
+                                    Top Payees
+                                </h5>
+                                <canvas id="chart-payee"></canvas>
+                            </div>
+                            <div class="rounded-xl p-5 shadow-lg" style="background: rgba(72, 85, 99, 0.6); backdrop-filter: blur(10px); border: 2px solid rgba(94, 234, 212, 0.3); box-shadow: 0 0 20px rgba(94, 234, 212, 0.2);">
+                                <h5 class="font-bold text-lg text-white mb-3 flex items-center gap-2">
+                                    <i class="fas fa-sync-alt" style="color: #5eead4;"></i>
+                                    Subscriptions
+                                </h5>
+                                <div id="subscriptions-list" class="mt-2 text-sm" style="color: #cbd5e1;"></div>
+                                
+                                <h5 class="font-bold text-lg text-white mt-6 mb-3 flex items-center gap-2">
+                                    <i class="fas fa-copy" style="color: #5eead4;"></i>
+                                    Duplicates
+                                </h5>
+                                <div id="duplicates-list" class="mt-2 text-sm" style="color: #cbd5e1;"></div>
+                                
+                                <h5 class="font-bold text-lg mt-6 mb-3 flex items-center gap-2" style="color: #fca5a5;">
+                                    <i class="fas fa-exclamation-triangle" style="color: #f87171;"></i>
+                                    Alerts
+                                </h5>
+                                <div id="alerts-list" class="mt-2 text-sm font-semibold" style="color: #fca5a5;"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
             </div>
             <!-- Action Buttons -->
-            <div class="flex justify-center space-x-4">
-                <button id="process-btn" onclick="processFiles()" class="btn-primary text-white px-8 py-3 rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed" disabled>
-                    <i class="fas fa-cog mr-2"></i>
-                    Process Files
+            <div class="flex justify-center space-x-4 flex-wrap gap-3">
+                <button id="process-btn" onclick="processFiles()" class="px-10 py-4 rounded-xl font-bold text-white shadow-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center gap-3" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%); box-shadow: 0 0 20px rgba(94, 234, 212, 0.4), 0 0 40px rgba(94, 234, 212, 0.2); border: 1px solid rgba(94, 234, 212, 0.3);" disabled>
+                    <i class="fas fa-magic text-xl"></i>
+                    <span>Process Files</span>
                 </button>
-                <button onclick="clearFiles()" class="border-2 border-gray-300 text-gray-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-all duration-300">
-                    Clear All
+                <button onclick="clearFiles()" class="px-10 py-4 rounded-xl font-bold text-white shadow-lg transition-all duration-300 hover:scale-105 flex items-center gap-3" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);">
+                    <i class="fas fa-trash-alt text-xl"></i>
+                    <span>Clear All</span>
                 </button>
                 <!-- Export Dropdown -->
                 <div class="ml-4">
-                    <label class="small text-gray-600">Export</label>
+                    <label class="small" style="color: #cbd5e1;">Export</label>
                     <div class="flex items-center space-x-2">
-                        <select id="export-format" class="input rounded">
+                        <select id="export-format" class="input rounded px-4 py-2 font-semibold" style="background: rgba(72, 85, 99, 0.8); color: #cbd5e1; border: 2px solid rgba(94, 234, 212, 0.3);">
                             <option value="csv">CSV</option>
                             <option value="json">JSON</option>
                             <option value="xlsx">Excel (.xlsx)</option>
                             <option value="pdf">PDF</option>
                         </select>
-                        <button id="export-btn" class="border-2 border-gray-300 text-gray-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-50">Export</button>
+                        <button id="export-btn" class="px-4 py-2 rounded-lg font-semibold text-white transition-all duration-300 hover:scale-105" style="background: rgba(20, 184, 166, 0.8); border: 2px solid rgba(94, 234, 212, 0.4);">Export</button>
                     </div>
                 </div>
             </div>
@@ -243,262 +369,301 @@
     </section>
 
     <!-- Integrations Quick Connect -->
-    <section class="py-6 bg-white">
-        <div class="max-w-4xl mx-auto px-6">
-            <div class="glass-card rounded-xl p-6">
-                <h4 class="text-lg font-semibold mb-4">Connect to Accounting Tools (Demo)</h4>
-                <div class="flex gap-4">
-                    <button class="btn-primary text-white px-4 py-2 rounded" onclick="startConnect('quickbooks')">Connect QuickBooks</button>
-                    <button class="btn-primary text-white px-4 py-2 rounded" onclick="startConnect('zoho')">Connect Zoho Books</button>
-                    <button class="btn-primary text-white px-4 py-2 rounded" onclick="startConnect('wave')">Connect Wave</button>
-                </div>
-                <div id="integration-status" class="mt-3 text-sm text-gray-600"></div>
-                <div class="mt-4">
-                    <h5 class="font-semibold">Cloud Storage</h5>
-                    <div class="flex gap-3 mt-2">
-                        <button class="border rounded px-3 py-2" onclick="startCloudConnect('dropbox')">Connect Dropbox</button>
-                        <button class="border rounded px-3 py-2" onclick="startCloudConnect('gdrive')">Connect Google Drive</button>
-                        <button class="border rounded px-3 py-2" onclick="importFromCloud()">Import from Cloud</button>
+    <section id="integrations-section" class="py-12 hidden" style="background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);">
+        <div class="max-w-6xl mx-auto px-6">
+            <!-- Accounting Tools Card -->
+            <div class="rounded-2xl p-8 mb-6 shadow-2xl" style="background: rgba(72, 85, 99, 0.8); backdrop-filter: blur(10px); border: 3px solid rgba(94, 234, 212, 0.5); box-shadow: 0 0 30px rgba(94, 234, 212, 0.4), 0 0 60px rgba(94, 234, 212, 0.2);">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-16 h-16 rounded-xl flex items-center justify-center shadow-lg" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%); box-shadow: 0 0 20px rgba(94, 234, 212, 0.5);">
+                        <i class="fas fa-calculator text-white text-3xl"></i>
                     </div>
-                    <div id="cloud-files" class="mt-3 text-sm text-gray-600"></div>
+                    <div>
+                        <h4 class="text-3xl font-black text-white">Connect to Accounting Tools</h4>
+                        <p class="text-sm mt-1" style="color: #cbd5e1;">Sync your transactions seamlessly</p>
+                    </div>
                 </div>
+                <div class="grid md:grid-cols-3 gap-4">
+                    <button onclick="startConnect('quickbooks')" class="group p-6 rounded-xl shadow-lg transition-all duration-300 hover:scale-105" style="background: rgba(72, 85, 99, 0.6); backdrop-filter: blur(10px); border: 2px solid rgba(94, 234, 212, 0.3); box-shadow: 0 0 20px rgba(94, 234, 212, 0.2);">
+                        <div class="flex flex-col items-center gap-3">
+                            <div class="w-14 h-14 rounded-lg flex items-center justify-center shadow-md" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);">
+                                <i class="fas fa-book text-white text-2xl"></i>
+                            </div>
+                            <span class="font-bold text-white text-lg">QuickBooks</span>
+                            <span class="text-xs" style="color: #cbd5e1;">Intuit QuickBooks</span>
+                        </div>
+                    </button>
+                    <button onclick="startConnect('zoho')" class="group p-6 rounded-xl shadow-lg transition-all duration-300 hover:scale-105" style="background: rgba(72, 85, 99, 0.6); backdrop-filter: blur(10px); border: 2px solid rgba(94, 234, 212, 0.3); box-shadow: 0 0 20px rgba(94, 234, 212, 0.2);">
+                        <div class="flex flex-col items-center gap-3">
+                            <div class="w-14 h-14 rounded-lg flex items-center justify-center shadow-md" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);">
+                                <i class="fas fa-file-invoice text-white text-2xl"></i>
+                            </div>
+                            <span class="font-bold text-white text-lg">Zoho Books</span>
+                            <span class="text-xs" style="color: #cbd5e1;">Zoho Corporation</span>
+                        </div>
+                    </button>
+                    <button onclick="startConnect('wave')" class="group p-6 rounded-xl shadow-lg transition-all duration-300 hover:scale-105" style="background: rgba(72, 85, 99, 0.6); backdrop-filter: blur(10px); border: 2px solid rgba(94, 234, 212, 0.3); box-shadow: 0 0 20px rgba(94, 234, 212, 0.2);">
+                        <div class="flex flex-col items-center gap-3">
+                            <div class="w-14 h-14 rounded-lg flex items-center justify-center shadow-md" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);">
+                                <i class="fas fa-wave-square text-white text-2xl"></i>
+                            </div>
+                            <span class="font-bold text-white text-lg">Wave</span>
+                            <span class="text-xs" style="color: #cbd5e1;">Wave Financial</span>
+                        </div>
+                    </button>
+                </div>
+                <div id="integration-status" class="mt-4 text-sm font-semibold p-3 rounded-lg hidden" style="color: #5eead4; background: rgba(20, 184, 166, 0.2); border: 1px solid rgba(94, 234, 212, 0.3);"></div>
+            </div>
+
+            <!-- Cloud Storage Card -->
+            <div class="rounded-2xl p-8 shadow-2xl" style="background: rgba(72, 85, 99, 0.8); backdrop-filter: blur(10px); border: 3px solid rgba(94, 234, 212, 0.5); box-shadow: 0 0 30px rgba(94, 234, 212, 0.4), 0 0 60px rgba(94, 234, 212, 0.2);">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-16 h-16 rounded-xl flex items-center justify-center shadow-lg" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%); box-shadow: 0 0 20px rgba(94, 234, 212, 0.5);">
+                        <i class="fas fa-cloud text-white text-3xl"></i>
+                    </div>
+                    <div>
+                        <h5 class="text-3xl font-black text-white">Cloud Storage</h5>
+                        <p class="text-sm mt-1" style="color: #cbd5e1;">Import files from your cloud storage</p>
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-3 gap-4">
+                    <button onclick="startCloudConnect('dropbox')" class="group p-6 rounded-xl shadow-lg transition-all duration-300 hover:scale-105" style="background: rgba(72, 85, 99, 0.6); backdrop-filter: blur(10px); border: 2px solid rgba(94, 234, 212, 0.3); box-shadow: 0 0 20px rgba(94, 234, 212, 0.2);">
+                        <div class="flex flex-col items-center gap-3">
+                            <div class="w-14 h-14 rounded-lg flex items-center justify-center shadow-md" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);">
+                                <i class="fab fa-dropbox text-white text-2xl"></i>
+                            </div>
+                            <span class="font-bold text-white text-lg">Dropbox</span>
+                            <span class="text-xs" style="color: #cbd5e1;">Cloud Storage</span>
+                        </div>
+                    </button>
+                    <button onclick="startCloudConnect('gdrive')" class="group p-6 rounded-xl shadow-lg transition-all duration-300 hover:scale-105" style="background: rgba(72, 85, 99, 0.6); backdrop-filter: blur(10px); border: 2px solid rgba(94, 234, 212, 0.3); box-shadow: 0 0 20px rgba(94, 234, 212, 0.2);">
+                        <div class="flex flex-col items-center gap-3">
+                            <div class="w-14 h-14 rounded-lg flex items-center justify-center shadow-md" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);">
+                                <i class="fab fa-google-drive text-white text-2xl"></i>
+                            </div>
+                            <span class="font-bold text-white text-lg">Google Drive</span>
+                            <span class="text-xs" style="color: #cbd5e1;">Google Cloud</span>
+                        </div>
+                    </button>
+                    <button onclick="importFromCloud()" class="group p-6 rounded-xl shadow-lg transition-all duration-300 hover:scale-105" style="background: rgba(72, 85, 99, 0.6); backdrop-filter: blur(10px); border: 2px solid rgba(94, 234, 212, 0.3); box-shadow: 0 0 20px rgba(94, 234, 212, 0.2);">
+                        <div class="flex flex-col items-center gap-3">
+                            <div class="w-14 h-14 rounded-lg flex items-center justify-center shadow-md" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);">
+                                <i class="fas fa-cloud-download-alt text-white text-2xl"></i>
+                            </div>
+                            <span class="font-bold text-white text-lg">Import Files</span>
+                            <span class="text-xs" style="color: #cbd5e1;">From Any Cloud</span>
+                        </div>
+                    </button>
+                </div>
+                <div id="cloud-files" class="mt-4 text-sm font-semibold p-3 rounded-lg hidden" style="color: #5eead4; background: rgba(20, 184, 166, 0.2); border: 1px solid rgba(94, 234, 212, 0.3);"></div>
             </div>
         </div>
     </section>
 
     <!-- Features Section -->
-    <section id="features" class="py-20 bg-gray-50">
+    <section id="features" class="py-20" style="background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);">
         <div class="max-w-6xl mx-auto px-6">
             <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-gray-800 mb-4">Powerful Features</h2>
-                <p class="text-xl text-gray-600">Advanced AI technology for seamless bank statement processing</p>
+                <h2 class="text-5xl font-black text-white mb-4">Powerful Features</h2>
+                <p class="text-xl font-semibold" style="color: #a0aec0;">Advanced AI technology for seamless bank statement processing</p>
             </div>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- AI-Powered OCR -->
-                <div class="feature-card glass-card rounded-xl p-8">
-                    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center mb-6">
-                        <i class="fas fa-brain text-white text-2xl"></i>
+                <div class="group rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105" style="background: rgba(72, 85, 99, 0.8); backdrop-filter: blur(10px); border: 2px solid rgba(94, 234, 212, 0.3);">
+                    <div class="w-20 h-20 rounded-2xl flex items-center justify-center mb-6 shadow-lg transition-all duration-300 group-hover:scale-110" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);">
+                        <i class="fas fa-brain text-white text-4xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">AI-Powered OCR</h3>
-                    <p class="text-gray-600">Advanced optical character recognition that extracts data from any document format with 99.9% accuracy.</p>
-                    <div class="mt-4">
-                        <button class="btn btn-primary" onclick="enterAndProcess('ocr')">Enter</button>
-                    </div>
+                    <h3 class="text-2xl font-black text-white mb-4">AI-Powered OCR</h3>
+                    <p class="font-medium mb-6 leading-relaxed" style="color: #cbd5e1;">Advanced optical character recognition that extracts data from any document format with 99.9% accuracy.</p>
+                    <button class="w-full py-3 rounded-xl font-bold text-white shadow-lg transition-all duration-300 hover:scale-105" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);" onclick="enterAndProcess('ocr')">
+                        <i class="fas fa-arrow-right mr-2"></i>Enter
+                    </button>
                 </div>
                 <!-- Security -->
-                <div class="feature-card glass-card rounded-xl p-8">
-                    <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center mb-6">
-                        <i class="fas fa-shield-alt text-white text-2xl"></i>
+                <div class="group rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105" style="background: rgba(72, 85, 99, 0.8); backdrop-filter: blur(10px); border: 2px solid rgba(94, 234, 212, 0.3);">
+                    <div class="w-20 h-20 rounded-2xl flex items-center justify-center mb-6 shadow-lg transition-all duration-300 group-hover:scale-110" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);">
+                        <i class="fas fa-shield-alt text-white text-4xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">Bank-Level Security</h3>
-                    <p class="text-gray-600">Client-side processing ensures your sensitive financial data never leaves your device. Complete privacy protection.</p>
-                    <div id="security-backend-status" class="mt-3 small text-gray-500">Backend: <span id="backend-dot" class="backend-offline">offline</span></div>
-                    <div class="mt-4">
-                        <button class="btn btn-primary" onclick="enterAndProcess('security')">Enter</button>
-                    </div>
+                    <h3 class="text-2xl font-black text-white mb-4">Bank-Level Security</h3>
+                    <p class="font-medium mb-4 leading-relaxed" style="color: #cbd5e1;">Client-side processing ensures your sensitive financial data never leaves your device. Complete privacy protection.</p>
+                    <div id="security-backend-status" class="mb-4 text-xs font-semibold px-3 py-2 rounded-lg" style="color: #5eead4; background: rgba(20, 184, 166, 0.2);">Backend: <span id="backend-dot" class="backend-offline">Server Online</span></div>
+                    <button class="w-full py-3 rounded-xl font-bold text-white shadow-lg transition-all duration-300 hover:scale-105" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);" onclick="enterAndProcess('security')">
+                        <i class="fas fa-arrow-right mr-2"></i>Enter
+                    </button>
                 </div>
                 <!-- Multi-Bank Support -->
-                <div class="feature-card glass-card rounded-xl p-8">
-                    <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center mb-6">
-                        <i class="fas fa-globe text-white text-2xl"></i>
+                <div class="group rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105" style="background: rgba(72, 85, 99, 0.8); backdrop-filter: blur(10px); border: 2px solid rgba(94, 234, 212, 0.3);">
+                    <div class="w-20 h-20 rounded-2xl flex items-center justify-center mb-6 shadow-lg transition-all duration-300 group-hover:scale-110" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);">
+                        <i class="fas fa-globe text-white text-4xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">Multi-Bank Support</h3>
-                    <p class="text-gray-600">Automatically detects and processes statements from over 150 banks worldwide with smart template recognition.</p>
-                    <div class="mt-4">
-                        <button class="btn btn-primary" onclick="enterAndProcess('multi')">Enter</button>
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-2xl font-black text-white">Multi-Bank Support</h3>
+                        <span id="bank-count-badge" class="px-3 py-1 rounded-full text-xs font-bold animate-pulse" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%); color: white; box-shadow: 0 0 15px rgba(94, 234, 212, 0.6);">
+                            50+ Banks
+                        </span>
                     </div>
+                    <p class="font-medium mb-4 leading-relaxed" style="color: #cbd5e1;">Automatically detects and processes statements from over 50 banks worldwide with smart template recognition.</p>
+                    <div class="flex gap-2 mb-4">
+                        <button onclick="showAllBanks()" class="flex-1 py-2 px-3 rounded-lg font-semibold text-xs transition-all duration-300 hover:scale-105" style="background: rgba(94, 234, 212, 0.2); color: #5eead4; border: 1px solid rgba(94, 234, 212, 0.4);">
+                            <i class="fas fa-list mr-1"></i>View All Banks
+                        </button>
+                    </div>
+                    <button class="w-full py-3 rounded-xl font-bold text-white shadow-lg transition-all duration-300 hover:scale-105" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);" onclick="enterAndProcess('multi')">
+                        <i class="fas fa-arrow-right mr-2"></i>Try It Now
+                    </button>
                 </div>
                 <!-- Smart Analytics -->
-                <div class="feature-card glass-card rounded-xl p-8">
-                    <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center mb-6">
-                        <i class="fas fa-chart-line text-white text-2xl"></i>
+                <div class="group rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105" style="background: rgba(72, 85, 99, 0.8); backdrop-filter: blur(10px); border: 2px solid rgba(94, 234, 212, 0.3);">
+                    <div class="w-20 h-20 rounded-2xl flex items-center justify-center mb-6 shadow-lg transition-all duration-300 group-hover:scale-110" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);">
+                        <i class="fas fa-chart-line text-white text-4xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">Smart Analytics</h3>
-                    <p class="text-gray-600">Get instant insights into spending patterns, categorize transactions, and identify subscription payments automatically.</p>
-                    <div class="mt-4">
-                        <button class="btn btn-primary" onclick="enterAndProcess('analytics')">Enter</button>
-                    </div>
+                    <h3 class="text-2xl font-black text-white mb-4">Smart Analytics</h3>
+                    <p class="font-medium mb-6 leading-relaxed" style="color: #cbd5e1;">Get instant insights into spending patterns, categorize transactions, and identify subscription payments automatically.</p>
+                    <button class="w-full py-3 rounded-xl font-bold text-white shadow-lg transition-all duration-300 hover:scale-105" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);" onclick="enterAndProcess('analytics')">
+                        <i class="fas fa-arrow-right mr-2"></i>Enter
+                    </button>
                 </div>
                 <!-- Export Formats -->
-                <div class="feature-card glass-card rounded-xl p-8">
-                    <div class="w-16 h-16 bg-gradient-to-br from-teal-500 to-teal-600 rounded-lg flex items-center justify-center mb-6">
-                        <i class="fas fa-download text-white text-2xl"></i>
+                <div class="group rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105" style="background: rgba(72, 85, 99, 0.8); backdrop-filter: blur(10px); border: 2px solid rgba(94, 234, 212, 0.3);">
+                    <div class="w-20 h-20 rounded-2xl flex items-center justify-center mb-6 shadow-lg transition-all duration-300 group-hover:scale-110" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);">
+                        <i class="fas fa-download text-white text-4xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">Multiple Export Formats</h3>
-                    <p class="text-gray-600">Export your data to Excel, CSV, JSON, or QuickBooks formats with customizable templates and field mapping.</p>
-                    <div class="mt-4 flex gap-2 justify-center">
-                        <button class="btn btn-primary" onclick="openExportModal()">Enter</button>
-                        <button class="btn btn-outline" onclick="triggerQuickExport()">Quick Export</button>
+                    <h3 class="text-2xl font-black text-white mb-4">Multiple Export Formats</h3>
+                    <p class="font-medium mb-6 leading-relaxed" style="color: #cbd5e1;">Export your data to Excel, CSV, JSON, or QuickBooks formats with customizable templates and field mapping.</p>
+                    <div class="flex gap-2">
+                        <button class="flex-1 py-3 rounded-xl font-bold text-white shadow-lg transition-all duration-300 hover:scale-105" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);" onclick="openExportModal()">
+                            <i class="fas fa-arrow-right mr-2"></i>Enter
+                        </button>
                     </div>
                 </div>
                 <!-- Password Protection -->
-                <div class="feature-card glass-card rounded-xl p-8">
-                    <div class="w-16 h-16 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center mb-6">
-                        <i class="fas fa-lock text-white text-2xl"></i>
+                <div class="group rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105" style="background: rgba(72, 85, 99, 0.8); backdrop-filter: blur(10px); border: 2px solid rgba(94, 234, 212, 0.3);">
+                    <div class="w-20 h-20 rounded-2xl flex items-center justify-center mb-6 shadow-lg transition-all duration-300 group-hover:scale-110" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);">
+                        <i class="fas fa-lock text-white text-4xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">Password Protection</h3>
-                    <p class="text-gray-600">Securely process password-protected PDFs with our encrypted handling system. Your credentials are never stored.</p>
-                    <div class="mt-4">
-                        <button class="btn btn-primary" onclick="enterAndProcess('password')">Enter</button>
-                    </div>
+                    <h3 class="text-2xl font-black text-white mb-4">Password Protection</h3>
+                    <p class="font-medium mb-6 leading-relaxed" style="color: #cbd5e1;">Securely process password-protected PDFs with our encrypted handling system. Your credentials are never stored.</p>
+                    <button class="w-full py-3 rounded-xl font-bold text-white shadow-lg transition-all duration-300 hover:scale-105" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);" onclick="enterAndProcess('password')">
+                        <i class="fas fa-arrow-right mr-2"></i>Enter
+                    </button>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Plans & Pricing -->
-    <section id="pricing" class="py-20 bg-white">
-        <div class="max-w-6xl mx-auto px-6">
+    <section id="pricing" class="py-20" style="background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);">
+        <div class="max-w-7xl mx-auto px-6">
             <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-gray-800 mb-4">Plans & Pricing</h2>
-                <p class="text-xl text-gray-600">Flexible plans for individuals, teams, and enterprises.</p>
+                <h2 class="text-5xl font-black text-white mb-4">Plans & Pricing</h2>
+                <p class="text-xl font-semibold" style="color: #a0aec0;">Choose the perfect plan for your needs — from free trials to enterprise solutions.</p>
             </div>
-            <div class="grid md:grid-cols-4 gap-6">
-                <!-- Max (Best Value) -->
-                <div class="glass-card p-6 plan-wrapper flex flex-col justify-between">
+            
+            <!-- Pricing Grid - 4 Plans -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- 1. Free Plan (Signup Required) -->
+                <div class="rounded-2xl p-6 plan-wrapper flex flex-col justify-between transition-all duration-300 hover:scale-105" style="background: rgba(72, 85, 99, 0.8); backdrop-filter: blur(10px); border: 2px solid rgba(94, 234, 212, 0.4); box-shadow: 0 0 20px rgba(94, 234, 212, 0.3), 0 0 40px rgba(94, 234, 212, 0.1);">
                     <div>
-                        <div class="flex items-center justify-between">
-                            <h3 class="font-bold text-lg plan-title">Max</h3>
-                            <span class="badge bg-blue-600 text-white text-xs px-3 py-1 rounded">BEST VALUE</span>
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="font-bold text-2xl text-white">Free Plan</h3>
+                            <span class="text-white text-xs px-3 py-1 rounded-full font-bold" style="background: rgba(107, 114, 128, 0.8);">SIGNUP</span>
                         </div>
-                        <div class="plan-price-big text-4xl font-extrabold my-4">$167 <span class="small text-gray-500 text-base">per month</span></div>
-                        <p class="small text-gray-600">For power users</p>
-                        <ul class="text-left mt-4 small text-gray-700">
-                            <li>800 credits / month</li>
-                            <li>Early access to beta features</li>
-                            <li>Credit rollovers</li>
-                            <li>Premium support</li>
-                            <li>Advanced AI models</li>
-                        </ul>
-                    </div>
-                    <div class="plan-cta mt-4">
-                        <button class="btn btn-primary w-full py-3" onclick="openPricingCTA('max')">Upgrade</button>
-                    </div>
-                </div>
-
-                <!-- Pro -->
-                <div class="glass-card p-6 plan-wrapper flex flex-col justify-between">
-                    <div>
-                        <h3 class="font-bold text-lg plan-title">Pro</h3>
-                        <div class="plan-price-big text-3xl font-extrabold my-4">$42 <span class="small text-gray-500 text-base">per month</span></div>
-                        <p class="small text-gray-600">For active development</p>
-                        <ul class="text-left mt-4 small text-gray-700">
-                            <li>200 credits / month</li>
-                            <li>In-app code editing</li>
-                            <li>Advanced AI models</li>
-                            <li>Priority support</li>
-                            <li>Project collaborators</li>
-                        </ul>
-                    </div>
-                    <div class="plan-cta mt-4">
-                        <button class="btn btn-primary w-full py-3" onclick="openPricingCTA('pro')">Upgrade</button>
-                    </div>
-                </div>
-
-                <!-- Starter -->
-                <div class="glass-card p-6 plan-wrapper flex flex-col justify-between">
-                    <div>
-                        <h3 class="font-bold text-lg plan-title">Starter</h3>
-                        <div class="plan-price-big text-3xl font-extrabold my-4">$21 <span class="small text-gray-500 text-base">per month</span></div>
-                        <p class="small text-gray-600">For hobby projects</p>
-                        <ul class="text-left mt-4 small text-gray-700">
-                            <li>100 credits / month</li>
-                            <li>Private projects</li>
-                            <li>Custom domains</li>
-                            <li>Download code</li>
-                            <li>Remove branding</li>
-                        </ul>
-                    </div>
-                    <div class="plan-cta mt-4">
-                        <button class="btn btn-primary w-full py-3" onclick="openPricingCTA('starter')">Upgrade</button>
-                    </div>
-                </div>
-
-                <!-- Free (Current Plan) -->
-                <div class="glass-card p-6 plan-wrapper flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center justify-between">
-                            <h3 class="font-bold text-lg plan-title">Free</h3>
-                            <span class="badge bg-gray-300 text-gray-700 text-xs px-3 py-1 rounded">CURRENT PLAN</span>
+                        <div class="text-5xl font-black text-white mb-2">
+                            $0<span class="text-lg font-normal" style="color: #cbd5e1;">/month</span>
                         </div>
-                        <div class="plan-price-big text-3xl font-extrabold my-4">$0 <span class="small text-gray-500 text-base">/month</span></div>
-                        <p class="small text-gray-600">For getting started</p>
-                        <ul class="text-left mt-4 small text-gray-700">
-                            <li>10 credits / month</li>
-                            <li>Public projects</li>
-                            <li>Community support</li>
-                            <li>Basic export (CSV)</li>
-                            <li>Limited AI preview</li>
+                        <p class="text-sm font-semibold mb-4" style="color: #5eead4;">No card required</p>
+                        <ul class="text-sm space-y-2 mb-4" style="color: #cbd5e1;">
+                            <li class="flex items-center"><span class="mr-2 text-lg" style="color: #14b8a6;">✓</span> 5 statements/day</li>
+                            <li class="flex items-center"><span class="mr-2 text-lg" style="color: #14b8a6;">✓</span> Partial AI Preview</li>
+                            <li class="flex items-center"><span class="mr-2 text-lg" style="color: #14b8a6;">✓</span> Export (CSV, Excel, JSON)</li>
                         </ul>
                     </div>
-                    <div class="plan-cta mt-4">
-                        <button class="btn btn-outline w-full py-3" disabled>Current Plan</button>
-                    </div>
+                    <button class="w-full py-3 rounded-xl font-bold text-white shadow-lg transition-all duration-300 hover:scale-105" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);" onclick="openPricingCTA('free')">Start Free Trial</button>
                 </div>
+
+                <!-- 3. Starter - POPULAR -->
+                <div class="rounded-2xl p-6 plan-wrapper flex flex-col justify-between relative transform lg:scale-110 transition-all duration-300 hover:scale-115" style="background: rgba(72, 85, 99, 0.9); backdrop-filter: blur(10px); border: 3px solid #5eead4; box-shadow: 0 0 30px rgba(94, 234, 212, 0.6), 0 0 60px rgba(94, 234, 212, 0.3), 0 0 90px rgba(94, 234, 212, 0.1);">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2" style="white-space: nowrap;">
+                        <span class="text-white text-xs px-6 py-2 rounded-full shadow-xl font-bold" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%); box-shadow: 0 0 20px rgba(94, 234, 212, 0.8);">⭐ MOST POPULAR</span>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-2xl text-white mt-2 mb-3">Starter</h3>
+                        <div class="text-5xl font-black text-white mb-1">
+                            $9<span class="text-lg font-normal" style="color: #5eead4;">/month</span>
+                        </div>
+                        <p class="text-xs mb-3 font-semibold" style="color: #5eead4;">or $84/year (save $24)</p>
+                        <p class="text-sm font-bold mb-4" style="color: #cbd5e1;">Perfect for individuals</p>
+                        <ul class="text-sm space-y-2 mb-4" style="color: #cbd5e1;">
+                            <li class="flex items-center"><span class="mr-2 text-lg font-bold" style="color: #14b8a6;">✓</span> 600 pages/month</li>
+                            <li class="flex items-center"><span class="mr-2 text-lg font-bold" style="color: #14b8a6;">✓</span> Full OCR & AI categorization</li>
+                            <li class="flex items-center"><span class="mr-2 text-lg font-bold" style="color: #14b8a6;">✓</span> All export formats</li>
+                            <li class="flex items-center"><span class="mr-2 text-lg font-bold" style="color: #14b8a6;">✓</span> Password file support</li>
+                        </ul>
+                    </div>
+                    <button class="w-full py-3 rounded-xl font-bold text-white shadow-xl transition-all duration-300 hover:scale-105" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%); box-shadow: 0 0 20px rgba(94, 234, 212, 0.5);" onclick="openPricingCTA('starter')">Get Started Now</button>
+                </div>
+
+                <!-- 4. Pro -->
+                <div class="rounded-2xl p-6 plan-wrapper flex flex-col justify-between transition-all duration-300 hover:scale-105" style="background: rgba(72, 85, 99, 0.8); backdrop-filter: blur(10px); border: 2px solid rgba(94, 234, 212, 0.4); box-shadow: 0 0 20px rgba(94, 234, 212, 0.3), 0 0 40px rgba(94, 234, 212, 0.1);">
+                    <div>
+                        <h3 class="font-bold text-2xl text-white mb-3">Pro</h3>
+                        <div class="text-5xl font-black text-white mb-1">
+                            $29<span class="text-lg font-normal" style="color: #5eead4;">/month</span>
+                        </div>
+                        <p class="text-xs mb-3 font-semibold" style="color: #5eead4;">or $290/year (save $58)</p>
+                        <p class="text-sm font-bold mb-4" style="color: #cbd5e1;">For teams & power users</p>
+                        <ul class="text-sm space-y-2 mb-4" style="color: #cbd5e1;">
+                            <li class="flex items-center"><span class="mr-2 text-lg font-bold" style="color: #14b8a6;">✓</span> 4000 statements/month</li>
+                            <li class="flex items-center"><span class="mr-2 text-lg font-bold" style="color: #14b8a6;">✓</span> Bulk uploads & batch processing</li>
+                            <li class="flex items-center"><span class="mr-2 text-lg font-bold" style="color: #14b8a6;">✓</span> All Starter features</li>
+                            <li class="flex items-center"><span class="mr-2 text-lg font-bold" style="color: #14b8a6;">✓</span> Advanced analytics</li>
+                        </ul>
+                    </div>
+                    <button class="w-full py-3 rounded-xl font-bold text-white shadow-lg transition-all duration-300 hover:scale-105" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);" onclick="openPricingCTA('pro')">Upgrade to Pro</button>
+                </div>
+
+                <!-- 5. Enterprise -->
+                <div class="rounded-2xl p-6 plan-wrapper flex flex-col justify-between transition-all duration-300 hover:scale-105" style="background: rgba(72, 85, 99, 0.8); backdrop-filter: blur(10px); border: 2px solid rgba(94, 234, 212, 0.4); box-shadow: 0 0 20px rgba(94, 234, 212, 0.3), 0 0 40px rgba(94, 234, 212, 0.1);">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="font-bold text-2xl text-white">Enterprise</h3>
+                            <span class="text-white text-xs px-3 py-1 rounded-full font-bold" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);">CUSTOM</span>
+                        </div>
+                        <div class="text-4xl font-black text-white mb-4">
+                            Custom
+                        </div>
+                        <p class="text-sm font-bold mb-4" style="color: #cbd5e1;">For large companies</p>
+                        <ul class="text-sm space-y-2 mb-4" style="color: #cbd5e1;">
+                            <li class="flex items-center"><span class="mr-2 text-lg font-bold" style="color: #14b8a6;">✓</span> Unlimited statements</li>
+                            <li class="flex items-center"><span class="mr-2 text-lg font-bold" style="color: #14b8a6;">✓</span> Full API access</li>
+                            <li class="flex items-center"><span class="mr-2 text-lg font-bold" style="color: #14b8a6;">✓</span> Custom AI workflows</li>
+                            <li class="flex items-center"><span class="mr-2 text-lg font-bold" style="color: #14b8a6;">✓</span> White-label branding</li>
+                        </ul>
+                    </div>
+                    <button class="w-full py-3 rounded-xl font-bold text-white shadow-lg transition-all duration-300 hover:scale-105" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);" onclick="openContactSales()">
+                        <i class="fas fa-envelope mr-2"></i>Contact Sales
+                    </button>
+                </div>
+
             </div>
+
+            <!-- Additional Info -->
+            <div class="mt-12 text-center">
+                <p class="text-sm" style="color: #a0aec0;">All plans include: <strong style="color: #5eead4;">Bank-level security</strong> • <strong style="color: #5eead4;">100% client-side processing</strong> • <strong style="color: #5eead4;">GDPR compliant</strong></p>
+                <p class="text-xs mt-2" style="color: #64748b;">Prices in USD. Annual billing available for 20% discount. Cancel anytime.</p>
+            </div>
+
+            <!-- Comparison CTA -->
+            <div class="mt-8 text-center">
+                <button class="font-semibold transition-all duration-300 hover:scale-105" style="color: #5eead4;" onclick="showPricingComparison()">
+                    <i class="fas fa-table mr-2"></i><span style="background: rgba(20, 184, 166, 0.2); padding: 8px 16px; border-radius: 8px; font-weight: 700; color: #5eead4; border: 2px solid rgba(94, 234, 212, 0.3);">Compare all plans in detail</span> →
+                </button>
+            </div>
+
         </div>
     </section>
 
-    <!-- Pricing Modal (enhanced) -->
-    <div id="pricing-modal" class="fixed inset-0 hidden">
-        <div class="modal-overlay" onclick="closePricingModal()"></div>
-        <div class="glass-card p-6 max-w-4xl mx-auto relative" role="dialog" aria-modal="true">
-            <div class="flex items-center justify-between mb-4">
-                <h3 id="pricing-modal-title" class="text-2xl font-bold">Choose a plan</h3>
-                <button class="btn btn-outline" onclick="closePricingModal()">Close</button>
-            </div>
-            <div class="modal-body">
-                <div class="plan-card" data-plan="free">
-                    <div class="ribbon-reco" style="display:none">Popular</div>
-                    <div class="plan-name font-semibold">Free</div>
-                    <div class="plan-price">Free</div>
-                    <div class="plan-features">
-                        <ul>
-                            <li>5 statements/day</li>
-                            <li>Partial AI Preview</li>
-                            <li>Export (CSV, Excel, JSON)</li>
-                        </ul>
-                    </div>
-                    <div class="plan-cta"><button class="btn btn-outline" onclick="selectPlan('free')">Select</button></div>
-                </div>
-
-                <div class="plan-card recommended" data-plan="starter">
-                    <div class="ribbon-reco">Recommended</div>
-                    <div class="plan-name font-semibold">Starter</div>
-                    <div class="plan-price">$9 / month</div>
-                    <div class="plan-features">
-                        <ul>
-                            <li>600 pages/month</li>
-                            <li>PDF, images, password support</li>
-                            <li>Auto-categorization & duplicate detection</li>
-                            <li>Google Drive / Dropbox sync</li>
-                        </ul>
-                    </div>
-                    <div class="plan-cta"><button class="btn btn-primary" onclick="selectPlan('starter')">Subscribe</button></div>
-                </div>
-
-                <div class="plan-card" data-plan="pro">
-                    <div class="plan-name font-semibold">Pro</div>
-                    <div class="plan-price">$29 / month</div>
-                    <div class="plan-features">
-                        <ul>
-                            <li>4000 statements/month</li>
-                            <li>Bulk uploads & team features</li>
-                            <li>Expense Analyzer & Subscription Tracker</li>
-                        </ul>
-                    </div>
-                    <div class="plan-cta"><button class="btn btn-primary" onclick="selectPlan('pro')">Subscribe</button></div>
-                </div>
-            </div>
-            <div class="mt-6 flex items-center justify-between">
-                <div id="pricing-modal-desc" class="small text-gray-600">Select a plan to continue.</div>
-                <div>
-                    <button class="btn btn-outline" onclick="closePricingModal()">Cancel</button>
-                    <button id="pricing-confirm" class="btn btn-primary ml-2" onclick="confirmPricingAction()">Confirm</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- Pricing Modal removed - users can access plans from pricing section -->
 
     <!-- Footer -->
     <footer class="bg-gray-800 text-white py-12">
@@ -551,11 +716,33 @@
                 fileList.innerHTML = '';
                 files.forEach((file, idx) => {
                     const el = document.createElement('div');
-                    el.className = 'p-3 rounded bg-white/80 text-gray-800 flex items-center justify-between';
-                    el.innerHTML = `<div><strong>${escapeHtml(file.name)}</strong><div class='small text-gray-600'>${humanFileSize(file.size)}</div></div>`;
+                    el.className = 'p-5 rounded-xl bg-white text-gray-800 flex items-center justify-between shadow-md border-2 border-blue-100 hover:border-blue-300 transition-all duration-300 hover:shadow-lg';
+                    
+                    // Determine file icon
+                    const ext = file.name.split('.').pop().toLowerCase();
+                    let icon = 'fa-file';
+                    let iconColor = '#3b82f6';
+                    if(ext === 'pdf') { icon = 'fa-file-pdf'; iconColor = '#ef4444'; }
+                    else if(['jpg','jpeg','png'].includes(ext)) { icon = 'fa-file-image'; iconColor = '#10b981'; }
+                    
+                    el.innerHTML = `
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, ${iconColor}20 0%, ${iconColor}10 100%);">
+                                <i class="fas ${icon} text-2xl" style="color: ${iconColor};"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold text-gray-900">${escapeHtml(file.name)}</div>
+                                <div class="text-sm text-gray-500 font-semibold mt-1">
+                                    <i class="fas fa-database mr-1"></i>${humanFileSize(file.size)}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
                     const removeBtn = document.createElement('button');
-                    removeBtn.className = 'ml-4 text-sm text-red-600 hover:underline';
-                    removeBtn.textContent = 'Remove';
+                    removeBtn.className = 'ml-4 px-4 py-2 rounded-lg font-semibold text-white shadow-md transition-all duration-300 hover:scale-105';
+                    removeBtn.style = 'background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);';
+                    removeBtn.innerHTML = '<i class="fas fa-trash mr-2"></i>Remove';
                     removeBtn.onclick = () => { files.splice(idx,1); updatePreview(); };
                     el.appendChild(removeBtn);
                     fileList.appendChild(el);
@@ -605,72 +792,114 @@
                 const total = files.length;
                 let completed = 0;
 
+                // Check privacy mode
+                const privacyMode = document.getElementById('privacy-mode-toggle') ? document.getElementById('privacy-mode-toggle').checked : true;
+                
+                // Initialize the appropriate processor
+                let processor;
+                if(privacyMode){
+                    appendLog('🔒 Privacy Mode: ON - Processing locally (no data uploaded)');
+                    processor = new ClientSideProcessor();
+                } else {
+                    appendLog('☁️ Server Mode: ON - Processing via server');
+                    processor = new BankStatementProcessor();
+                }
+                
+                // Get selected feature mode
+                const selectedFeature = window._selectedFeature || 'general';
+                const ocrLang = document.getElementById('ocr-lang') ? document.getElementById('ocr-lang').value : 'eng';
+
                 // process files one by one
                 for(let i=0;i<files.length;i++){
                     const file = files[i];
-                    appendLog(`Starting: ${file.name}`);
+                    appendLog(`📄 Starting processing: ${file.name}`);
+                    appendLog(`🔍 Feature mode: ${selectedFeature.toUpperCase()}`);
+                    
                     try{
-                        // Attempt real upload to backend
-                        const result = await uploadFileWithProgress(file, (fileProgressFraction) => {
-                            const overall = ((i + fileProgressFraction) / total) * 100;
-                            updateProgress(overall, `${i + fileProgressFraction >= total ? total : Math.floor((i + fileProgressFraction) + 1)}/${total} files`);
+                        const result = await processor.processFile(file, {
+                            feature: selectedFeature,
+                            ocrLang: ocrLang,
+                            onProgress: (percent, msg) => {
+                                const overall = ((i + (percent / 100)) / total) * 100;
+                                updateProgress(overall, msg);
+                                if(msg) appendLog(msg);
+                            }
                         });
 
-                        appendLog(`Success: ${file.name}`);
-                        appendLogResult(result, file.name);
-                    }catch(err){
-                        // handle password-protected PDF response from server
-                        if(err && err.code === 422 && err.body && err.body.require_password){
-                            appendLog(`Server requests password for ${file.name}`);
-                            const pwd = prompt(`The PDF "${file.name}" appears to be password-protected. Please enter the password:`);
-                            if(pwd){
-                                appendLog('Retrying with provided password...');
-                                try{
-                                    const result2 = await uploadFileWithProgressWithPassword(file, pwd, (p)=>{
-                                        const overall = ((i + p) / total) * 100;
-                                        updateProgress(overall, `${Math.round((i + p) + 0.01)}/${total} files`);
-                                    });
-                                    appendLog(`Success after password: ${file.name}`);
-                                    appendLogResult(result2, file.name);
-                                }catch(err2){
-                                    appendLog(`Error after password for ${file.name}: ${err2 && err2.message ? err2.message : err2}`);
-                                    appendLog('Falling back to local simulation for this file...');
-                                    const simulated2 = await simulateProcessing(file, (p)=>{
-                                        const overall = ((i + p) / total) * 100;
-                                        updateProgress(overall, `${Math.round((i + p) + 0.01)}/${total} files`);
-                                    });
-                                    appendLog(`Simulated result for ${file.name}`);
-                                    appendLogResult(simulated2, file.name);
-                                }
-                            } else {
-                                appendLog('No password provided — skipping file and falling back to simulation');
-                                const simulated = await simulateProcessing(file, (p)=>{
-                                    const overall = ((i + p) / total) * 100;
-                                    updateProgress(overall, `${Math.round((i + p) + 0.01)}/${total} files`);
-                                });
-                                appendLog(`Simulated result for ${file.name}`);
-                                appendLogResult(simulated, file.name);
+                        if(result.success){
+                            appendLog(`✅ Success: ${file.name}`);
+                            if(privacyMode){
+                                appendLog('🔐 Data processed 100% locally - no upload performed');
                             }
-                        }else{
-                            appendLog(`Error processing ${file.name}: ${err.message || err}`);
-                            appendLog('Falling back to local simulation for this file...');
-                            const simulated = await simulateProcessing(file, (p)=>{
-                                const overall = ((i + p) / total) * 100;
-                                updateProgress(overall, `${Math.round((i + p) + 0.01)}/${total} files`);
-                            });
-                            appendLog(`Simulated result for ${file.name}`);
-                            appendLogResult(simulated, file.name);
+                            appendLogResult(result, file.name);
+                        } else {
+                            appendLog(`❌ Processing failed: ${result.error || 'Unknown error'}`);
                         }
+                    }catch(err){
+                        appendLog(`❌ Error processing ${file.name}: ${err.message || err}`);
+                        console.error('Processing error:', err);
                     }
+                    
                     completed++;
                     updateProgress((completed / total) * 100, `${completed}/${total} files processed`);
                 }
 
-                appendLog('Processing complete.');
+                appendLog('✨ Processing complete!');
+                
+                // Update backend status
+                const statusEl = document.getElementById('backend-dot');
+                if(statusEl){
+                    statusEl.textContent = privacyMode ? 'Client-side Active' : 'Server Active';
+                    statusEl.className = 'backend-online';
+                }
             }
 
             function processFiles(){ processFilesSequentially().catch(e=>appendLog('Fatal: '+e)); }
             window.processFiles = processFiles;
+
+            function updatePreview(){
+                if(!files.length){
+                    filePreview.classList.add('hidden');
+                    processBtn.disabled = true;
+                    return;
+                }
+                filePreview.classList.remove('hidden');
+                fileList.innerHTML = '';
+                files.forEach((file, idx) => {
+                    const el = document.createElement('div');
+                    el.className = 'p-5 rounded-xl bg-white text-gray-800 flex items-center justify-between shadow-md border-2 border-blue-100 hover:border-blue-300 transition-all duration-300 hover:shadow-lg';
+                    
+                    // Determine file icon
+                    const ext = file.name.split('.').pop().toLowerCase();
+                    let icon = 'fa-file';
+                    let iconColor = '#3b82f6';
+                    if(ext === 'pdf') { icon = 'fa-file-pdf'; iconColor = '#ef4444'; }
+                    else if(['jpg','jpeg','png'].includes(ext)) { icon = 'fa-file-image'; iconColor = '#10b981'; }
+                    
+                    el.innerHTML = `
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, ${iconColor}20 0%, ${iconColor}10 100%);">
+                                <i class="fas ${icon} text-2xl" style="color: ${iconColor};"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold text-gray-900">${escapeHtml(file.name)}</div>
+                                <div class="text-sm text-gray-500 font-semibold mt-1">
+                                    <i class="fas fa-database mr-1"></i>${humanFileSize(file.size)}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    const removeBtn = document.createElement('button');
+                    removeBtn.className = 'ml-4 px-4 py-2 rounded-lg font-semibold text-white shadow-md transition-all duration-300 hover:scale-105';
+                    removeBtn.style = 'background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);';
+                    removeBtn.innerHTML = '<i class="fas fa-trash mr-2"></i>Remove';
+                    removeBtn.onclick = () => { files.splice(idx,1); updatePreview(); };
+                    el.appendChild(removeBtn);
+                    fileList.appendChild(el);
+                });
+                processBtn.disabled = false;
+            }
 
             function updateProgress(percent, text){
                 progressBar.style.width = Math.min(100, Math.max(0, percent)) + '%';
@@ -688,7 +917,14 @@
             function appendLogResult(resultObj, filename){
                 // Show a compact summary and provide a download link for JSON
                 // store last result for quick export
-                try{ window._lastResult = resultObj.data || null; }catch(e){}
+                try{ 
+                    window._lastResult = resultObj.data || null;
+                    // Store analytics and transactions for download/share functions
+                    if(resultObj.data){
+                        window._lastAnalytics = resultObj.data.analytics || {};
+                        window._lastTransactions = resultObj.data.transactions || [];
+                    }
+                }catch(e){}
                 const wrapper = document.createElement('div');
                 wrapper.className = 'mt-2 p-2 rounded bg-green-50/30 text-sm text-gray-100';
                 const summary = document.createElement('div');
@@ -733,11 +969,20 @@
                             save.onclick = async ()=>{
                                 const newCat = input.value.trim() || 'Uncategorized';
                                 try{
-                                    await fetch('/api/feedback', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ key: t.merchant || t.line || t.raw, category: newCat }) });
-                                    chip.textContent = newCat;
-                                    chip.className = `cat-chip cat-${newCat.replace(/\s+/g,'')}`;
-                                    editWrap.innerHTML = '';
-                                    editWrap.appendChild(editBtn);
+                                    // Use Historical Learning (localStorage)
+                                    const merchant = t.merchant || t.description || '';
+                                    if(typeof window.updateCategoryLearning === 'function'){
+                                        const success = window.updateCategoryLearning(merchant, newCat);
+                                        if(success){
+                                            chip.textContent = newCat;
+                                            chip.className = `cat-chip cat-${newCat.replace(/\s+/g,'')}`;
+                                            editWrap.innerHTML = '';
+                                            editWrap.appendChild(editBtn);
+                                            showToast(`✓ Learned: ${merchant} → ${newCat}`);
+                                        } else {
+                                            alert('Could not save learning');
+                                        }
+                                    }
                                 }catch(e){ alert('Could not save: '+e.message); }
                             };
                             cancel.onclick = ()=>{ editWrap.innerHTML = ''; editWrap.appendChild(editBtn); };
@@ -767,12 +1012,31 @@
                 processingLog.appendChild(wrapper);
                 processingLog.scrollTop = processingLog.scrollHeight;
 
+                // Store result in sessionStorage for comparison
+                try{
+                    const statements = JSON.parse(sessionStorage.getItem('bsai_statements') || '[]');
+                    statements.push({
+                        filename: filename,
+                        timestamp: new Date().toISOString(),
+                        data: resultObj.data
+                    });
+                    // Keep only last 5 statements
+                    if(statements.length > 5) statements.shift();
+                    sessionStorage.setItem('bsai_statements', JSON.stringify(statements));
+                }catch(e){ console.warn('Could not store statement', e); }
+
                 // If the server returned analytics/insights, show the panel and render charts
                 try{
                     if(resultObj.data && resultObj.data.insights){
                         const panel = document.getElementById('analytics-panel');
                         if(panel) panel.classList.remove('hidden');
                         renderAnalytics(resultObj.data.insights);
+                        
+                        // Show statement comparison button if we have multiple statements
+                        const statements = JSON.parse(sessionStorage.getItem('bsai_statements') || '[]');
+                        if(statements.length >= 2){
+                            showStatementComparisonOption();
+                        }
                     }
                 }catch(e){ console.warn('Analytics render failed', e); }
             }
@@ -911,31 +1175,119 @@
                 const payeeKeys = Object.keys(payees).slice(0,10);
                 const payeeVals = payeeKeys.map(k=>Math.abs(payees[k]));
 
-                // Category Pie
+                // Category Pie - Dark theme with colorful segments
                 const catCtx = document.getElementById('chart-category').getContext('2d');
                 safeDestroy(_chartCategory);
+                const pieColors = ['#14b8a6', '#f472b6', '#fb923c', '#a78bfa', '#facc15', '#22d3ee', '#f87171', '#4ade80', '#818cf8'];
                 _chartCategory = new Chart(catCtx, {
-                    type: 'pie',
-                    data: { labels: categories, datasets: [{ data: catValues, backgroundColor: categories.map((_,i)=>`hsl(${(i*47)%360} 70% 50%)`) }] },
-                    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+                    type: 'doughnut',
+                    data: { 
+                        labels: categories, 
+                        datasets: [{ 
+                            data: catValues, 
+                            backgroundColor: categories.map((_, i) => pieColors[i % pieColors.length]),
+                            borderColor: '#2c3e50',
+                            borderWidth: 3
+                        }] 
+                    },
+                    options: { 
+                        responsive: true, 
+                        plugins: { 
+                            legend: { 
+                                position: 'bottom',
+                                labels: {
+                                    color: '#cbd5e1',
+                                    font: { size: 11, weight: 'bold' },
+                                    padding: 10
+                                }
+                            }
+                        },
+                        cutout: '50%'
+                    }
                 });
 
-                // Cashflow Line
+                // Cashflow Line - Teal line with gradient fill
                 const cashCtx = document.getElementById('chart-cashflow').getContext('2d');
                 safeDestroy(_chartCashflow);
                 _chartCashflow = new Chart(cashCtx, {
                     type: 'line',
-                    data: { labels: cashLabels, datasets: [{ label: 'Net Amount', data: cashValues, borderColor: '#1f77b4', backgroundColor: 'rgba(31,119,180,0.15)', fill: true }] },
-                    options: { responsive: true, scales: { x: { display: true }, y: { display: true } } }
+                    data: { 
+                        labels: cashLabels, 
+                        datasets: [{ 
+                            label: 'Net Amount', 
+                            data: cashValues, 
+                            borderColor: '#14b8a6',
+                            backgroundColor: 'rgba(20, 184, 166, 0.2)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4,
+                            pointBackgroundColor: '#5eead4',
+                            pointBorderColor: '#14b8a6',
+                            pointRadius: 5,
+                            pointHoverRadius: 7
+                        }] 
+                    },
+                    options: { 
+                        responsive: true, 
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: '#cbd5e1',
+                                    font: { size: 12, weight: 'bold' }
+                                }
+                            }
+                        },
+                        scales: { 
+                            x: { 
+                                display: true,
+                                grid: { color: 'rgba(203, 213, 225, 0.1)' },
+                                ticks: { color: '#94a3b8', font: { size: 10 } }
+                            }, 
+                            y: { 
+                                display: true,
+                                grid: { color: 'rgba(203, 213, 225, 0.1)' },
+                                ticks: { color: '#94a3b8', font: { size: 10 } }
+                            } 
+                        }
+                    }
                 });
 
-                // Payee Bar
+                // Payee Bar - Horizontal teal bars
                 const payCtx = document.getElementById('chart-payee').getContext('2d');
                 safeDestroy(_chartPayee);
                 _chartPayee = new Chart(payCtx, {
                     type: 'bar',
-                    data: { labels: payeeKeys, datasets: [{ label: 'Amount', data: payeeVals, backgroundColor: 'rgba(54,162,235,0.7)' }] },
-                    options: { responsive: true, indexAxis: 'y', scales: { x: { display: true } } }
+                    data: { 
+                        labels: payeeKeys, 
+                        datasets: [{ 
+                            label: 'Amount', 
+                            data: payeeVals, 
+                            backgroundColor: payeeVals.map((_, i) => i % 2 === 0 ? 'rgba(20, 184, 166, 0.8)' : 'rgba(94, 234, 212, 0.8)'),
+                            borderColor: '#14b8a6',
+                            borderWidth: 2,
+                            borderRadius: 6
+                        }] 
+                    },
+                    options: { 
+                        responsive: true, 
+                        indexAxis: 'y',
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: { 
+                            x: { 
+                                display: true,
+                                grid: { color: 'rgba(203, 213, 225, 0.1)' },
+                                ticks: { color: '#94a3b8', font: { size: 10 } }
+                            },
+                            y: {
+                                grid: { display: false },
+                                ticks: { color: '#cbd5e1', font: { size: 11, weight: 'bold' } }
+                            }
+                        }
+                    }
                 });
 
                 // Subscriptions list
@@ -956,7 +1308,79 @@
 
                 // Alerts
                 const alertsEl = document.getElementById('alerts-list');
-                if(alertsEl){ alertsEl.innerHTML = ''; (insights.alerts || []).forEach(a=>{ const ai = document.createElement('div'); ai.className='py-1'; ai.textContent = a; alertsEl.appendChild(ai); }); }
+                if(alertsEl){ 
+                    alertsEl.innerHTML = ''; 
+                    (insights.alerts || []).forEach(a=>{ 
+                        const ai = document.createElement('div'); 
+                        ai.className='py-1'; 
+                        ai.textContent = a; 
+                        alertsEl.appendChild(ai); 
+                    }); 
+                    
+                    // Display unusual activity details
+                    if(insights.unusual_activity && insights.unusual_activity.length > 0){
+                        const unusual = document.createElement('div');
+                        unusual.className = 'mt-3 p-2 bg-yellow-50/10 rounded';
+                        unusual.innerHTML = '<strong class="text-yellow-300">Unusual Activity Detected:</strong>';
+                        insights.unusual_activity.forEach(act => {
+                            const detail = document.createElement('div');
+                            detail.className = 'text-xs mt-1 text-yellow-200';
+                            detail.innerHTML = `<strong>${act.message}</strong>`;
+                            if(act.details && act.details.length > 0){
+                                const ul = document.createElement('ul');
+                                ul.className = 'ml-4 mt-1';
+                                act.details.slice(0, 3).forEach(d => {
+                                    const li = document.createElement('li');
+                                    li.textContent = d;
+                                    ul.appendChild(li);
+                                });
+                                detail.appendChild(ul);
+                            }
+                            unusual.appendChild(detail);
+                        });
+                        alertsEl.appendChild(unusual);
+                    }
+                }
+                
+                // Tax Summary Display
+                if(insights.tax_summary){
+                    const taxDiv = document.createElement('div');
+                    taxDiv.className = 'mt-4 p-3 bg-blue-50/10 rounded';
+                    taxDiv.innerHTML = `<h5 class="font-semibold text-blue-300">Tax Summary</h5>
+                        <div class="text-sm mt-2">
+                            <div>Total Tax Transactions: ${insights.tax_summary.total_tax_transactions}</div>
+                            <div>Total Tax Amount: $${insights.tax_summary.total_tax_amount.toFixed(2)}</div>
+                            <div>Types: ${Object.keys(insights.tax_summary.by_type).join(', ')}</div>
+                        </div>`;
+                    alertsEl.appendChild(taxDiv);
+                }
+                
+                // Currency Information
+                if(insights.multi_currency){
+                    const currDiv = document.createElement('div');
+                    currDiv.className = 'mt-4 p-3 bg-green-50/10 rounded';
+                    currDiv.innerHTML = `<h5 class="font-semibold text-green-300">Multi-Currency</h5>
+                        <div class="text-sm mt-2">${insights.multi_currency.message}</div>`;
+                    alertsEl.appendChild(currDiv);
+                }
+                
+                // Payee Heatmap Display
+                if(insights.payee_heatmap && insights.payee_heatmap.length > 0){
+                    const heatDiv = document.createElement('div');
+                    heatDiv.className = 'mt-4';
+                    heatDiv.innerHTML = '<h5 class="font-semibold">Top Payees (Heatmap)</h5>';
+                    const heatList = document.createElement('div');
+                    heatList.className = 'mt-2 text-sm';
+                    insights.payee_heatmap.slice(0, 10).forEach((p, idx) => {
+                        const item = document.createElement('div');
+                        item.className = 'py-1 flex justify-between';
+                        item.innerHTML = `<span>${idx + 1}. ${escapeHtml(p.payee)}</span> 
+                            <span class="text-blue-300">$${p.totalAmount.toFixed(2)} (${p.count} txs)</span>`;
+                        heatList.appendChild(item);
+                    });
+                    heatDiv.appendChild(heatList);
+                    alertsEl.appendChild(heatDiv);
+                }
 
             }catch(e){ console.error('renderAnalytics error', e); }
         }
@@ -985,12 +1409,33 @@
 
         async function startConnect(provider){
             try{
+                const statusEl = document.getElementById('integration-status');
+                const providerNames = {
+                    'quickbooks': 'QuickBooks',
+                    'zoho': 'Zoho Books',
+                    'wave': 'Wave'
+                };
+                
+                statusEl.classList.remove('hidden');
+                statusEl.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i>Connecting to ${providerNames[provider]}...`;
+                
                 const r = await fetch(`/api/integrations/${provider}/connect`);
                 if(!r.ok) throw new Error('connect fetch failed');
                 const j = await r.json();
-                if(j.connect_url){ window.open(j.connect_url, '_blank', 'noopener'); document.getElementById('integration-status').textContent = `Opened ${provider} consent (demo). After connecting, click status to refresh.`; }
-                else alert('No connect URL returned');
-            }catch(e){ alert('Could not start connect: '+e.message); }
+                
+                if(j.connect_url){ 
+                    window.open(j.connect_url, '_blank', 'noopener'); 
+                    statusEl.innerHTML = `<i class="fas fa-check-circle mr-2"></i>✅ ${providerNames[provider]} connection opened! Complete authorization in the new window.`;
+                    showToast(`🔗 ${providerNames[provider]} authorization opened in new window`, 3000);
+                } else {
+                    statusEl.innerHTML = `<i class="fas fa-exclamation-circle mr-2"></i>⚠️ No connection URL returned`;
+                }
+            }catch(e){ 
+                const statusEl = document.getElementById('integration-status');
+                statusEl.classList.remove('hidden');
+                statusEl.innerHTML = `<i class="fas fa-times-circle mr-2"></i>❌ Demo: Connection would open here in production`;
+                showToast('💡 Demo mode: Integration would work in production', 3000);
+            }
         }
 
         // status check helper
@@ -1001,24 +1446,53 @@
         // Cloud storage helpers
         async function startCloudConnect(provider){
             try{
+                const cloudEl = document.getElementById('cloud-files');
+                const providerNames = {
+                    'dropbox': 'Dropbox',
+                    'gdrive': 'Google Drive'
+                };
+                
+                cloudEl.classList.remove('hidden');
+                cloudEl.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i>Connecting to ${providerNames[provider]}...`;
+                
                 const r = await fetch(`/api/cloud/${provider}/connect`);
                 if(!r.ok) throw new Error('connect fetch failed');
                 const j = await r.json();
-                if(j.connect_url){ window.open(j.connect_url, '_blank', 'noopener'); document.getElementById('integration-status').textContent = `Opened ${provider} consent (demo). After connecting, click Import from Cloud.`; }
-            }catch(e){ alert('Could not start cloud connect: '+e.message); }
+                
+                if(j.connect_url){ 
+                    window.open(j.connect_url, '_blank', 'noopener'); 
+                    cloudEl.innerHTML = `<i class="fas fa-check-circle mr-2"></i>✅ ${providerNames[provider]} authorization opened! Complete the process in the new window.`;
+                    showToast(`🔗 ${providerNames[provider]} authorization opened`, 3000);
+                }
+            }catch(e){ 
+                const cloudEl = document.getElementById('cloud-files');
+                cloudEl.classList.remove('hidden');
+                cloudEl.innerHTML = `<i class="fas fa-times-circle mr-2"></i>❌ Demo: Cloud connection would open here in production`;
+                showToast('💡 Demo mode: Cloud storage would work in production', 3000);
+            }
         }
 
         async function importFromCloud(){
-            // ask provider
-            const prov = prompt('Enter cloud provider to import from (dropbox or gdrive)');
-            if(!prov) return;
             try{
-                const r = await fetch(`/api/cloud/${prov}/import`, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({}) });
-                if(!r.ok){ const t = await r.text(); alert('Import failed: '+t); return; }
-                const j = await r.json();
-                const el = document.getElementById('cloud-files');
-                el.innerHTML = '<strong>Files:</strong><br/>' + (j.files || []).map(f=>`${f.name} (${f.size} bytes)`).join('<br/>');
-            }catch(e){ alert('Import error: '+e.message); }
+                const cloudEl = document.getElementById('cloud-files');
+                cloudEl.classList.remove('hidden');
+                cloudEl.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i>Importing files from cloud...`;
+                
+                // Simulate import in demo mode
+                setTimeout(() => {
+                    cloudEl.innerHTML = `<i class="fas fa-check-circle mr-2"></i>✅ Demo: Would import files from connected cloud storage<br/>
+                    <div class="mt-2 text-xs">
+                        <div>📄 BankStatement_Jan2025.pdf (245 KB)</div>
+                        <div>📄 BankStatement_Feb2025.pdf (198 KB)</div>
+                        <div>📄 Receipts_Q1.zip (1.2 MB)</div>
+                    </div>`;
+                    showToast('💡 Demo: Cloud import would work in production', 3000);
+                }, 1500);
+            }catch(e){ 
+                const cloudEl = document.getElementById('cloud-files');
+                cloudEl.classList.remove('hidden');
+                cloudEl.innerHTML = `<i class="fas fa-times-circle mr-2"></i>❌ Import error: ${e.message}`;
+            }
         }
 
         // Small helper: make tx rows expandable on mobile
@@ -1039,19 +1513,27 @@
         const origRenderAnalytics = window.renderAnalytics || function(){};
         window.renderAnalytics = function(){ origRenderAnalytics.apply(this, arguments); setTimeout(enableTxRowInteractions, 50); };
 
-        // Pricing modal functions
+        // Pricing modal functions - modal removed, now directly opens payment or scrolls to pricing
         function openPricingCTA(plan){
-            const modal = document.getElementById('pricing-modal');
-            const title = document.getElementById('pricing-modal-title');
-            const desc = document.getElementById('pricing-modal-desc');
-            if(plan === 'instant'){ title.textContent = 'Try Instant Convert'; desc.textContent = 'You can run one statement every 24 hours for free, no signup required.'; }
-            else if(plan === 'free'){ title.textContent = 'Start Free Trial'; desc.textContent = 'Sign up to unlock 5 statements/day and export features.'; }
-            else if(plan === 'starter'){ title.textContent = 'Subscribe to Starter'; desc.textContent = 'Starter plan: $9/month or $84/year — 600 pages/month, Google Drive/Dropbox sync, and more.'; }
-            else if(plan === 'pro'){ title.textContent = 'Subscribe to Pro'; desc.textContent = 'Pro plan: $29/month or $290/year — bulk uploads, team features, and analytics.'; }
-            else { title.textContent = 'Contact Sales'; desc.textContent = 'Enterprise: custom pricing. Contact our sales team.'; }
-            if(modal){ modal.classList.remove('hidden'); modal.style.display = 'flex'; }
-            // pre-select the plan visually if provided
-            try{ if(plan) setTimeout(()=>{ if(typeof selectPlan === 'function') selectPlan(plan); }, 60); }catch(e){}
+            // For Starter and Pro plans, open payment gateway
+            if(plan === 'starter' || plan === 'pro'){
+                openPaymentModal(plan);
+                return;
+            }
+            
+            // For Free plan, scroll to pricing section
+            if(plan === 'free'){
+                const pricingSection = document.getElementById('pricing');
+                if(pricingSection){
+                    pricingSection.scrollIntoView({ behavior: 'smooth' });
+                }
+                return;
+            }
+            
+            // For other plans, show appropriate action
+            if(plan === 'enterprise'){
+                openContactSales();
+            }
         }
 
         function closePricingModal(){ const modal = document.getElementById('pricing-modal'); if(modal){ modal.classList.add('hidden'); modal.style.display = 'none'; }
@@ -1114,18 +1596,154 @@
             }catch(e){ console.warn('toast failed', e); }
         }
 
-        // Contact Sales modal handlers
-        function openContactSales(){ const m = document.getElementById('contact-sales-modal'); if(m){ m.classList.remove('hidden'); m.style.display='flex'; } }
-        function closeContactSales(){ const m = document.getElementById('contact-sales-modal'); if(m){ m.classList.add('hidden'); m.style.display='none'; } }
-        document.getElementById('contact-sales-form').addEventListener('submit', function(e){
-            e.preventDefault();
-            const form = e.currentTarget;
-            const data = { name: form.name.value, company: form.company.value, email: form.email.value, message: form.message.value };
-            // Demo: show toast and close
-            showToast('Sales request sent — our team will reach out shortly');
-            closeContactSales();
-            // In a real app we'd POST to /api/sales or similar here
-        });
+        // Analytics Download and Share Functions
+        function downloadAnalyticsAsExcel(){
+            try {
+                // Get the analytics data from window._lastAnalytics if available
+                const analytics = window._lastAnalytics || {};
+                const transactions = window._lastTransactions || [];
+                
+                if(!transactions.length){
+                    showToast('⚠️ No data available to export');
+                    return;
+                }
+                
+                // Create CSV content
+                let csv = 'Bank Statement Analytics Report\n\n';
+                csv += 'SUMMARY\n';
+                csv += `Total Transactions,${analytics.total_transactions || transactions.length}\n`;
+                csv += `Total Credits,$${(analytics.total_credits || 0).toFixed(2)}\n`;
+                csv += `Total Debits,$${(analytics.total_debits || 0).toFixed(2)}\n`;
+                csv += `Net Amount,$${(analytics.net_amount || 0).toFixed(2)}\n\n`;
+                
+                csv += 'CATEGORY BREAKDOWN\n';
+                if(analytics.category_totals){
+                    Object.entries(analytics.category_totals).forEach(([cat, amt]) => {
+                        csv += `${cat},$${amt.toFixed(2)}\n`;
+                    });
+                }
+                
+                csv += '\n\nTRANSACTIONS\n';
+                csv += 'Date,Description,Merchant,Amount,Type,Category\n';
+                transactions.forEach(tx => {
+                    csv += `${tx.date || ''},${tx.description || ''},${tx.merchant || ''},${tx.amount || 0},${tx.type || ''},${tx.suggested_category || ''}\n`;
+                });
+                
+                // Download
+                const blob = new Blob([csv], { type: 'text/csv' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `BankStatement_Analytics_${new Date().toISOString().split('T')[0]}.csv`;
+                a.click();
+                URL.revokeObjectURL(url);
+                
+                showToast('✅ Excel file downloaded successfully!', 3000);
+            } catch(e) {
+                console.error('Download failed:', e);
+                showToast('❌ Download failed. Please try again.');
+            }
+        }
+        
+        function downloadAnalyticsAsImage(){
+            try {
+                const panel = document.getElementById('analytics-panel');
+                if(!panel || panel.classList.contains('hidden')){
+                    showToast('⚠️ No analytics available to capture');
+                    return;
+                }
+                
+                // Use html2canvas if available, otherwise show message
+                if(typeof html2canvas !== 'undefined'){
+                    showToast('📸 Capturing analytics...', 2000);
+                    html2canvas(panel, {
+                        backgroundColor: '#ffffff',
+                        scale: 2,
+                        logging: false
+                    }).then(canvas => {
+                        canvas.toBlob(blob => {
+                            const url = URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = `BankStatement_Analytics_${new Date().toISOString().split('T')[0]}.png`;
+                            a.click();
+                            URL.revokeObjectURL(url);
+                            showToast('✅ Image downloaded successfully!', 3000);
+                        });
+                    });
+                } else {
+                    // Fallback: Show instructions to use browser screenshot
+                    showToast('📸 Please use your browser screenshot feature (Ctrl+Shift+S or Cmd+Shift+4)', 4000);
+                }
+            } catch(e) {
+                console.error('Image capture failed:', e);
+                showToast('❌ Image capture failed. Please try again.');
+            }
+        }
+        
+        function shareAnalyticsViaEmail(){
+            try {
+                const analytics = window._lastAnalytics || {};
+                const transactions = window._lastTransactions || [];
+                
+                if(!transactions.length){
+                    showToast('⚠️ No data available to share');
+                    return;
+                }
+                
+                // Create email body
+                const subject = encodeURIComponent('Bank Statement Analytics Report');
+                const body = encodeURIComponent(
+                    `Hi,\n\nPlease find my bank statement analytics:\n\n` +
+                    `📊 SUMMARY:\n` +
+                    `- Total Transactions: ${analytics.total_transactions || transactions.length}\n` +
+                    `- Total Credits: $${(analytics.total_credits || 0).toFixed(2)}\n` +
+                    `- Total Debits: $${(analytics.total_debits || 0).toFixed(2)}\n` +
+                    `- Net Amount: $${(analytics.net_amount || 0).toFixed(2)}\n\n` +
+                    `Generated by BankStatement AI\n` +
+                    `Date: ${new Date().toLocaleDateString()}`
+                );
+                
+                // Open email client
+                window.location.href = `mailto:?subject=${subject}&body=${body}`;
+                
+                showToast('📧 Opening email client...', 2000);
+            } catch(e) {
+                console.error('Email share failed:', e);
+                showToast('❌ Share failed. Please try again.');
+            }
+        }
+
+        // Contact Sales modal removed - show notification with phone number
+        function openContactSales(){ 
+            showToast('📞 Call us for Enterprise: 7701836257', 4000);
+            // Optionally open phone dialer
+            setTimeout(() => {
+                window.location.href = 'tel:+917701836257';
+            }, 1000);
+        }
+        
+        function closeContactSales(){ 
+            // Modal removed - function kept for compatibility
+            console.log('Contact Sales modal has been removed');
+        }
+
+        // Payment modal removed - show notification and scroll to pricing section
+        function openPaymentModal(plan){
+            let planName = plan === 'starter' ? 'Starter Plan ($9/month)' : 'Pro Plan ($29/month)';
+            showToast(`💳 ${planName} - Payment processing coming soon!`, 3000);
+            
+            // Scroll to pricing section
+            const pricingSection = document.getElementById('pricing');
+            if(pricingSection){
+                pricingSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+        
+        function closePaymentModal(){
+            // Modal removed - function kept for compatibility
+            console.log('Payment modal has been removed');
+        }
 
         // Enter button helper: open file picker, then start processing automatically
         async function enterAndProcess(feature){
@@ -1160,13 +1778,20 @@
                 // Update preview UI by calling updatePreview if available
                 try{ if(typeof updatePreview === 'function') updatePreview(); }catch(e){}
 
-                // check backend health quickly
-                let backendOk = false;
-                try{ const r = await fetch('/api/status'); backendOk = r.ok; }catch(e){ backendOk = false; }
-
-                // If backend present, use the existing Process button flow; otherwise auto-simulate
-                if(backendOk){ showToast('Processing with backend...'); try{ if(typeof processFiles === 'function') processFiles(); }catch(e){ showToast('Processing failed, using simulation'); chosen.forEach(async (f)=>{ await simulateProcessing(f, ()=>{}); }); } }
-                else { showToast('No backend detected — running local simulation'); chosen.forEach(async (f)=>{ const res = await simulateProcessing(f, ()=>{}); appendLogResult(res, f.name); }); }
+                // Automatically start processing with the real processor
+                showToast(`Processing with ${feature ? feature.toUpperCase() : 'AI'} feature...`);
+                
+                // Wait a moment for UI to update, then trigger processing
+                setTimeout(() => {
+                    try{ 
+                        if(typeof processFiles === 'function') {
+                            processFiles();
+                        }
+                    }catch(e){ 
+                        console.error('Processing error:', e);
+                        showToast('Processing failed: ' + e.message); 
+                    }
+                }, 500);
             }catch(e){ console.warn('enterAndProcess error', e); alert('Could not start processing: '+e.message); }
         }
 
@@ -1176,9 +1801,18 @@
             if(!el) return;
             try{
                 const r = await fetch('/api/status');
-                if(r.ok){ el.textContent = 'online'; el.className = 'backend-online'; }
-                else { el.textContent = 'offline'; el.className = 'backend-offline'; }
-            }catch(e){ el.textContent = 'offline'; el.className = 'backend-offline'; }
+                if(r.ok){ 
+                    el.textContent = 'Server Online'; 
+                    el.className = 'backend-online'; 
+                }
+                else { 
+                    el.textContent = 'Client-side Processing'; 
+                    el.className = 'backend-online'; 
+                }
+            }catch(e){ 
+                el.textContent = 'Client-side Processing'; 
+                el.className = 'backend-online'; 
+            }
         }
         // start polling every 8 seconds
         try{ updateBackendStatus(); setInterval(updateBackendStatus, 8000); }catch(e){}
@@ -1216,33 +1850,179 @@
             }catch(e){ alert('Quick export error: '+e.message); }
         }
 
-        // On first load after registration: show pricing modal once for new users who haven't subscribed
-        function checkAndShowPricingOnFirstVisit(){
+        // Auto-popup disabled - modals only show when user clicks buttons
+        // function checkAndShowPricingOnFirstVisit(){
+        //     try{
+        //         const raw = localStorage.getItem('bsai_user');
+        //         if(!raw) return;
+        //         const u = JSON.parse(raw);
+        //         if(u && u.subscribed !== true && u.seenPricingModal !== true){
+        //             u.seenPricingModal = true;
+        //             localStorage.setItem('bsai_user', JSON.stringify(u));
+        //             setTimeout(()=>{
+        //                 try{ openPricingCTA(u.preferredPlan || 'starter'); }catch(e){ console.warn('Could not open pricing modal', e); }
+        //             }, 900);
+        //         }
+        //     }catch(e){ console.warn('checkAndShowPricingOnFirstVisit failed', e); }
+        // }
+
+        // Auto-popup disabled - event listener commented out
+        // try{ window.addEventListener('load', checkAndShowPricingOnFirstVisit); }catch(e){}
+
+        // Statement Comparison Tool
+        function showStatementComparisonOption(){
             try{
-                const raw = localStorage.getItem('bsai_user');
-                if(!raw) return; // no local demo user
-                const u = JSON.parse(raw);
-                // if user is not subscribed and hasn't seen the pricing modal yet, show it once
-                if(u && u.subscribed !== true && u.seenPricingModal !== true){
-                    // mark that we've shown it so it doesn't pop up again
-                    u.seenPricingModal = true;
-                    localStorage.setItem('bsai_user', JSON.stringify(u));
-                    // small delay so the page settles
-                    setTimeout(()=>{
-                        try{ openPricingCTA(u.preferredPlan || 'starter'); }catch(e){ console.warn('Could not open pricing modal', e); }
-                    }, 900);
-                }
-            }catch(e){ console.warn('checkAndShowPricingOnFirstVisit failed', e); }
+                const panel = document.getElementById('analytics-panel');
+                if(!panel) return;
+                
+                const existingBtn = document.getElementById('compare-statements-btn');
+                if(existingBtn) return; // Already shown
+                
+                const compareBtn = document.createElement('button');
+                compareBtn.id = 'compare-statements-btn';
+                compareBtn.className = 'btn btn-primary mt-4';
+                compareBtn.innerHTML = '<i class="fas fa-balance-scale mr-2"></i>Compare Statements';
+                compareBtn.onclick = showComparisonModal;
+                panel.appendChild(compareBtn);
+            }catch(e){ console.error('showStatementComparisonOption error', e); }
         }
 
-        try{ window.addEventListener('load', checkAndShowPricingOnFirstVisit); }catch(e){}
+        function showComparisonModal(){
+            try{
+                const statements = JSON.parse(sessionStorage.getItem('bsai_statements') || '[]');
+                if(statements.length < 2){
+                    alert('Need at least 2 processed statements to compare');
+                    return;
+                }
+                
+                const modal = prompt(`Available statements:\n${statements.map((s, i) => `${i + 1}. ${s.filename} (${new Date(s.timestamp).toLocaleString()})`).join('\n')}\n\nEnter two numbers to compare (e.g., "1 2"):`);
+                if(!modal) return;
+                
+                const [idx1, idx2] = modal.split(/\s+/).map(n => parseInt(n) - 1);
+                if(idx1 >= 0 && idx2 >= 0 && statements[idx1] && statements[idx2]){
+                    const comparison = BankStatementProcessor.compareStatements(statements[idx1].data, statements[idx2].data);
+                    displayComparison(comparison, statements[idx1].filename, statements[idx2].filename);
+                } else {
+                    alert('Invalid selection');
+                }
+            }catch(e){ console.error('Comparison error', e); alert('Could not compare: ' + e.message); }
+        }
+
+        function displayComparison(comparison, name1, name2){
+            const log = document.getElementById('processing-log');
+            if(!log) return;
+            
+            const compDiv = document.createElement('div');
+            compDiv.className = 'mt-4 p-4 bg-purple-50/20 rounded-lg';
+            compDiv.innerHTML = `
+                <h4 class="text-xl font-bold text-purple-300 mb-3">📊 Statement Comparison</h4>
+                <div class="grid grid-cols-2 gap-4 text-sm">
+                    <div><strong>Period 1:</strong> ${escapeHtml(name1)}</div>
+                    <div><strong>Period 2:</strong> ${escapeHtml(name2)}</div>
+                </div>
+                <div class="mt-4">
+                    <h5 class="font-semibold text-purple-200">Credits Change:</h5>
+                    <div class="ml-4">$${comparison.changes.total_credits.period1.toFixed(2)} → $${comparison.changes.total_credits.period2.toFixed(2)} 
+                        <span class="${comparison.changes.total_credits.change > 0 ? 'text-green-300' : 'text-red-300'}">
+                            (${comparison.changes.total_credits.change > 0 ? '+' : ''}${comparison.changes.total_credits.percent}%)
+                        </span>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <h5 class="font-semibold text-purple-200">Debits Change:</h5>
+                    <div class="ml-4">$${comparison.changes.total_debits.period1.toFixed(2)} → $${comparison.changes.total_debits.period2.toFixed(2)} 
+                        <span class="${comparison.changes.total_debits.change > 0 ? 'text-red-300' : 'text-green-300'}">
+                            (${comparison.changes.total_debits.change > 0 ? '+' : ''}${comparison.changes.total_debits.percent}%)
+                        </span>
+                    </div>
+                </div>
+                ${comparison.trends.length > 0 ? `
+                <div class="mt-4">
+                    <h5 class="font-semibold text-purple-200">Trends:</h5>
+                    <ul class="ml-4 list-disc">
+                        ${comparison.trends.map(t => `<li>${escapeHtml(t)}</li>`).join('')}
+                    </ul>
+                </div>` : ''}
+            `;
+            log.appendChild(compDiv);
+            log.scrollTop = log.scrollHeight;
+        }
+
+        // Toggle pricing features (Show More/Show Less)
+        function toggleFeatures(plan){
+            const extraElements = document.querySelectorAll(`.${plan}-extra`);
+            const toggleBtn = document.getElementById(`${plan}-toggle`);
+            
+            if(!extraElements.length || !toggleBtn) return;
+            
+            const isHidden = extraElements[0].classList.contains('hidden');
+            
+            if(isHidden){
+                // Show all extra features
+                extraElements.forEach(el => el.classList.remove('hidden'));
+                toggleBtn.innerHTML = '− Show less';
+            } else {
+                // Hide extra features
+                extraElements.forEach(el => el.classList.add('hidden'));
+                const count = extraElements.length;
+                toggleBtn.innerHTML = `+ Show ${count} more feature${count > 1 ? 's' : ''}`;
+            }
+        }
+
+        // Show detailed pricing comparison table
+        function showPricingComparison(){
+            const comparisonHTML = `
+                <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 p-4" onclick="this.remove()">
+                    <div class="bg-white rounded-xl shadow-2xl p-6 max-w-6xl max-h-[90vh] overflow-auto" onclick="event.stopPropagation()">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-3xl font-bold text-gray-900">Complete Plan Comparison</h3>
+                            <button onclick="this.closest('.fixed').remove()" class="text-gray-600 hover:text-gray-900 text-3xl font-bold">&times;</button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm border-collapse" style="border: 2px solid #e5e7eb;">
+                                <thead>
+                                    <tr style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                                        <th class="p-4 text-left font-bold text-white border-r-2 border-white" style="font-size: 15px;">Feature</th>
+                                        <th class="p-4 text-center font-bold text-white border-r-2 border-white" style="font-size: 15px;">Instant Convert</th>
+                                        <th class="p-4 text-center font-bold text-white border-r-2 border-white" style="font-size: 15px;">Free Plan</th>
+                                        <th class="p-4 text-center font-bold text-white border-r-2 border-white" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); font-size: 15px;">⭐ Starter</th>
+                                        <th class="p-4 text-center font-bold text-white border-r-2 border-white" style="font-size: 15px;">Pro</th>
+                                        <th class="p-4 text-center font-bold text-white" style="font-size: 15px;">Enterprise</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="border-bottom: 1px solid #e5e7eb;"><td class="p-4 font-semibold text-gray-800 border-r border-gray-200">Statements/Month</td><td class="p-4 text-center text-gray-700 border-r border-gray-200">1/day</td><td class="p-4 text-center text-gray-700 border-r border-gray-200">5/day</td><td class="p-4 text-center font-bold text-blue-700 border-r border-gray-200" style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);">600 pages</td><td class="p-4 text-center text-gray-700 border-r border-gray-200">4000</td><td class="p-4 text-center text-gray-700">Unlimited</td></tr>
+                                    <tr style="background: #f9fafb; border-bottom: 1px solid #e5e7eb;"><td class="p-4 text-gray-800 border-r border-gray-200">OCR Processing</td><td class="p-4 text-center text-green-600 text-xl border-r border-gray-200">✓</td><td class="p-4 text-center text-green-600 text-xl border-r border-gray-200">✓</td><td class="p-4 text-center text-green-600 text-xl border-r border-gray-200" style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);">✓</td><td class="p-4 text-center text-green-600 text-xl border-r border-gray-200">✓</td><td class="p-4 text-center text-green-600 text-xl">✓</td></tr>
+                                    <tr style="border-bottom: 1px solid #e5e7eb;"><td class="p-4 text-gray-800 border-r border-gray-200">Auto-Categorization</td><td class="p-4 text-center text-gray-600 border-r border-gray-200">Basic</td><td class="p-4 text-center text-gray-600 border-r border-gray-200">Basic</td><td class="p-4 text-center text-green-600 text-xl border-r border-gray-200" style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);">✓</td><td class="p-4 text-center text-green-600 text-xl border-r border-gray-200">✓</td><td class="p-4 text-center text-green-600 text-xl">✓</td></tr>
+                                    <tr style="background: #f9fafb; border-bottom: 1px solid #e5e7eb;"><td class="p-4 text-gray-800 border-r border-gray-200">Export Formats</td><td class="p-4 text-center text-gray-700 border-r border-gray-200">CSV</td><td class="p-4 text-center text-gray-700 border-r border-gray-200">CSV,Excel,JSON</td><td class="p-4 text-center font-semibold text-blue-700 border-r border-gray-200" style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);">All</td><td class="p-4 text-center text-gray-700 border-r border-gray-200">All</td><td class="p-4 text-center text-gray-700">All + Custom</td></tr>
+                                    <tr style="border-bottom: 1px solid #e5e7eb;"><td class="p-4 text-gray-800 border-r border-gray-200">Cloud Sync</td><td class="p-4 text-center text-red-500 border-r border-gray-200">✗</td><td class="p-4 text-center text-red-500 border-r border-gray-200">✗</td><td class="p-4 text-center text-green-600 text-xl border-r border-gray-200" style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);">✓</td><td class="p-4 text-center text-green-600 text-xl border-r border-gray-200">✓</td><td class="p-4 text-center text-green-600 text-xl">✓</td></tr>
+                                    <tr style="background: #f9fafb; border-bottom: 1px solid #e5e7eb;"><td class="p-4 text-gray-800 border-r border-gray-200">Bulk Processing</td><td class="p-4 text-center text-red-500 border-r border-gray-200">✗</td><td class="p-4 text-center text-red-500 border-r border-gray-200">✗</td><td class="p-4 text-center text-red-500 border-r border-gray-200" style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);">✗</td><td class="p-4 text-center text-green-600 text-xl border-r border-gray-200">✓</td><td class="p-4 text-center text-green-600 text-xl">✓</td></tr>
+                                    <tr style="border-bottom: 1px solid #e5e7eb;"><td class="p-4 text-gray-800 border-r border-gray-200">Analytics Dashboard</td><td class="p-4 text-center text-red-500 border-r border-gray-200">✗</td><td class="p-4 text-center text-gray-600 border-r border-gray-200">Partial</td><td class="p-4 text-center font-semibold text-blue-700 border-r border-gray-200" style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);">Basic</td><td class="p-4 text-center text-gray-700 border-r border-gray-200">Advanced</td><td class="p-4 text-center text-gray-700">Custom</td></tr>
+                                    <tr style="background: #f9fafb; border-bottom: 1px solid #e5e7eb;"><td class="p-4 text-gray-800 border-r border-gray-200">API Access</td><td class="p-4 text-center text-red-500 border-r border-gray-200">✗</td><td class="p-4 text-center text-red-500 border-r border-gray-200">✗</td><td class="p-4 text-center text-red-500 border-r border-gray-200" style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);">✗</td><td class="p-4 text-center text-gray-700 border-r border-gray-200">Beta</td><td class="p-4 text-center text-green-600 border-r">Full</td></tr>
+                                    <tr style="border-bottom: 1px solid #e5e7eb;"><td class="p-4 text-gray-800 border-r border-gray-200">Team Members</td><td class="p-4 text-center text-red-500 border-r border-gray-200">✗</td><td class="p-4 text-center text-gray-700 border-r border-gray-200">1</td><td class="p-4 text-center text-gray-700 border-r border-gray-200" style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);">1</td><td class="p-4 text-center text-gray-700 border-r border-gray-200">5</td><td class="p-4 text-center text-gray-700">Unlimited</td></tr>
+                                    <tr style="background: #f9fafb; border-bottom: 1px solid #e5e7eb;"><td class="p-4 text-gray-800 border-r border-gray-200">Support</td><td class="p-4 text-center text-gray-600 border-r border-gray-200">Community</td><td class="p-4 text-center text-gray-700 border-r border-gray-200">Email</td><td class="p-4 text-center text-gray-700 border-r border-gray-200" style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);">Email</td><td class="p-4 text-center text-gray-700 border-r border-gray-200">Priority</td><td class="p-4 text-center text-gray-700">24/7 Dedicated</td></tr>
+                                    <tr style="background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%); border-top: 3px solid #6366f1;"><td class="p-4 font-bold text-gray-900 border-r border-gray-300" style="font-size: 16px;">Price</td><td class="p-4 text-center font-bold text-green-600 border-r border-gray-300" style="font-size: 18px;">Free</td><td class="p-4 text-center font-bold text-green-600 border-r border-gray-300" style="font-size: 18px;">Free</td><td class="p-4 text-center font-bold border-r border-gray-300" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; font-size: 20px;">$9/mo</td><td class="p-4 text-center font-bold text-indigo-700 border-r border-gray-300" style="font-size: 18px;">$29/mo</td><td class="p-4 text-center font-bold text-purple-600" style="font-size: 18px;">Custom</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="mt-6 text-center">
+                            <button onclick="this.closest('.fixed').remove()" class="btn btn-primary px-8 py-3 text-lg font-semibold">Close Comparison</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', comparisonHTML);
+        }
 
         // Ensure upload section is visible and scrolled into view
         function openUploadSection(){
             try{
                 const sec = document.getElementById('upload-section');
+                const intSec = document.getElementById('integrations-section');
                 if(!sec) return;
-                // remove hidden class on the file preview if present so upload area becomes visible
+                // remove hidden class to make the upload section visible
+                sec.classList.remove('hidden');
+                if(intSec) intSec.classList.remove('hidden');
                 sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 // small highlight animation
                 sec.style.transition = 'box-shadow 0.5s ease';
@@ -1254,6 +2034,153 @@
             }catch(e){ console.warn('openUploadSection failed', e); }
         }
 
+        // Privacy Mode Toggle Handler
+        document.addEventListener('DOMContentLoaded', function() {
+            const privacyToggle = document.getElementById('privacy-mode-toggle');
+            const privacyStatusText = document.getElementById('privacy-status-text');
+            
+            if(privacyToggle && privacyStatusText){
+                privacyToggle.addEventListener('change', function() {
+                    if(this.checked){
+                        privacyStatusText.textContent = 'ON';
+                        privacyStatusText.parentElement.innerHTML = '<span id="privacy-status-text">ON</span> - Process locally, no data uploaded';
+                        console.log('🔒 Privacy Mode Enabled: All processing will be done client-side');
+                    } else {
+                        privacyStatusText.textContent = 'OFF';
+                        privacyStatusText.parentElement.innerHTML = '<span id="privacy-status-text">OFF</span> - Process via secure server';
+                        console.log('☁️ Server Mode Enabled: Files will be processed via server');
+                    }
+                });
+            }
+
+            // Update bank count badge dynamically
+            if(typeof BankTemplateRecognition !== 'undefined'){
+                const recognizer = new BankTemplateRecognition();
+                const bankCount = recognizer.getTotalBankCount();
+                const badge = document.getElementById('bank-count-badge');
+                if(badge){
+                    badge.textContent = `${bankCount}+ Banks`;
+                }
+            }
+        });
+
+        // Show All Supported Banks Modal
+        function showAllBanks() {
+            if(typeof BankTemplateRecognition === 'undefined'){
+                alert('Bank templates not loaded');
+                return;
+            }
+
+            const recognizer = new BankTemplateRecognition();
+            const allBanks = recognizer.getAllBanks();
+            
+            // Group banks by country
+            const byCountry = {};
+            allBanks.forEach(bank => {
+                if(!byCountry[bank.country]) byCountry[bank.country] = [];
+                byCountry[bank.country].push(bank);
+            });
+
+            let banksHTML = '';
+            Object.keys(byCountry).sort().forEach(country => {
+                const banks = byCountry[country];
+                banksHTML += `
+                    <div class="mb-6">
+                        <h4 class="text-lg font-bold mb-3 flex items-center gap-2" style="color: #5eead4;">
+                            <i class="fas fa-map-marker-alt"></i>
+                            ${country} (${banks.length})
+                        </h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                            ${banks.map(bank => `
+                                <div class="p-3 rounded-lg flex items-center gap-3 transition-all duration-300 hover:scale-105" style="background: rgba(72, 85, 99, 0.6); border: 1px solid rgba(94, 234, 212, 0.3);">
+                                    <span class="text-2xl">${bank.logo}</span>
+                                    <div>
+                                        <div class="font-semibold text-white text-sm">${bank.name}</div>
+                                        <div class="text-xs" style="color: #94a3b8;">${country}</div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            });
+
+            const modalHTML = `
+                <div class="fixed inset-0 z-50 flex items-center justify-center p-4" style="background: rgba(0,0,0,0.8);" onclick="this.remove()">
+                    <div class="rounded-2xl p-8 max-w-6xl w-full max-h-[90vh] overflow-auto" style="background: rgba(44, 62, 80, 0.98); border: 2px solid rgba(94, 234, 212, 0.5); box-shadow: 0 0 50px rgba(94, 234, 212, 0.4);" onclick="event.stopPropagation()">
+                        <div class="flex justify-between items-center mb-6">
+                            <div>
+                                <h3 class="text-3xl font-black text-white mb-2">Supported Banks Worldwide</h3>
+                                <p class="text-sm" style="color: #cbd5e1;">Smart template recognition for ${allBanks.length}+ banks across ${Object.keys(byCountry).length}+ countries</p>
+                            </div>
+                            <button onclick="this.closest('.fixed').remove()" class="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110" style="background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 2px solid rgba(239, 68, 68, 0.4);">
+                                <i class="fas fa-times text-2xl"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <input type="text" id="bank-search" placeholder="Search banks..." class="w-full px-4 py-3 rounded-lg transition-all duration-300" style="background: rgba(72, 85, 99, 0.6); border: 2px solid rgba(94, 234, 212, 0.3); color: #ffffff;" onkeyup="filterBanks(this.value)">
+                        </div>
+
+                        <div id="banks-list" class="space-y-4">
+                            ${banksHTML}
+                        </div>
+
+                        <div class="mt-6 text-center">
+                            <button onclick="this.closest('.fixed').remove()" class="px-8 py-3 rounded-xl font-bold text-white transition-all duration-300 hover:scale-105" style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%); box-shadow: 0 0 20px rgba(94, 234, 212, 0.4);">
+                                <i class="fas fa-check mr-2"></i>Got It
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+        }
+
+        // Filter banks in modal
+        function filterBanks(query) {
+            if(!query) {
+                showAllBanks();
+                return;
+            }
+
+            const recognizer = new BankTemplateRecognition();
+            const results = recognizer.searchBanks(query);
+            
+            let banksHTML = '';
+            if(results.length > 0){
+                banksHTML = `
+                    <div class="mb-6">
+                        <h4 class="text-lg font-bold mb-3" style="color: #5eead4;">
+                            Search Results (${results.length})
+                        </h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                            ${results.map(bank => `
+                                <div class="p-3 rounded-lg flex items-center gap-3" style="background: rgba(72, 85, 99, 0.6); border: 1px solid rgba(94, 234, 212, 0.3);">
+                                    <span class="text-2xl">🏦</span>
+                                    <div>
+                                        <div class="font-semibold text-white text-sm">${bank.name}</div>
+                                        <div class="text-xs" style="color: #94a3b8;">${bank.country}</div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } else {
+                banksHTML = `
+                    <div class="text-center py-12">
+                        <i class="fas fa-search text-6xl mb-4" style="color: #5eead4; opacity: 0.5;"></i>
+                        <p class="text-xl text-white">No banks found matching "${query}"</p>
+                        <p class="text-sm mt-2" style="color: #94a3b8;">Try a different search term</p>
+                    </div>
+                `;
+            }
+
+            const listEl = document.getElementById('banks-list');
+            if(listEl) listEl.innerHTML = banksHTML;
+        }
 
     </script>
 
